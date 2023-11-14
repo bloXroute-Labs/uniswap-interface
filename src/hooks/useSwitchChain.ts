@@ -1,5 +1,6 @@
 import { ChainId } from '@uniswap/sdk-core'
 import { Connector } from '@web3-react/types'
+import { DEFAULT_RPC_URL } from 'components/RPCAlert/constants'
 import {
   deprecatedNetworkConnection,
   networkConnection,
@@ -9,6 +10,7 @@ import {
 import { getChainInfo } from 'constants/chainInfo'
 import { isSupportedChain, SupportedInterfaceChain } from 'constants/chains'
 import { FALLBACK_URLS, RPC_URLS } from 'constants/networks'
+import { useSwitchRPC } from 'hooks/useSwitchRPC'
 import { useCallback } from 'react'
 import { useAppDispatch } from 'state/hooks'
 import { endSwitchingChain, startSwitchingChain } from 'state/wallets/reducer'
@@ -29,7 +31,7 @@ function getRpcUrl(chainId: SupportedInterfaceChain): string {
 
 export function useSwitchChain() {
   const dispatch = useAppDispatch()
-
+  const switchRPC = useSwitchRPC()
   return useCallback(
     async (connector: Connector, chainId: ChainId) => {
       if (!isSupportedChain(chainId)) {
@@ -47,15 +49,20 @@ export function useSwitchChain() {
           ) {
             await connector.activate(chainId)
           } else {
-            const info = getChainInfo(chainId)
-            const addChainParameter = {
-              chainId,
-              chainName: info.label,
-              rpcUrls: [getRpcUrl(chainId)],
-              nativeCurrency: info.nativeCurrency,
-              blockExplorerUrls: [info.explorer],
+            const defaultRPC = JSON.parse(localStorage.getItem(DEFAULT_RPC_URL) || '{}')
+            if (defaultRPC[chainId]) {
+              switchRPC(chainId)
+            } else {
+              const info = getChainInfo(chainId)
+              const addChainParameter = {
+                chainId,
+                chainName: info.label,
+                rpcUrls: [getRpcUrl(chainId)],
+                nativeCurrency: info.nativeCurrency,
+                blockExplorerUrls: [info.explorer],
+              }
+              await connector.activate(addChainParameter)
             }
-            await connector.activate(addChainParameter)
           }
         } catch (error) {
           // In activating a new chain, the connector passes through a deactivated state.
@@ -72,6 +79,6 @@ export function useSwitchChain() {
         }
       }
     },
-    [dispatch]
+    [dispatch, switchRPC]
   )
 }

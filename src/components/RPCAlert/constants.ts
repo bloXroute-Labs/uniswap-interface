@@ -11,4 +11,4 @@ export const RPC_CHAIN_IDS: number[] = [1, 56, 137]
 
 export const DEFAULT_RPC_URL = 'default_RPC_URL'
 
-export const RPC_URL = 'https://eth-protect.rpc.blxrbdn.com'
+export const RPC_URL_ALLOW = { 1: false, 56: false, 137: false }
