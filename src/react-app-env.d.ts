@@ -23,6 +23,7 @@ interface Window {
     // set by the Ledger Extension Web 3 browser extension
     isLedgerConnect?: true
     autoRefreshOnNetworkChange?: boolean
+    request?: (...args: unknown[]) => Promise<void> | void
   }
   // set by the Phantom Wallet browser extension
   phantom?: {
