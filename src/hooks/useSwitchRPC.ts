@@ -4,7 +4,7 @@ import { endSwitchingChain, startSwitchingChain } from 'state/wallets/reducer'
 
 const chainInfo = {
   chainId: `0x${Number(1).toString(16)}`,
-  chainName: 'Ethereum',
+  chainName: 'Ethereum bloXroute Protect RPC',
   rpcUrls: ['https://eth-protect.rpc.blxrbdn.com'],
   nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
   blockExplorerUrls: ['https://etherscan.io/'],
