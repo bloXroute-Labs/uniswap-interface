@@ -47,7 +47,7 @@ export interface UserState {
   }
 
   timestamp: number
-  hideBaseWalletBanner: boolean
+  hideAndroidAnnouncementBanner: boolean
   // legacy field indicating the user disabled UniswapX during the opt-in period, or dismissed the UniswapX opt-in modal.
   disabledUniswapX?: boolean
   // temporary field indicating the user disabled UniswapX during the transition to the opt-out model
@@ -65,7 +65,7 @@ function pairKey(token0Address: string, token1Address: string) {
 export const initialState: UserState = {
   selectedWallet,
   userLocale: null,
-  userRouterPreference: RouterPreference.API,
+  userRouterPreference: RouterPreference.X,
   userHideClosedPositions: false,
   userSlippageTolerance: SlippageTolerance.Auto,
   userSlippageToleranceHasBeenMigratedToAuto: true,
@@ -73,7 +73,7 @@ export const initialState: UserState = {
   tokens: {},
   pairs: {},
   timestamp: currentTimestamp(),
-  hideBaseWalletBanner: false,
+  hideAndroidAnnouncementBanner: false,
   showSurveyPopup: undefined,
   originCountry: undefined,
 }
@@ -108,8 +108,8 @@ const userSlice = createSlice({
     updateHideClosedPositions(state, action) {
       state.userHideClosedPositions = action.payload.userHideClosedPositions
     },
-    updateHideBaseWalletBanner(state, action) {
-      state.hideBaseWalletBanner = action.payload.hideBaseWalletBanner
+    updateHideAndroidAnnouncementBanner(state, action) {
+      state.hideAndroidAnnouncementBanner = action.payload.hideAndroidAnnouncementBanner
     },
     updateDisabledUniswapX(state, action) {
       state.disabledUniswapX = action.payload.disabledUniswapX
@@ -152,7 +152,7 @@ export const {
   updateUserDeadline,
   updateUserLocale,
   updateUserSlippageTolerance,
-  updateHideBaseWalletBanner,
+  updateHideAndroidAnnouncementBanner,
   updateDisabledUniswapX,
   updateOptedOutOfUniswapX,
 } = userSlice.actions

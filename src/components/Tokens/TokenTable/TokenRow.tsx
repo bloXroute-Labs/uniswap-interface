@@ -114,7 +114,7 @@ const ClickableContent = styled.div<{ gap?: number }>`
   cursor: pointer;
 `
 const ClickableName = styled(ClickableContent)`
-  gap: 12px;
+  gap: 14px;
   max-width: 100%;
 `
 const StyledHeaderRow = styled(StyledTokenRow)`
@@ -302,6 +302,12 @@ export const HEADER_DESCRIPTIONS: Record<TokenSortMethod, ReactNode | undefined>
   [TokenSortMethod.TOTAL_VALUE_LOCKED]: (
     <Trans>
       Total value locked (TVL) is the aggregate amount of the asset available across all Uniswap v3 liquidity pools.
+    </Trans>
+  ),
+  [TokenSortMethod.FULLY_DILUTED_VALUATION]: (
+    <Trans>
+      Fully diluted valuation (FDV) is the market capitalization of an asset if maximum token supply were in
+      circulation.
     </Trans>
   ),
   [TokenSortMethod.VOLUME]: (
