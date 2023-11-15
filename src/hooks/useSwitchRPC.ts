@@ -1,3 +1,4 @@
+import { DEFAULT_RPC_URL, RPC_URL_ALLOW } from 'components/RPCAlert/constants'
 import { useCallback } from 'react'
 import { useAppDispatch } from 'state/hooks'
 import { endSwitchingChain, startSwitchingChain } from 'state/wallets/reducer'
@@ -38,6 +39,11 @@ export function useSwitchRPC() {
           method: 'wallet_addEthereumChain',
           params: [chainId && chainRPCInfo[chainId]],
         })
+        const updatedRPC = Object.assign(RPC_URL_ALLOW)
+        if (chainId) {
+          updatedRPC[chainId] = true
+        }
+        localStorage.setItem(DEFAULT_RPC_URL, JSON.stringify(updatedRPC))
       } catch (error) {
         console.error('Failed to change RPC URL', error)
       } finally {

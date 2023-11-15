@@ -16,7 +16,6 @@ import {
   RPC_ALERT_ICON_SIZE,
   RPC_ALERT_TEXT,
   RPC_CHAIN_IDS,
-  RPC_URL_ALLOW,
 } from './constants'
 
 const Container = styled.div`
@@ -81,11 +80,6 @@ export function RPCAlert() {
 
   const onSelectChain = useCallback(
     (targetChainId: number | undefined) => {
-      const updatedRPC = Object.assign(RPC_URL_ALLOW)
-      if (targetChainId) {
-        updatedRPC[targetChainId] = true
-      }
-      localStorage.setItem(DEFAULT_RPC_URL, JSON.stringify(updatedRPC))
       selectChain(targetChainId)
     },
     [selectChain]
