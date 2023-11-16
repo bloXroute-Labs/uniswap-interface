@@ -46,7 +46,7 @@ const AuthenticatedHeaderWrapper = styled.div`
 `
 
 const HeaderButton = styled(ThemeButton)`
-  border-color: transparent;
+  border-color: ${({ theme }) => theme.accent1};
   border-radius: 12px;
   border-style: solid;
   border-width: 1px;

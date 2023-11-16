@@ -12,13 +12,6 @@ export const logoContainer = style([
   }),
 ])
 
-export const logo = style([
-  sprinkles({
-    display: 'block',
-    color: 'accent1',
-  }),
-])
-
 export const baseSideContainer = style([
   sprinkles({
     display: 'flex',

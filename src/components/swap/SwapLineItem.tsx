@@ -193,6 +193,7 @@ function useLineItem(props: SwapLineItemProps): LineItemData | undefined {
         ),
       }
     case SwapLineItemType.SWAP_FEE: {
+      if (!feesEnabled) return
       if (isPreview) return { Label: () => <Trans>Fee</Trans>, Value: () => <Loading /> }
       return {
         Label: () => (

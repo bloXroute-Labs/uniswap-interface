@@ -1,14 +1,16 @@
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import { ReactComponent as Bloxroute } from 'components/Logo/BloxrouteLogo.svg'
+import { ReactComponent as BloxrouteDark } from 'components/Logo/BloxrouteLogoDark.svg'
 import { useSwitchRPC } from 'hooks/useSwitchRPC'
 import { useCallback, useMemo } from 'react'
 import { CheckCircle } from 'react-feather'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { ThemedText } from 'theme/components'
+import { useIsDarkMode } from 'theme/components/ThemeToggle'
 
 import Column from '../Column'
-import { ReactComponent as Bloxroute } from '../Logo/BloxrouteLogo.svg'
 import {
   DEFAULT_RPC_URL,
   RPC_ALERT_BUTTON_COLOR,
@@ -18,7 +20,7 @@ import {
   RPC_CHAIN_IDS,
 } from './constants'
 
-const Container = styled.div`
+const Container = styled.div<{ isDarkMode: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -26,9 +28,10 @@ const Container = styled.div`
   padding: 12px 18px 12px 12px;
   text-decoration: none !important;
   width: 100%;
-  border: 2px solid transparent;
+  border: 2px solid ${({ isDarkMode }) => (isDarkMode ? '#1B1B1B' : 'transparent')};
   border-radius: 24px;
-  background: linear-gradient(to right, #fff, #fff), linear-gradient(to right, #4a91f7, #6d42f6);
+  background: ${({ isDarkMode }) =>
+    isDarkMode ? '#131313' : 'linear-gradient(to right, #fff, #fff), linear-gradient(to right, #4a91f7, #6d42f6)'};
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
   gap: 12px;
@@ -38,13 +41,13 @@ const Container = styled.div`
     width: 100%;
   }
 `
-const StyledButton = styled.button`
+const StyledButton = styled.button<{ isDarkMode: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-around;
   width: max-content;
   height: 50px;
-  background: linear-gradient(200deg, #4a91f7, #6d42f6);
+  background: ${({ isDarkMode }) => (isDarkMode ? '#9868ff' : 'linear-gradient(to right, #4a91f7, #6d42f6)')};
   color: #fff;
   cursor: pointer;
   border-radius: 20px;
@@ -69,6 +72,7 @@ const TitleText = styled(ThemedText.BodyPrimary)`
 export function RPCAlert() {
   const { chainId } = useWeb3React()
   const { pathname } = useLocation()
+  const isDarkMode = useIsDarkMode()
   const cookieDefaultRPC = JSON.parse(localStorage.getItem(DEFAULT_RPC_URL) || '{}')
 
   const SubMenuOpen = useMemo(
@@ -86,14 +90,14 @@ export function RPCAlert() {
   )
 
   return SubMenuOpen ? (
-    <Container>
-      <Bloxroute />
+    <Container isDarkMode={isDarkMode}>
+      {isDarkMode ? <BloxrouteDark /> : <Bloxroute />}
       <Column>
         <TitleText>
           <Trans>{RPC_ALERT_TEXT}</Trans>
         </TitleText>
       </Column>
-      <StyledButton onClick={() => onSelectChain(chainId)}>
+      <StyledButton onClick={() => onSelectChain(chainId)} isDarkMode={isDarkMode}>
         <CheckCircle width={RPC_ALERT_ICON_SIZE} height={RPC_ALERT_ICON_SIZE} color={RPC_ALERT_BUTTON_COLOR} />
         <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
       </StyledButton>

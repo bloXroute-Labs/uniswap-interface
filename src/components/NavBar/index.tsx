@@ -1,6 +1,8 @@
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { useAccountDrawer } from 'components/AccountDrawer'
+import { ReactComponent as Bloxroute } from 'components/Logo/BloxrouteLogo.svg'
+import { ReactComponent as BloxrouteDark } from 'components/Logo/BloxrouteLogoDark.svg'
 import Web3Status from 'components/Web3Status'
 import { useInfoExplorePageEnabled } from 'featureFlags/flags/infoExplore'
 import { chainIdToBackendName } from 'graphql/data/util'
@@ -9,12 +11,12 @@ import { useIsNftPage } from 'hooks/useIsNftPage'
 import { useIsPoolsPage } from 'hooks/useIsPoolsPage'
 import { Box } from 'nft/components/Box'
 import { Row } from 'nft/components/Flex'
-import { UniIcon } from 'nft/components/icons'
 import { useProfilePageState } from 'nft/hooks'
 import { ProfilePageStateType } from 'nft/types'
 import { ReactNode, useCallback } from 'react'
 import { NavLink, NavLinkProps, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { useIsDarkMode } from 'theme/components/ThemeToggle'
 
 import { useIsNavSearchInputVisible } from '../../nft/hooks/useIsNavSearchInputVisible'
 import { Bag } from './Bag'
@@ -100,6 +102,7 @@ const Navbar = ({ blur }: { blur: boolean }) => {
   const sellPageState = useProfilePageState((state) => state.state)
   const navigate = useNavigate()
   const isNavSearchInputVisible = useIsNavSearchInputVisible()
+  const isDarkMode = useIsDarkMode()
 
   const [accountDrawerOpen, toggleAccountDrawer] = useAccountDrawer()
 
@@ -120,13 +123,11 @@ const Navbar = ({ blur }: { blur: boolean }) => {
         <Box display="flex" height="full" flexWrap="nowrap">
           <Box className={styles.leftSideContainer}>
             <Box className={styles.logoContainer}>
-              <UniIcon
-                width="48"
-                height="48"
-                data-testid="uniswap-logo"
-                className={styles.logo}
-                onClick={handleUniIconClick}
-              />
+              {isDarkMode ? (
+                <BloxrouteDark data-testid="uniswap-logo" onClick={handleUniIconClick} />
+              ) : (
+                <Bloxroute data-testid="uniswap-logo" onClick={handleUniIconClick} />
+              )}
             </Box>
             {!isNftPage && (
               <Box display={{ sm: 'flex', lg: 'none' }}>

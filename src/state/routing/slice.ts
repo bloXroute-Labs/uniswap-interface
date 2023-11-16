@@ -143,7 +143,7 @@ export const routingApi = createApi({
             tokenOutChainId,
             tokenOut,
             amount,
-            sendPortionEnabled: true,
+            sendPortionEnabled,
             type: isExactInput(tradeType) ? 'EXACT_INPUT' : 'EXACT_OUTPUT',
             intent: args.routerPreference === INTERNAL_ROUTER_PREFERENCE_PRICE ? 'pricing' : undefined,
             configs: getRoutingAPIConfig(args),
