@@ -1,5 +1,7 @@
 import { BrowserEvent, InterfaceElementName, SharedEventName } from '@uniswap/analytics-events'
 import { TraceEvent } from 'analytics'
+import Bloxroute from 'components/Logo/BloxrouteLogo.svg'
+import BloxrouteDark from 'components/Logo/BloxrouteLogoDark.svg'
 import { useDisableNFTRoutes } from 'hooks/useDisableNFTRoutes'
 import styled from 'styled-components'
 import { BREAKPOINTS } from 'theme'
@@ -7,8 +9,6 @@ import { ExternalLink, StyledRouterLink } from 'theme/components'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
 
 import { DiscordIcon, GithubIcon, TwitterIcon } from './Icons'
-import darkUnicornImgSrc from './images/unicornEmbossDark.png'
-import lightUnicornImgSrc from './images/unicornEmbossLight.png'
 
 const Footer = styled.div`
   display: flex;
@@ -45,7 +45,7 @@ const LogoSectionBottom = styled(LogoSection)`
 `
 
 const StyledLogo = styled.img`
-  width: 72px;
+  width: 150px;
   height: 72px;
   display: none;
 
@@ -115,9 +115,9 @@ const LogoSectionContent = () => {
   const isDarkMode = useIsDarkMode()
   return (
     <>
-      <StyledLogo src={isDarkMode ? darkUnicornImgSrc : lightUnicornImgSrc} alt="Uniswap Logo" />
+      <StyledLogo src={isDarkMode ? BloxrouteDark : Bloxroute} alt="BloXroute Logo" />
       <SocialLinks>
-        <SocialLink href="https://discord.gg/FCfyBSbCU5" target="_blank" rel="noopener noreferrer">
+        <SocialLink href="https://discord.com/invite/mB95H7s" target="_blank" rel="noopener noreferrer">
           <DiscordIcon size={32} />
         </SocialLink>
         <TraceEvent
@@ -125,15 +125,15 @@ const LogoSectionContent = () => {
           name={SharedEventName.ELEMENT_CLICKED}
           element={InterfaceElementName.TWITTER_LINK}
         >
-          <SocialLink href="https://twitter.com/uniswap" target="_blank" rel="noopener noreferrer">
+          <SocialLink href="https://twitter.com/bloXrouteLabs" target="_blank" rel="noopener noreferrer">
             <TwitterIcon size={32} />
           </SocialLink>
         </TraceEvent>
-        <SocialLink href="https://github.com/Uniswap" target="_blank" rel="noopener noreferrer">
+        <SocialLink href="https://github.com/bloXroute-Labs" target="_blank" rel="noopener noreferrer">
           <GithubIcon size={32} />
         </SocialLink>
       </SocialLinks>
-      <Copyright>© {new Date().getFullYear()} Uniswap Labs</Copyright>
+      <Copyright>© {new Date().getFullYear()} BloXroute Labs</Copyright>
     </>
   )
 }

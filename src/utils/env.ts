@@ -48,12 +48,12 @@ export function isSentryEnabled(): boolean {
   return process.env.REACT_APP_SENTRY_ENABLED === 'true'
 }
 
-export function getEnvName(): 'production' | 'staging' | 'development' {
-  if (isStagingEnv()) {
-    return 'staging'
-  }
-  if (isProductionEnv()) {
-    return 'production'
-  }
-  return 'development'
-}
+// export function getEnvName(): 'production' | 'staging' | 'development' {
+//   if (isStagingEnv()) {
+//     return 'staging'
+//   }
+//   if (isProductionEnv()) {
+//     return 'production'
+//   }
+//   return 'development'
+// }

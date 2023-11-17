@@ -1,9 +1,9 @@
 import { t, Trans } from '@lingui/macro'
-import { InterfaceElementName } from '@uniswap/analytics-events'
-import { ReactComponent as AppleLogo } from 'assets/svg/apple_logo.svg'
+// import { InterfaceElementName } from '@uniswap/analytics-events'
+// import { ReactComponent as AppleLogo } from 'assets/svg/apple_logo.svg'
 import FeatureFlagModal from 'components/FeatureFlagModal/FeatureFlagModal'
 import { PrivacyPolicyModal } from 'components/PrivacyPolicy'
-import { useAndroidGALaunchFlagEnabled } from 'featureFlags/flags/androidGALaunch'
+// import { useAndroidGALaunchFlagEnabled } from 'featureFlags/flags/androidGALaunch'
 import { useOnClickOutside } from 'hooks/useOnClickOutside'
 import { Box } from 'nft/components/Box'
 import { Column, Row } from 'nft/components/Flex'
@@ -22,11 +22,10 @@ import { ReactNode, useReducer, useRef } from 'react'
 import { NavLink, NavLinkProps } from 'react-router-dom'
 import { useToggleModal } from 'state/application/hooks'
 import styled, { useTheme } from 'styled-components'
-import { ThemedText } from 'theme/components'
+// import { ThemedText } from 'theme/components'
 import { isDevelopmentEnv, isStagingEnv } from 'utils/env'
-import { openDownloadApp } from 'utils/openDownloadApp'
 
-import { ReactComponent as UniswapAppLogo } from '../../assets/svg/uniswap_app_logo.svg'
+// import { openDownloadApp } from 'utils/openDownloadApp'
 import { ApplicationModal } from '../../state/application/reducer'
 import * as styles from './MenuDropdown.css'
 import { NavDropdown } from './NavDropdown'
@@ -132,8 +131,6 @@ export const MenuDropdown = () => {
   const ref = useRef<HTMLDivElement>(null)
   useOnClickOutside(ref, isOpen ? toggleOpen : undefined)
 
-  const isAndroidGALaunched = useAndroidGALaunchFlagEnabled()
-
   return (
     <>
       <Box position="relative" ref={ref} marginRight="4">
@@ -171,6 +168,7 @@ export const MenuDropdown = () => {
                     <Trans>View more analytics</Trans>
                   </PrimaryMenuRow.Text>
                 </PrimaryMenuRow>
+                {/* Hide android banner
                 <Box
                   onClick={() =>
                     openDownloadApp({
@@ -205,7 +203,7 @@ export const MenuDropdown = () => {
                       </>
                     )}
                   </PrimaryMenuRow>
-                </Box>
+                </Box> */}
               </Column>
               <Separator />
               <Box

@@ -1,15 +1,14 @@
 import { Trans } from '@lingui/macro'
 import { BrowserEvent, InterfaceElementName, InterfacePageName, SharedEventName } from '@uniswap/analytics-events'
 import { Trace, TraceEvent } from 'analytics'
-import { ReactComponent as UniswapAppLogo } from 'assets/svg/uniswap_app_logo.svg'
 import { AboutFooter } from 'components/About/AboutFooter'
 import Card, { CardType } from 'components/About/Card'
 import { MAIN_CARDS, MORE_CARDS } from 'components/About/constants'
 import ProtocolBanner from 'components/About/ProtocolBanner'
 import { useAccountDrawer } from 'components/AccountDrawer'
 import { BaseButton } from 'components/Button'
-import { AppleLogo } from 'components/Logo/AppleLogo'
-import { useAndroidGALaunchFlagEnabled } from 'featureFlags/flags/androidGALaunch'
+// import { AppleLogo } from 'components/Logo/AppleLogo'
+// import { useAndroidGALaunchFlagEnabled } from 'featureFlags/flags/androidGALaunch'
 import { useDisableNFTRoutes } from 'hooks/useDisableNFTRoutes'
 import Swap from 'pages/Swap'
 import { parse } from 'qs'
@@ -22,7 +21,7 @@ import { BREAKPOINTS } from 'theme'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
 import { TRANSITION_DURATIONS } from 'theme/styles'
 import { Z_INDEX } from 'theme/zIndex'
-import { getDownloadAppLinkProps } from 'utils/openDownloadApp'
+// import { getDownloadAppLinkProps } from 'utils/openDownloadApp'
 
 const PageContainer = styled.div`
   position: absolute;
@@ -107,22 +106,22 @@ const ContentContainer = styled.div<{ isDarkMode: boolean }>`
   }
 `
 
-const DownloadWalletLink = styled.a`
-  display: inline-flex;
-  gap: 8px;
-  margin-top: 24px;
-  color: ${({ theme }) => theme.neutral2};
-  text-decoration: none;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 535;
-  text-align: center;
-  align-items: center;
+// const DownloadWalletLink = styled.a`
+//   display: inline-flex;
+//   gap: 8px;
+//   margin-top: 24px;
+//   color: ${({ theme }) => theme.neutral2};
+//   text-decoration: none;
+//   font-size: 16px;
+//   line-height: 24px;
+//   font-weight: 535;
+//   text-align: center;
+//   align-items: center;
 
-  :hover {
-    color: ${({ theme }) => theme.neutral3};
-  }
-`
+//   :hover {
+//     color: ${({ theme }) => theme.neutral3};
+//   }
+// `
 
 const TitleText = styled.h1`
   color: transparent;
@@ -315,8 +314,6 @@ export default function Landing() {
     [shouldDisableNFTRoutes]
   )
 
-  const isAndroidGALaunched = useAndroidGALaunchFlagEnabled()
-
   const [accountDrawerOpen] = useAccountDrawer()
   const navigate = useNavigate()
   useEffect(() => {
@@ -389,7 +386,7 @@ export default function Landing() {
           >
             <Trans>Learn more</Trans>
           </LearnMoreContainer>
-
+          {/* Hide android banner
           <DownloadWalletLink
             {...getDownloadAppLinkProps({
               element: InterfaceElementName.UNISWAP_WALLET_LANDING_PAGE_DOWNLOAD_BUTTON,
@@ -407,7 +404,7 @@ export default function Landing() {
                 Download the Uniswap app for iOS
               </>
             )}
-          </DownloadWalletLink>
+          </DownloadWalletLink> */}
         </ContentContainer>
         <AboutContentContainer isDarkMode={isDarkMode}>
           <CardGrid cols={cards.length} ref={cardsRef}>

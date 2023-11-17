@@ -145,7 +145,7 @@ const userSlice = createSlice({
 export const {
   addSerializedPair,
   addSerializedToken,
-  setOriginCountry,
+  // setOriginCountry,
   updateSelectedWallet,
   updateHideClosedPositions,
   updateUserRouterPreference,
