@@ -28,10 +28,10 @@ const Container = styled.div<{ isDarkMode: boolean }>`
   padding: 12px 18px 12px 12px;
   text-decoration: none !important;
   width: 100%;
-  border: 2px solid ${({ isDarkMode }) => (isDarkMode ? '#1B1B1B' : 'transparent')};
+  border: 1px solid ${({ theme, isDarkMode }) => (isDarkMode ? theme.accentBloXroute : 'transparent')};
   border-radius: 24px;
   background: ${({ isDarkMode }) =>
-    isDarkMode ? '#131313' : 'linear-gradient(to right, #fff, #fff), linear-gradient(to right, #4a91f7, #6d42f6)'};
+    isDarkMode ? '#121219' : 'linear-gradient(to right, #fff, #fff), linear-gradient(to right, #4a91f7, #6d42f6)'};
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
   gap: 12px;
@@ -46,12 +46,13 @@ const StyledButton = styled.button<{ isDarkMode: boolean }>`
   align-items: center;
   justify-content: space-around;
   width: max-content;
-  height: 50px;
-  background: ${({ isDarkMode }) => (isDarkMode ? '#9868ff' : 'linear-gradient(to right, #4a91f7, #6d42f6)')};
-  color: #fff;
+  min-width: 110px;
+  height: 40px;
+  background: ${({ theme }) => theme.backgroundBloXroute};
+  color: ${({ theme }) => theme.white};
   cursor: pointer;
-  border-radius: 20px;
-  border: 1px solid #fff;
+  border-radius: 12px;
+  border: none;
   font-size: 18px;
   padding: 10px 16px;
   margin: 4px 0;
@@ -60,13 +61,14 @@ const StyledButton = styled.button<{ isDarkMode: boolean }>`
   }
 `
 
-const TitleText = styled(ThemedText.BodyPrimary)`
+const TitleText = styled(ThemedText.BodyPrimary)<{ isDarkMode: boolean }>`
   word-wrap: break-word;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
   text-align: center;
-  color: #7d7d7d;
+  color: ${({ theme, isDarkMode }) => (isDarkMode ? theme.white : '#282A2D')};
+  padding: 0 24px;
 `
 
 export function RPCAlert() {
@@ -93,7 +95,7 @@ export function RPCAlert() {
     <Container isDarkMode={isDarkMode}>
       {isDarkMode ? <BloxrouteDark /> : <Bloxroute />}
       <Column>
-        <TitleText>
+        <TitleText isDarkMode={isDarkMode}>
           <Trans>{RPC_ALERT_TEXT}</Trans>
         </TitleText>
       </Column>

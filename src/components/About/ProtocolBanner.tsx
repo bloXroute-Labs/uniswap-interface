@@ -82,6 +82,7 @@ const BannerButtonContainer = styled.div`
 const BannerButton = styled(ButtonEmpty)`
   color: white;
   border: 1px solid white;
+  border-radius: 12px;
 `
 
 const ProtocolBanner = () => {

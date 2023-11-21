@@ -23,7 +23,7 @@ const SegmentWrapper = styled(AutoRow)<{ active?: boolean }>`
   ${({ theme, active }) =>
     active &&
     css`
-      background-color: ${theme.accent2};
+      background-color: ${theme.surfaceBloXroute};
       color: ${({ theme }) => theme.accent1};
     `};
 

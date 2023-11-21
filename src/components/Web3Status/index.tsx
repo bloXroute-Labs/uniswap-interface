@@ -28,7 +28,7 @@ import StatusIcon from '../Identicon/StatusIcon'
 import { RowBetween } from '../Row'
 
 // https://stackoverflow.com/a/31617326
-const FULL_BORDER_RADIUS = 9999
+const FULL_BORDER_RADIUS = 12
 
 const Web3StatusGeneric = styled(ButtonSecondary)`
   ${flexRowNoWrap};
@@ -49,7 +49,7 @@ const Web3StatusGeneric = styled(ButtonSecondary)`
 const Web3StatusConnectWrapper = styled.div`
   ${flexRowNoWrap};
   align-items: center;
-  background-color: ${({ theme }) => theme.accent2};
+  background: ${({ theme }) => theme.backgroundBloXroute};
   border-radius: ${FULL_BORDER_RADIUS}px;
   border: none;
   padding: 0;
@@ -57,9 +57,7 @@ const Web3StatusConnectWrapper = styled.div`
 
   color: ${({ theme }) => theme.accent1};
   :hover {
-    color: ${({ theme }) => theme.accent1};
-    stroke: ${({ theme }) => theme.accent2};
-    background-color: ${({ theme }) => darken(0.015, theme.accent2)};
+    opacity: 0.8;
   }
 
   transition: ${({
@@ -131,7 +129,7 @@ const StyledConnectButton = styled.button`
   font-weight: 535;
   font-size: 16px;
   padding: 10px 12px;
-  color: inherit;
+  color: ${({ theme }) => theme.white};
 `
 
 function Web3StatusInner() {

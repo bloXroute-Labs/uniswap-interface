@@ -12,7 +12,7 @@ import styled from 'styled-components'
 import { ExternalLink, ThemedText } from 'theme/components'
 
 const InlineLink = styled(ThemedText.BodySmall)`
-  color: ${({ theme }) => theme.accent1};
+  color: ${({ theme }) => theme.accentBloXroute1};
   display: inline;
   cursor: pointer;
   &:hover {

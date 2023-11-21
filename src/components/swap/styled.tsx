@@ -25,7 +25,7 @@ export const PageWrapper = styled.div`
 const SwapWrapperOuter = styled.main<{ isDark?: boolean }>`
   position: relative;
   z-index: ${Z_INDEX.default};
-  border: 1px solid ${({ theme }) => theme.surface3};
+  border: 1px solid ${({ isDark }) => (isDark ? '#11222A' : '#89B3DF')};
   transition: transform 250ms ease;
   border-radius: 24px;
 
@@ -41,7 +41,7 @@ const SwapWrapperOuter = styled.main<{ isDark?: boolean }>`
   }
 
   &:hover {
-    border: 1px solid ${({ theme }) => theme.surface3};
+    border: ${({ isDark }) => `1px solid ${isDark ? '#11222A' : '#89b3df'}`};
   }
 `
 

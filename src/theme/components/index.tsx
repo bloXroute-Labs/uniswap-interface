@@ -94,8 +94,8 @@ export const ClickableStyle = css`
 `
 
 const LinkStyle = css`
-  color: ${({ theme }) => theme.accent1};
-  stroke: ${({ theme }) => theme.accent1};
+  color: ${({ theme }) => theme.accentBloXroute};
+  stroke: ${({ theme }) => theme.accentBloXroute};
   font-weight: 500;
 `
 

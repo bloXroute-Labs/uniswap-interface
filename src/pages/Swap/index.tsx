@@ -21,6 +21,7 @@ import SwapCurrencyInputPanel from 'components/CurrencyInputPanel/SwapCurrencyIn
 import { NetworkAlert } from 'components/NetworkAlert/NetworkAlert'
 import { AutoRow } from 'components/Row'
 import { RPCAlert } from 'components/RPCAlert/RPCAlert'
+import { ReactComponent as BloxrouteDarkBG } from 'components/RPCAlert/RPCBackground.svg'
 import confirmPriceImpactWithoutFee from 'components/swap/confirmPriceImpactWithoutFee'
 import ConfirmSwapModal from 'components/swap/ConfirmSwapModal'
 import PriceImpactModal from 'components/swap/PriceImpactModal'
@@ -58,6 +59,7 @@ import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers } f
 import swapReducer, { initialState as initialSwapState, SwapState } from 'state/swap/reducer'
 import styled, { useTheme } from 'styled-components'
 import { LinkStyledButton, ThemedText } from 'theme/components'
+import { useIsDarkMode } from 'theme/components/ThemeToggle'
 import { maybeLogFirstSwapAction } from 'tracing/swapFlowLoggers'
 import { computeFiatValuePriceImpact } from 'utils/computeFiatValuePriceImpact'
 import { NumberType, useFormatter } from 'utils/formatNumbers'
@@ -66,11 +68,11 @@ import { computeRealizedPriceImpact, warningSeverity } from 'utils/prices'
 import { didUserReject } from 'utils/swapErrorToUserReadableMessage'
 
 import { useScreenSize } from '../../hooks/useScreenSize'
-import { useIsDarkMode } from '../../theme/components/ThemeToggle'
 import { OutputTaxTooltipBody } from './TaxTooltipBody'
 import { UniswapXOptIn } from './UniswapXOptIn'
 
 export const ArrowContainer = styled.div`
+  background-color: ${({ theme }) => theme.surfaceBloXroute};
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -80,7 +82,7 @@ export const ArrowContainer = styled.div`
 `
 
 const SwapSection = styled.div`
-  background-color: ${({ theme }) => theme.surface2};
+  background-color: ${({ theme }) => theme.surfaceBloXroute};
   border-radius: 16px;
   color: ${({ theme }) => theme.neutral2};
   font-size: 14px;
@@ -119,6 +121,12 @@ const OutputSwapSection = styled(SwapSection)`
   border-bottom: ${({ theme }) => `1px solid ${theme.surface1}`};
 `
 
+const ContainerDark = styled.div`
+  position: fixed;
+  z-index: -1;
+  top: 80px;
+`
+
 function getIsReviewableQuote(
   trade: InterfaceTrade | undefined,
   tradeState: TradeState,
@@ -147,11 +155,16 @@ export default function SwapPage({ className }: { className?: string }) {
   const loadedUrlParams = useDefaultsFromURLSearch()
 
   const location = useLocation()
-
+  const isDarkMode = useIsDarkMode()
   const supportedChainId = asSupportedChain(connectedChainId)
 
   return (
     <Trace page={InterfacePageName.SWAP_PAGE} shouldLogImpression>
+      {isDarkMode && location.pathname === '/swap' && (
+        <ContainerDark>
+          <BloxrouteDarkBG />
+        </ContainerDark>
+      )}
       <PageWrapper>
         <Swap
           className={className}

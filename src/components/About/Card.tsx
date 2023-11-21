@@ -28,11 +28,11 @@ const StyledCard = styled.div<{ $isDarkMode: boolean; $backgroundImgSrc?: string
   padding: 24px;
   height: 212px;
   border-radius: 24px;
-  border: 1px solid ${({ theme, $type }) => ($type === CardType.Primary ? 'transparent' : theme.surface3)};
+  border: 1px solid ${({ theme, $type }) => ($type === CardType.Primary ? '#89B3DF' : theme.surface3)};
   transition: ${({ theme }) => `${theme.transition.duration.medium} ${theme.transition.timing.ease} border`};
 
   &:hover {
-    border: 1px solid ${({ theme, $isDarkMode }) => ($isDarkMode ? theme.surface3 : theme.neutral3)};
+    border: 1px solid ${({ theme }) => theme.accentBloXroute};
   }
   @media screen and (min-width: ${BREAKPOINTS.sm}px) {
     height: ${({ $backgroundImgSrc }) => ($backgroundImgSrc ? 360 : 260)}px;
@@ -56,6 +56,9 @@ const CardTitle = styled.div`
   @media screen and (min-width: ${BREAKPOINTS.lg}px) {
     font-size: 28px;
     line-height: 36px;
+  }
+  &:hover {
+    color: ${({ theme }) => theme.accentBloXroute};
   }
 `
 
@@ -82,10 +85,14 @@ const CardDescription = styled.div<{ type: CardType }>`
     line-height: 28px;
     max-width: 480px;
   }
+  transition: ${({ theme }) => `${theme.transition.duration.medium} ${theme.transition.timing.ease} opacity`};
+  &:hover {
+    opacity: 0.6;
+  }
 `
 
 const CardCTA = styled(CardDescription)`
-  color: ${({ theme }) => theme.accent1};
+  color: ${({ theme }) => theme.accentBloXroute};
   font-weight: 535;
   margin: 24px 0 0;
   cursor: pointer;
@@ -93,7 +100,7 @@ const CardCTA = styled(CardDescription)`
   transition: ${({ theme }) => `${theme.transition.duration.medium} ${theme.transition.timing.ease} opacity`};
 
   &:hover {
-    opacity: 0.6;
+    opacity: 1;
   }
 `
 

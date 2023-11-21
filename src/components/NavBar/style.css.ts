@@ -76,8 +76,28 @@ const baseMenuItem = style([
   },
 ])
 
+const baseSecondaryMenuItem = style([
+  {
+    ':hover': {
+      background: 'none',
+    },
+  },
+])
+
+const baseSecondaryActiveMenuItem = style([
+  {
+    borderBottom: '2px solid #916EF7',
+    borderRadius: 'unset',
+    transition: 'none',
+    ':hover': {
+      background: 'none',
+    },
+  },
+])
+
 export const menuItem = style([
   baseMenuItem,
+  baseSecondaryMenuItem,
   sprinkles({
     color: 'neutral2',
   }),
@@ -85,6 +105,7 @@ export const menuItem = style([
 
 export const activeMenuItem = style([
   baseMenuItem,
+  baseSecondaryActiveMenuItem,
   sprinkles({
     color: 'neutral1',
     background: 'none',

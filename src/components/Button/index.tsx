@@ -68,7 +68,7 @@ export const BaseButton = styled(RebassButton)<BaseButtonProps>`
 `
 
 export const ButtonPrimary = styled(BaseButton)`
-  background-color: ${({ theme }) => theme.accent1};
+  background: ${({ theme }) => theme.backgroundBloXroute};
   font-size: 20px;
   font-weight: 535;
   padding: 16px;
@@ -88,7 +88,7 @@ export const ButtonPrimary = styled(BaseButton)`
     background-color: ${({ theme, altDisabledStyle, disabled }) =>
       altDisabledStyle ? (disabled ? theme.accent1 : theme.surface3) : theme.surface3};
     color: ${({ altDisabledStyle, disabled, theme }) =>
-      altDisabledStyle ? (disabled ? theme.white : theme.neutral2) : theme.neutral2};
+      altDisabledStyle ? (disabled ? theme.white : theme.neutral2) : theme.white};
     cursor: auto;
     box-shadow: none;
     border: 1px solid transparent;
@@ -105,8 +105,8 @@ export const SmallButtonPrimary = styled(ButtonPrimary)`
 `
 
 const BaseButtonLight = styled(BaseButton)`
-  background-color: ${({ theme }) => theme.accent2};
-  color: ${({ theme }) => theme.accent1};
+  background: ${({ theme }) => theme.backgroundBloXroute};
+  color: ${({ theme }) => theme.white};
   font-size: 20px;
   font-weight: 535;
 
@@ -266,7 +266,6 @@ const ButtonConfirmedStyle = styled(BaseButton)`
 const ButtonErrorStyle = styled(BaseButton)`
   background-color: ${({ theme }) => theme.critical};
   border: 1px solid ${({ theme }) => theme.critical};
-
   &:focus {
     box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.critical)};
     background-color: ${({ theme }) => darken(0.05, theme.critical)};
@@ -284,6 +283,7 @@ const ButtonErrorStyle = styled(BaseButton)`
     box-shadow: none;
     background-color: ${({ theme }) => theme.critical};
     border: 1px solid ${({ theme }) => theme.critical};
+    color: white;
   }
 `
 

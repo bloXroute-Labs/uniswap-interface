@@ -108,6 +108,7 @@ export const colors = {
   surface5_dark: '#00000004',
   accent1_dark: '#9868ff',
   accent2_dark: '#311C31',
+  accentBloxRoute_dark: '#1F1F27',
   neutral1_light: '#222222',
   neutral2_light: '#7D7D7D',
   neutral3_light: '#CECECE',
@@ -118,9 +119,15 @@ export const colors = {
   surface5_light: '#00000004',
   accent1_light: '#009bff',
   accent2_light: '#FFEFFF',
+  accentBloxRoute_light: '#EFF2F5',
   success: '#40B66B',
   critical: '#FF5F52',
   scrim: 'rgba(0, 0, 0, 0.60)',
+  bg_BloXroute: 'linear-gradient(to right, #4a91f7, #6d42f6)',
+  main_BloXroute: '#916EF7',
+  secondary_BloXroute: '#6a47f6',
+  light_BloxRoute: '#eaf4fa',
+  dark_BloxRoute: '#1E1E26',
 }
 
 type Theme = typeof darkTheme
@@ -152,12 +159,16 @@ const commonTheme = {
 
   brandedGradient: 'linear-gradient(139.57deg, #FF79C9 4.35%, #FFB8E2 96.44%);',
   promotionalGradient: colors.accent1_light,
+
+  accentBloXroute: colors.main_BloXroute,
+  accentBloXroute1: colors.secondary_BloXroute,
 }
 
 export const darkTheme = {
   ...commonTheme,
 
   background: colors.black,
+  backgroundBloXroute: colors.bg_BloXroute,
 
   neutral1: colors.neutral1_dark,
   neutral2: colors.neutral2_dark,
@@ -168,18 +179,23 @@ export const darkTheme = {
   surface3: colors.surface3_dark,
   surface4: colors.surface4_dark,
   surface5: colors.surface5_dark,
+  surfaceBloXroute: colors.dark_BloxRoute,
 
   accent1: colors.accent1_dark,
   accent2: colors.accent2_dark,
+  accentBloXroute3: colors.accentBloxRoute_dark,
+
   success: colors.success,
   critical: colors.critical,
   scrim: colors.scrim,
+  contrast: colors.white,
 }
 
 export const lightTheme: Theme = {
   ...commonTheme,
 
   background: colors.white,
+  backgroundBloXroute: colors.bg_BloXroute,
 
   neutral1: colors.neutral1_light,
   neutral2: colors.neutral2_light,
@@ -190,11 +206,14 @@ export const lightTheme: Theme = {
   surface3: colors.surface3_light,
   surface4: colors.surface4_light,
   surface5: colors.surface5_light,
+  surfaceBloXroute: colors.light_BloxRoute,
 
   accent1: colors.accent1_light,
   accent2: colors.accent2_light,
+  accentBloXroute3: colors.accentBloxRoute_light,
 
   success: colors.success,
   critical: colors.critical,
   scrim: colors.scrim,
+  contrast: colors.black,
 }

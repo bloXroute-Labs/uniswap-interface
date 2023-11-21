@@ -30,7 +30,7 @@ const EmptyWalletSubtitle = styled(ThemedText.BodySmall)`
 `
 
 const ActionButton = styled.button`
-  background-color: ${({ theme }) => theme.accent1};
+  background: ${({ theme }) => theme.backgroundBloXroute};
   padding: 10px 24px;
   color: ${({ theme }) => theme.white};
   width: min-content;

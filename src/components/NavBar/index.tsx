@@ -32,6 +32,14 @@ const Nav = styled.nav`
   height: ${({ theme }) => theme.navHeight}px;
   z-index: 2;
 `
+const Divider = styled.div<{ isDarkMode: boolean }>`
+  padding: 0 12px;
+  margin-top: 20px;
+  width: 100%;
+  height: 1px;
+  z-index: 2;
+  background: ${({ theme, isDarkMode }) => (isDarkMode ? '#11222A' : theme.backgroundBloXroute)};
+`
 
 interface MenuItemProps {
   href: string
@@ -162,6 +170,7 @@ const Navbar = ({ blur }: { blur: boolean }) => {
             </Row>
           </Box>
         </Box>
+        <Divider isDarkMode={isDarkMode} />
       </Nav>
     </>
   )

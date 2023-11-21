@@ -63,15 +63,15 @@ const CurrencySelect = styled(ButtonGray)<{
   animateShake?: boolean
 }>`
   align-items: center;
-  background-color: ${({ selected, theme }) => (selected ? theme.surface1 : theme.accent1)};
+  background: ${({ selected, theme }) => (selected ? theme.surface1 : theme.backgroundBloXroute)};
   opacity: ${({ disabled }) => (!disabled ? 1 : 0.4)};
   color: ${({ selected, theme }) => (selected ? theme.neutral1 : theme.white)};
   cursor: pointer;
   height: 36px;
-  border-radius: 18px;
+  border-radius: 12px;
   outline: none;
   user-select: none;
-  border: 1px solid ${({ selected, theme }) => (selected ? theme.surface3 : theme.accent1)};
+  border: 1px solid ${({ theme }) => theme.accentBloXroute};
   font-size: 24px;
   font-weight: 485;
   width: ${({ hideInput }) => (hideInput ? '100%' : 'initial')};

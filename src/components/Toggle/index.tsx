@@ -4,8 +4,8 @@ import styled, { keyframes } from 'styled-components'
 
 const Wrapper = styled.button<{ isActive?: boolean; activeElement?: boolean }>`
   align-items: center;
-  background: ${({ isActive, theme }) => (isActive ? theme.accent2 : 'transparent')};
-  border: ${({ theme, isActive }) => (isActive ? '1px solid transparent' : `1px solid ${theme.surface3}`)};
+  background: ${({ isActive, theme }) => (isActive ? theme.accentBloXroute3 : 'transparent')};
+  border: ${({ theme, isActive }) => (isActive ? '1px solid transparent' : `1px solid ${theme.accentBloXroute1}`)};
   border-radius: 20px;
   cursor: pointer;
   display: flex;
@@ -51,7 +51,7 @@ const ToggleElement = styled.span<{ isActive?: boolean; bgColor?: string; isInit
     ${({ isActive, isInitialToggleLoad }) => (isInitialToggleLoad ? 'none' : isActive ? turnOnToggle : turnOffToggle)}
     ease-in;
   background: ${({ theme, bgColor, isActive }) =>
-    isActive ? bgColor ?? theme.accent1 : bgColor ? theme.surface3 : theme.neutral3};
+    isActive ? bgColor ?? theme.accentBloXroute1 : bgColor ? theme.surface3 : theme.neutral3};
   border-radius: 50%;
   height: 24px;
   :hover {

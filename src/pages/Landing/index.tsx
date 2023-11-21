@@ -130,7 +130,7 @@ const TitleText = styled.h1`
   font-weight: 535;
   text-align: center;
   margin: 0 0 24px;
-  background: linear-gradient(210deg, #7636ff 39%, #009bff 87%);
+  background-color: ${({ theme }) => theme.contrast};
   background-clip: text;
   -webkit-background-clip: text;
 
@@ -146,7 +146,7 @@ const TitleText = styled.h1`
 `
 
 const SubText = styled.div`
-  color: ${({ theme }) => theme.neutral2};
+  color: #959697;
   font-size: 16px;
   line-height: 24px;
   font-weight: 535;
@@ -167,7 +167,7 @@ const SubTextContainer = styled.div`
 
 const LandingButton = styled(BaseButton)`
   padding: 16px 0px;
-  border-radius: 24px;
+  border-radius: 12px;
 `
 
 const ButtonCTA = styled(LandingButton)`
@@ -200,7 +200,7 @@ const ActionsContainer = styled.span`
 
 const LearnMoreContainer = styled.div`
   align-items: center;
-  color: ${({ theme }) => theme.neutral3};
+  color: ${({ theme }) => theme.accentBloXroute1};
   cursor: pointer;
   font-size: 20px;
   font-weight: 535;
