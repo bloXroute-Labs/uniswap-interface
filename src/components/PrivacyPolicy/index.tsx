@@ -21,7 +21,7 @@ const Wrapper = styled.div`
 `
 
 const StyledExternalCard = styled(Card)`
-  background-color: ${({ theme }) => theme.accent2};
+  background: ${({ theme }) => theme.backgroundBloXroute};
   padding: 0.5rem;
   width: 100%;
 
@@ -45,6 +45,11 @@ const HoverText = styled.div`
 
 const StyledLinkOut = styled(ArrowDown)`
   transform: rotate(230deg);
+  color: ${({ theme }) => theme.white};
+`
+
+const StyledInfoIcon = styled(Info)`
+  color: ${({ theme }) => theme.white};
 `
 
 const EXTERNAL_APIS = [
@@ -125,12 +130,12 @@ function PrivacyPolicy() {
       <AutoColumn gap="16px">
         <AutoColumn gap="sm" style={{ width: '100%' }}>
           <StyledExternalCard>
-            <ExternalLink href="https://uniswap.org/terms-of-service">
+            <ExternalLink href="https://bloxroute.com/wp-content/uploads/2021/12/ToS-Updated-3-18-21.pdf">
               <RowBetween>
                 <AutoRow gap="4px">
-                  <Info size={20} />
-                  <ThemedText.DeprecatedMain fontSize={14} color="accent1">
-                    <Trans>Uniswap Labs&apos; Terms of Service</Trans>
+                  <StyledInfoIcon size={20} />
+                  <ThemedText.DeprecatedMain fontSize={14} color="white">
+                    <Trans>BloXroute Labs&apos; Terms of Service</Trans>
                   </ThemedText.DeprecatedMain>
                 </AutoRow>
                 <StyledLinkOut size={20} />
@@ -138,11 +143,11 @@ function PrivacyPolicy() {
             </ExternalLink>
           </StyledExternalCard>
           <StyledExternalCard>
-            <ExternalLink href="https://uniswap.org/privacy-policy/">
+            <ExternalLink href="https://bloxroute.com/wp-content/uploads/2021/12/bloXroute-Privacy-Policy-04-01-2019-Final.pdf">
               <RowBetween>
                 <AutoRow gap="4px">
-                  <Info size={20} />
-                  <ThemedText.DeprecatedMain fontSize={14} color="accent1">
+                  <StyledInfoIcon size={20} />
+                  <ThemedText.DeprecatedMain fontSize={14} color="white">
                     <Trans>Privacy Policy</Trans>
                   </ThemedText.DeprecatedMain>
                 </AutoRow>

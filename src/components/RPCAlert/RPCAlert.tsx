@@ -1,7 +1,6 @@
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { ReactComponent as Bloxroute } from 'components/Logo/BloxrouteLogo.svg'
-import { ReactComponent as BloxrouteDark } from 'components/Logo/BloxrouteLogoDark.svg'
+import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXroute.svg'
 import { useSwitchRPC } from 'hooks/useSwitchRPC'
 import { useCallback, useMemo } from 'react'
 import { CheckCircle } from 'react-feather'
@@ -93,7 +92,7 @@ export function RPCAlert() {
 
   return SubMenuOpen ? (
     <Container isDarkMode={isDarkMode}>
-      {isDarkMode ? <BloxrouteDark /> : <Bloxroute />}
+      <BloxrouteLogo />
       <Column>
         <TitleText isDarkMode={isDarkMode}>
           <Trans>{RPC_ALERT_TEXT}</Trans>

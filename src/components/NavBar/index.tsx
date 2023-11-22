@@ -1,8 +1,7 @@
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXroute.svg'
 import { useAccountDrawer } from 'components/AccountDrawer'
-import { ReactComponent as Bloxroute } from 'components/Logo/BloxrouteLogo.svg'
-import { ReactComponent as BloxrouteDark } from 'components/Logo/BloxrouteLogoDark.svg'
 import Web3Status from 'components/Web3Status'
 import { useInfoExplorePageEnabled } from 'featureFlags/flags/infoExplore'
 import { chainIdToBackendName } from 'graphql/data/util'
@@ -131,11 +130,7 @@ const Navbar = ({ blur }: { blur: boolean }) => {
         <Box display="flex" height="full" flexWrap="nowrap">
           <Box className={styles.leftSideContainer}>
             <Box className={styles.logoContainer}>
-              {isDarkMode ? (
-                <BloxrouteDark data-testid="uniswap-logo" onClick={handleUniIconClick} />
-              ) : (
-                <Bloxroute data-testid="uniswap-logo" onClick={handleUniIconClick} />
-              )}
+              <BloxrouteLogo data-testid="uniswap-logo" onClick={handleUniIconClick} />
             </Box>
             {!isNftPage && (
               <Box display={{ sm: 'flex', lg: 'none' }}>

@@ -140,7 +140,7 @@ const TitleText = styled.h1`
   }
 
   @media screen and (min-width: ${BREAKPOINTS.md}px) {
-    font-size: 64px;
+    font-size: 60px;
     line-height: 72px;
   }
 `
@@ -352,17 +352,17 @@ export default function Landing() {
         <ContentContainer isDarkMode={isDarkMode}>
           <TitleText>
             {shouldDisableNFTRoutes ? (
-              <Trans>Trade crypto with confidence</Trans>
+              <Trans>Trade crypto with front-running protection from bloXroute</Trans>
             ) : (
-              <Trans>Trade crypto and NFTs with confidence</Trans>
+              <Trans>Trade Crypto and NFTs with front-running protection from bloXroute</Trans>
             )}
           </TitleText>
           <SubTextContainer>
             <SubText>
               {shouldDisableNFTRoutes ? (
-                <Trans>Buy, sell, and explore tokens</Trans>
+                <Trans>Buy, sell, and explore tokens safely with reduced fee</Trans>
               ) : (
-                <Trans>Buy, sell, and explore tokens and NFTs</Trans>
+                <Trans>Buy, sell, and explore tokens and NFTs safely with reduced fee</Trans>
               )}
             </SubText>
           </SubTextContainer>

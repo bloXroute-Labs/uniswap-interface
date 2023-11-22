@@ -1,14 +1,13 @@
+import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXroute.svg'
 import { loadingAnimation } from 'components/Loader/styled'
-import { ReactComponent as Bloxroute } from 'components/Logo/BloxrouteLogo.svg'
-import { ReactComponent as BloxrouteDark } from 'components/Logo/BloxrouteLogoDark.svg'
 import { LoadingBubble } from 'components/Tokens/loading'
 import { useCollection } from 'graphql/data/nft/Collection'
 import { VerifiedIcon } from 'nft/components/icons'
 import { Markets, TrendingCollection } from 'nft/types'
 import styled from 'styled-components'
 import { ThemedText } from 'theme/components/text'
-import { useIsDarkMode } from 'theme/components/ThemeToggle'
 import { NumberType, useFormatter } from 'utils/formatNumbers'
+
 const CarouselCardBorder = styled.div`
   width: 100%;
   position: relative;
@@ -241,7 +240,7 @@ const MARKETS_ENUM_TO_NAME = {
 export const CarouselCard = ({ collection, onClick }: CarouselCardProps) => {
   const { data: gqlCollection, loading } = useCollection(collection.address ?? '')
   const { formatNumber } = useFormatter()
-  const isDarkMode = useIsDarkMode()
+
   if (loading) return <LoadingCarouselCard />
 
   return (
@@ -250,7 +249,9 @@ export const CarouselCard = ({ collection, onClick }: CarouselCardProps) => {
         <CarouselCardHeader collection={collection} />
         <CardBottomContainer>
           <>
-            <TableElement>{isDarkMode ? <BloxrouteDark /> : <Bloxroute />}</TableElement>
+            <TableElement>
+              <BloxrouteLogo />
+            </TableElement>
             <TableElement>
               {collection.floor && (
                 <ThemedText.SubHeaderSmall color="userThemeColor">

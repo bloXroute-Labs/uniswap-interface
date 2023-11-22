@@ -1,12 +1,10 @@
 import { BrowserEvent, InterfaceElementName, SharedEventName } from '@uniswap/analytics-events'
 import { TraceEvent } from 'analytics'
-import Bloxroute from 'components/Logo/BloxrouteLogo.svg'
-import BloxrouteDark from 'components/Logo/BloxrouteLogoDark.svg'
+import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXroute.svg'
 import { useDisableNFTRoutes } from 'hooks/useDisableNFTRoutes'
 import styled from 'styled-components'
 import { BREAKPOINTS } from 'theme'
 import { ExternalLink, StyledRouterLink } from 'theme/components'
-import { useIsDarkMode } from 'theme/components/ThemeToggle'
 
 import { DiscordIcon, GithubIcon, TwitterIcon } from './Icons'
 
@@ -41,16 +39,6 @@ const LogoSectionBottom = styled(LogoSection)`
 
   @media screen and (min-width: ${BREAKPOINTS.lg}px) {
     display: none;
-  }
-`
-
-const StyledLogo = styled.img`
-  width: 150px;
-  height: 72px;
-  display: none;
-
-  @media screen and (min-width: ${BREAKPOINTS.lg}px) {
-    display: block;
   }
 `
 
@@ -112,10 +100,9 @@ const Copyright = styled.span`
 `
 
 const LogoSectionContent = () => {
-  const isDarkMode = useIsDarkMode()
   return (
     <>
-      <StyledLogo src={isDarkMode ? BloxrouteDark : Bloxroute} alt="BloXroute Logo" />
+      <BloxrouteLogo />
       <SocialLinks>
         <SocialLink href="https://discord.com/invite/mB95H7s" target="_blank" rel="noopener noreferrer">
           <DiscordIcon size={32} />

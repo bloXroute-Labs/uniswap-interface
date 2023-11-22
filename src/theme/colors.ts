@@ -160,6 +160,7 @@ const commonTheme = {
   brandedGradient: 'linear-gradient(139.57deg, #FF79C9 4.35%, #FFB8E2 96.44%);',
   promotionalGradient: colors.accent1_light,
 
+  backgroundBloXroute: colors.bg_BloXroute,
   accentBloXroute: colors.main_BloXroute,
   accentBloXroute1: colors.secondary_BloXroute,
 }
@@ -168,7 +169,6 @@ export const darkTheme = {
   ...commonTheme,
 
   background: colors.black,
-  backgroundBloXroute: colors.bg_BloXroute,
 
   neutral1: colors.neutral1_dark,
   neutral2: colors.neutral2_dark,
@@ -195,7 +195,6 @@ export const lightTheme: Theme = {
   ...commonTheme,
 
   background: colors.white,
-  backgroundBloXroute: colors.bg_BloXroute,
 
   neutral1: colors.neutral1_light,
   neutral2: colors.neutral2_light,

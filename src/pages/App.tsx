@@ -1,6 +1,5 @@
 import { CustomUserProperties, getBrowser, SharedEventName } from '@uniswap/analytics-events'
-import { useWeb3React } from '@web3-react/core'
-import { getDeviceId, sendAnalyticsEvent, sendInitializationEvent, Trace, user } from 'analytics'
+import { sendAnalyticsEvent, sendInitializationEvent, Trace, user } from 'analytics'
 import ErrorBoundary from 'components/ErrorBoundary'
 import Loader from 'components/Icons/LoadingSpinner'
 import NavBar, { PageTabs } from 'components/NavBar'
@@ -9,14 +8,14 @@ import { FeatureFlag, useFeatureFlagsIsLoaded } from 'featureFlags'
 import { useUniswapXDefaultEnabled } from 'featureFlags/flags/uniswapXDefault'
 import { useAtom } from 'jotai'
 import { useBag } from 'nft/hooks/useBag'
-import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useLayoutEffect, useState } from 'react'
 import { Navigate, Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
 import { shouldDisableNFTRoutesAtom } from 'state/application/atoms'
 import { useAppSelector } from 'state/hooks'
 import { AppState } from 'state/reducer'
 import { RouterPreference } from 'state/routing/types'
 import { useRouterPreference, useUserOptedOutOfUniswapX } from 'state/user/hooks'
-import { StatsigUser, useGate } from 'statsig-react'
+import { useGate } from 'statsig-react'
 import styled from 'styled-components'
 import DarkModeQueryParamReader from 'theme/components/DarkModeQueryParamReader'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
@@ -129,15 +128,15 @@ export default function App() {
 
   const isBagExpanded = useBag((state) => state.bagExpanded)
   const isHeaderTransparent = !scrolledState && !isBagExpanded
-
-  const { account } = useWeb3React()
-  const statsigUser: StatsigUser = useMemo(
-    () => ({
-      userID: getDeviceId(),
-      customIDs: { address: account ?? '' },
-    }),
-    [account]
-  )
+  // Hide statsig
+  // const { account } = useWeb3React()
+  // const statsigUser: StatsigUser = useMemo(
+  //   () => ({
+  //     userID: getDeviceId(),
+  //     customIDs: { address: account ?? '' },
+  //   }),
+  //   [account]
+  // )
 
   // redirect address to landing pages until implemented
   const shouldRedirectToAppInstall = pathname?.startsWith('/address/')
