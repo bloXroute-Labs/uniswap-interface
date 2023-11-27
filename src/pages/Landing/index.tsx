@@ -1,18 +1,19 @@
 import { Trans } from '@lingui/macro'
 import { BrowserEvent, InterfaceElementName, InterfacePageName, SharedEventName } from '@uniswap/analytics-events'
+import { useWeb3React } from '@web3-react/core'
 import { Trace, TraceEvent } from 'analytics'
 import { AboutFooter } from 'components/About/AboutFooter'
-import Card, { CardType } from 'components/About/Card'
-import { MAIN_CARDS, MORE_CARDS } from 'components/About/constants'
-import ProtocolBanner from 'components/About/ProtocolBanner'
+// import { MAIN_CARDS } from 'components/About/constants'
 import { useAccountDrawer } from 'components/AccountDrawer'
 import { BaseButton } from 'components/Button'
 // import { AppleLogo } from 'components/Logo/AppleLogo'
 // import { useAndroidGALaunchFlagEnabled } from 'featureFlags/flags/androidGALaunch'
 import { useDisableNFTRoutes } from 'hooks/useDisableNFTRoutes'
+import { useSwitchRPC } from 'hooks/useSwitchRPC'
 import Swap from 'pages/Swap'
 import { parse } from 'qs'
-import { useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect } from 'react'
+// import { AlertTriangle } from 'react-feather'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { Link as NativeLink } from 'react-router-dom'
 import { useAppSelector } from 'state/hooks'
@@ -94,7 +95,6 @@ const ContentContainer = styled.div<{ isDarkMode: boolean }>`
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-  padding: 0 0 40px;
   max-width: min(720px, 90%);
   min-height: 535px;
   z-index: ${Z_INDEX.under_dropdown};
@@ -193,31 +193,31 @@ const ButtonCTAText = styled.p`
 `
 
 const ActionsContainer = styled.span`
-  max-width: 300px;
+  max-width: 400px;
   width: 100%;
   pointer-events: auto;
 `
 
-const LearnMoreContainer = styled.div`
-  align-items: center;
-  color: ${({ theme }) => theme.accentBloXroute1};
-  cursor: pointer;
-  font-size: 20px;
-  font-weight: 535;
-  margin: 18px 0 36px;
-  display: flex;
-  visibility: hidden;
-  pointer-events: auto;
-  @media screen and (min-width: ${BREAKPOINTS.sm}px) {
-    visibility: visible;
-  }
+// const LearnMoreContainer = styled.div`
+//   align-items: center;
+//   color: ${({ theme }) => theme.accentBloXroute1};
+//   cursor: pointer;
+//   font-size: 20px;
+//   font-weight: 535;
+//   margin: 18px 0 36px;
+//   display: flex;
+//   visibility: hidden;
+//   pointer-events: auto;
+//   @media screen and (min-width: ${BREAKPOINTS.sm}px) {
+//     visibility: visible;
+//   }
 
-  transition: ${({ theme }) => `${theme.transition.duration.medium} ${theme.transition.timing.ease} opacity`};
+//   transition: ${({ theme }) => `${theme.transition.duration.medium} ${theme.transition.timing.ease} opacity`};
 
-  &:hover {
-    opacity: 0.6;
-  }
-`
+//   &:hover {
+//     opacity: 0.6;
+//   }
+// `
 
 const AboutContentContainer = styled.div<{ isDarkMode: boolean }>`
   display: flex;
@@ -238,33 +238,33 @@ const AboutContentContainer = styled.div<{ isDarkMode: boolean }>`
   }
 `
 
-const CardGrid = styled.div<{ cols: number }>`
-  display: grid;
-  gap: 12px;
-  width: 100%;
-  padding: 24px 0 0;
-  max-width: 1440px;
-  scroll-margin: ${({ theme }) => `${theme.navHeight}px 0 0`};
+// const CardGrid = styled.div<{ cols: number }>`
+//   display: grid;
+//   gap: 12px;
+//   width: 100%;
+//   padding: 24px 0 0;
+//   max-width: 1440px;
+//   scroll-margin: ${({ theme }) => `${theme.navHeight}px 0 0`};
 
-  grid-template-columns: 1fr;
-  @media screen and (min-width: ${BREAKPOINTS.sm}px) {
-    // At this screen size, we show up to 2 columns.
-    grid-template-columns: ${({ cols }) =>
-      Array.from(Array(cols === 2 ? 2 : 1))
-        .map(() => '1fr')
-        .join(' ')};
-    gap: 32px;
-  }
+//   grid-template-columns: 1fr;
+//   @media screen and (min-width: ${BREAKPOINTS.sm}px) {
+//     // At this screen size, we show up to 2 columns.
+//     grid-template-columns: ${({ cols }) =>
+//       Array.from(Array(cols === 2 ? 2 : 1))
+//         .map(() => '1fr')
+//         .join(' ')};
+//     gap: 32px;
+//   }
 
-  @media screen and (min-width: ${BREAKPOINTS.lg}px) {
-    // at this screen size, always show the max number of columns
-    grid-template-columns: ${({ cols }) =>
-      Array.from(Array(cols))
-        .map(() => '1fr')
-        .join(' ')};
-    gap: 32px;
-  }
-`
+//   @media screen and (min-width: ${BREAKPOINTS.lg}px) {
+//     // at this screen size, always show the max number of columns
+//     grid-template-columns: ${({ cols }) =>
+//       Array.from(Array(cols))
+//         .map(() => '1fr')
+//         .join(' ')};
+//     gap: 32px;
+//   }
+// `
 
 const LandingSwapContainer = styled.div`
   height: ${({ theme }) => `calc(100vh - ${theme.mobileBottomBarHeight}px)`};
@@ -303,16 +303,48 @@ const Link = styled(NativeLink)`
   ${LinkCss}
 `
 
+const ButtonRPC = styled(LandingButton)<{ isDarkMode: boolean }>`
+  border: 2px solid transparent;
+  border-radius: 12px;
+  margin-top: 16px;
+  background: ${({ isDarkMode }) =>
+    isDarkMode
+      ? 'linear-gradient(to right, #080a18, #080a18), linear-gradient(to right, #4a91f7, #6d42f6)'
+      : 'linear-gradient(to right, #fff, #fff), linear-gradient(to right, #4a91f7, #6d42f6)'};
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  color: ${({ theme, isDarkMode }) => (isDarkMode ? theme.white : theme.black)};
+  transition: ${({ theme }) => `all ${theme.transition.duration.medium} ${theme.transition.timing.ease}`};
+  &:hover {
+    box-shadow: 0px 0px 16px 0px #009bff;
+  }
+`
+
+const WarningRPC = styled.div<{ isDarkMode: boolean }>`
+  margin-bottom: 20px;
+  color: ${({ theme, isDarkMode }) => (isDarkMode ? theme.white : theme.black)};
+  @media screen and (min-width: ${BREAKPOINTS.md}px) {
+    margin-bottom: 0;
+  }
+`
+
+// const StyledInfoIcon = styled(AlertTriangle)``
+
 export default function Landing() {
   const isDarkMode = useIsDarkMode()
-  const cardsRef = useRef<HTMLDivElement>(null)
+  const { chainId } = useWeb3React()
+  // const cardsRef = useRef<HTMLDivElement>(null)
   const selectedWallet = useAppSelector((state) => state.user.selectedWallet)
 
   const shouldDisableNFTRoutes = useDisableNFTRoutes()
-  const cards = useMemo(
-    () => MAIN_CARDS.filter((card) => !(shouldDisableNFTRoutes && card.to.startsWith('/nft'))),
-    [shouldDisableNFTRoutes]
-  )
+  // const cards = useMemo(
+  //   () => MAIN_CARDS.filter((card) => !(shouldDisableNFTRoutes && card.to.startsWith('/nft'))),
+  //   [shouldDisableNFTRoutes]
+  // )
+  const selectChain = useSwitchRPC()
+  const onSelectChain = useCallback(() => {
+    selectChain(chainId)
+  }, [chainId, selectChain])
 
   const [accountDrawerOpen] = useAccountDrawer()
   const navigate = useNavigate()
@@ -354,7 +386,7 @@ export default function Landing() {
             {shouldDisableNFTRoutes ? (
               <Trans>Trade crypto with front-running protection from bloXroute</Trans>
             ) : (
-              <Trans>Trade Crypto and NFTs with front-running protection from bloXroute</Trans>
+              <Trans>Trade Uniswap safe from Front-Running and pay x3 lower fees using bloXroute’s RPC.</Trans>
             )}
           </TitleText>
           <SubTextContainer>
@@ -362,7 +394,7 @@ export default function Landing() {
               {shouldDisableNFTRoutes ? (
                 <Trans>Buy, sell, and explore tokens safely with reduced fee</Trans>
               ) : (
-                <Trans>Buy, sell, and explore tokens and NFTs safely with reduced fee</Trans>
+                <Trans>Additional real-time features coming soon!</Trans>
               )}
             </SubText>
           </SubTextContainer>
@@ -372,20 +404,37 @@ export default function Landing() {
               name={SharedEventName.ELEMENT_CLICKED}
               element={InterfaceElementName.CONTINUE_BUTTON}
             >
-              <ButtonCTA as={Link} to="/swap">
+              <ButtonCTA onClick={onSelectChain}>
                 <ButtonCTAText>
-                  <Trans>Get started</Trans>
+                  <Trans>Connect</Trans>
                 </ButtonCTAText>
               </ButtonCTA>
             </TraceEvent>
           </ActionsContainer>
-          <LearnMoreContainer
+          <ActionsContainer>
+            <TraceEvent
+              events={[BrowserEvent.onClick]}
+              name={SharedEventName.ELEMENT_CLICKED}
+              element={InterfaceElementName.CONTINUE_BUTTON}
+            >
+              <ButtonRPC onClick={() => navigate('/swap')} isDarkMode={isDarkMode}>
+                <ButtonCTAText>
+                  <Trans>Yeah, I’m connected to bloXroute RPC</Trans>
+                </ButtonCTAText>
+              </ButtonRPC>
+            </TraceEvent>
+          </ActionsContainer>
+          <WarningRPC isDarkMode={isDarkMode}>
+            <Trans>Features will fail if not properly connected</Trans>
+          </WarningRPC>
+
+          {/* <LearnMoreContainer
             onClick={() => {
               cardsRef?.current?.scrollIntoView({ behavior: 'smooth' })
             }}
           >
             <Trans>Learn more</Trans>
-          </LearnMoreContainer>
+          </LearnMoreContainer> */}
           {/* Hide android banner
           <DownloadWalletLink
             {...getDownloadAppLinkProps({
@@ -407,6 +456,7 @@ export default function Landing() {
           </DownloadWalletLink> */}
         </ContentContainer>
         <AboutContentContainer isDarkMode={isDarkMode}>
+          {/* Hide Uniswap cards
           <CardGrid cols={cards.length} ref={cardsRef}>
             {cards.map(({ darkBackgroundImgSrc, lightBackgroundImgSrc, ...card }) => (
               <Card
@@ -416,12 +466,13 @@ export default function Landing() {
               />
             ))}
           </CardGrid>
+
           <CardGrid cols={MORE_CARDS.length}>
             {MORE_CARDS.map(({ darkIcon, lightIcon, ...card }) => (
               <Card {...card} icon={isDarkMode ? darkIcon : lightIcon} key={card.title} type={CardType.Secondary} />
             ))}
           </CardGrid>
-          <ProtocolBanner />
+          <ProtocolBanner /> */}
           <AboutFooter />
         </AboutContentContainer>
       </PageContainer>

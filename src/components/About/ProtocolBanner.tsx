@@ -90,13 +90,11 @@ const ProtocolBanner = () => {
   return (
     <Banner isDarkMode={isDarkMode}>
       <TextContainer>
-        <HeaderText>Powered by the Uniswap Protocol</HeaderText>
-        <DescriptionText>
-          The leading decentralized crypto trading protocol, governed by a global community.
-        </DescriptionText>
+        <HeaderText>Powered by BloXroute Labs</HeaderText>
+        <DescriptionText>High-performance network for ETH, BSC, Polygon and more.</DescriptionText>
       </TextContainer>
       <BannerButtonContainer>
-        <BannerButton width="200px" as="a" href="https://uniswap.org" rel="noopener noreferrer" target="_blank">
+        <BannerButton width="200px" as="a" href="https://bloxroute.com/" rel="noopener noreferrer" target="_blank">
           Learn more
         </BannerButton>
       </BannerButtonContainer>

@@ -1,4 +1,5 @@
 import { DEFAULT_RPC_URL, RPC_URL_ALLOW } from 'components/RPCAlert/constants'
+import { BLOXROUTE_CHAIN_IDS } from 'constants/chains'
 import { useCallback } from 'react'
 import { useAppDispatch } from 'state/hooks'
 import { endSwitchingChain, startSwitchingChain } from 'state/wallets/reducer'
@@ -34,10 +35,11 @@ export function useSwitchRPC() {
     async (chainId: number | undefined) => {
       dispatch(startSwitchingChain(chainId))
       try {
+        const currentChainId = chainId && BLOXROUTE_CHAIN_IDS.includes(chainId) ? chainId : 1
         //@ts-ignore
         await window.ethereum.request({
           method: 'wallet_addEthereumChain',
-          params: [chainId && chainRPCInfo[chainId]],
+          params: [chainRPCInfo[currentChainId]],
         })
         const updatedRPC = Object.assign(RPC_URL_ALLOW)
         if (chainId) {
