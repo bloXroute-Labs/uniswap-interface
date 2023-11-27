@@ -11,7 +11,7 @@ import styled from 'styled-components'
 import { ClickableStyle, ThemedText } from 'theme/components'
 import ThemeToggle from 'theme/components/ThemeToggle'
 
-import { AnalyticsToggle } from './AnalyticsToggle'
+// import { AnalyticsToggle } from './AnalyticsToggle'
 import { GitVersionRow } from './GitVersionRow'
 import { LanguageMenuItems } from './LanguageMenu'
 import { SlideOutMenu } from './SlideOutMenu'
@@ -91,7 +91,8 @@ export default function SettingsMenu({
           <ToggleWrapper currencyConversionEnabled={currencyConversionEnabled}>
             <ThemeToggle />
             <SmallBalanceToggle />
-            <AnalyticsToggle />
+            {/* Hide Uniswap analytics
+            <AnalyticsToggle /> */}
             <TestnetsToggle />
           </ToggleWrapper>
           {!currencyConversionEnabled && (

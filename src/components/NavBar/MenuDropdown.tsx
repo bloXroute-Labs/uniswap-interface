@@ -8,7 +8,7 @@ import { useOnClickOutside } from 'hooks/useOnClickOutside'
 import { Box } from 'nft/components/Box'
 import { Column, Row } from 'nft/components/Flex'
 import {
-  BarChartIcon,
+  // BarChartIcon,
   DiscordIconMenu,
   EllipsisIcon,
   GithubIconMenu,
@@ -160,6 +160,7 @@ export const MenuDropdown = () => {
                     <Trans>Vote in governance</Trans>
                   </PrimaryMenuRow.Text>
                 </PrimaryMenuRow>
+                {/* Hide Uniswap analytics
                 <PrimaryMenuRow href="https://info.uniswap.org/#/">
                   <Icon>
                     <BarChartIcon width={24} height={24} color={theme.neutral1} />
@@ -167,7 +168,7 @@ export const MenuDropdown = () => {
                   <PrimaryMenuRow.Text>
                     <Trans>View more analytics</Trans>
                   </PrimaryMenuRow.Text>
-                </PrimaryMenuRow>
+                </PrimaryMenuRow> */}
                 {/* Hide android banner
                 <Box
                   onClick={() =>
@@ -213,14 +214,14 @@ export const MenuDropdown = () => {
                 alignItems={{ sm: 'center', md: 'flex-start' }}
                 paddingX="8"
               >
-                <SecondaryLinkedText href="https://help.uniswap.org/en/">
-                  <Trans>Help center</Trans> ↗
+                <SecondaryLinkedText href="https://bloxroute.com/#why-bloxroute">
+                  <Trans>About bloXroute</Trans> ↗
                 </SecondaryLinkedText>
-                <SecondaryLinkedText href="https://docs.uniswap.org/">
+                <SecondaryLinkedText href="https://docs.bloxroute.com/">
                   <Trans>Documentation</Trans> ↗
                 </SecondaryLinkedText>
-                <SecondaryLinkedText href="https://uniswap.canny.io/feature-requests">
-                  <Trans>Feedback</Trans> ↗
+                <SecondaryLinkedText href="https://bloxroute.com/developers/">
+                  <Trans>Developers</Trans> ↗
                 </SecondaryLinkedText>
                 <SecondaryLinkedText
                   onClick={() => {
@@ -242,13 +243,13 @@ export const MenuDropdown = () => {
                 )}
               </Box>
               <IconRow>
-                <Icon href="https://discord.com/invite/FCfyBSbCU5">
+                <Icon href="https://discord.com/invite/mB95H7s">
                   <DiscordIconMenu className={styles.hover} width={24} height={24} color={themeVars.colors.neutral2} />
                 </Icon>
-                <Icon href="https://twitter.com/Uniswap">
+                <Icon href="https://twitter.com/bloXrouteLabs">
                   <TwitterIconMenu className={styles.hover} width={24} height={24} color={themeVars.colors.neutral2} />
                 </Icon>
-                <Icon href="https://github.com/Uniswap">
+                <Icon href="https://github.com/bloXroute-Labs">
                   <GithubIconMenu className={styles.hover} width={24} height={24} color={themeVars.colors.neutral2} />
                 </Icon>
               </IconRow>

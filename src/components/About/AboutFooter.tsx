@@ -142,26 +142,36 @@ export const AboutFooter = () => {
           <TextLink to="/pools">Pools</TextLink>
         </LinkGroup>
         <LinkGroup>
-          <LinkGroupTitle>Protocol</LinkGroupTitle>
-          <ExternalTextLink href="https://uniswap.org/community">Community</ExternalTextLink>
-          <ExternalTextLink href="https://uniswap.org/governance">Governance</ExternalTextLink>
-          <ExternalTextLink href="https://uniswap.org/developers">Developers</ExternalTextLink>
+          <LinkGroupTitle>Products</LinkGroupTitle>
+          <ExternalTextLink href="https://bloxroute.com/products/#mempool-data">Mempool Data</ExternalTextLink>
+          <ExternalTextLink href="https://bloxroute.com/products/#block-streaming">Block Streaming</ExternalTextLink>
+          <ExternalTextLink href="https://bloxroute.com/products/#transaction-propagation">
+            Transaction Propagation
+          </ExternalTextLink>
+          <ExternalTextLink href="https://bloxroute.com/products/#frontrunning-protection">
+            Frontrunning Protection
+          </ExternalTextLink>
+          <ExternalTextLink href="https://bloxroute.com/products/#flahbots-mev-relays">
+            Flashbots MEV Relays
+          </ExternalTextLink>
+          <ExternalTextLink href="https://bloxroute.com/pricing/">Pricing</ExternalTextLink>
         </LinkGroup>
         <LinkGroup>
           <LinkGroupTitle>Company</LinkGroupTitle>
+          <ExternalTextLink href="https://bloxroute.com/#why-bloxroute">Why bloXroute</ExternalTextLink>
           <TraceEvent
             events={[BrowserEvent.onClick]}
             name={SharedEventName.ELEMENT_CLICKED}
             element={InterfaceElementName.CAREERS_LINK}
           >
-            <ExternalTextLink href="https://boards.greenhouse.io/uniswaplabs">Careers</ExternalTextLink>
+            <ExternalTextLink href="https://bloxroute.com/careers/">Careers</ExternalTextLink>
           </TraceEvent>
           <TraceEvent
             events={[BrowserEvent.onClick]}
             name={SharedEventName.ELEMENT_CLICKED}
             element={InterfaceElementName.BLOG_LINK}
           >
-            <ExternalTextLink href="https://uniswap.org/blog">Blog</ExternalTextLink>
+            <ExternalTextLink href="https://bloxroute.com/team/">Our Team</ExternalTextLink>
           </TraceEvent>
         </LinkGroup>
         <LinkGroup>
@@ -171,11 +181,7 @@ export const AboutFooter = () => {
             name={SharedEventName.ELEMENT_CLICKED}
             element={InterfaceElementName.SUPPORT_LINK}
           >
-            <ExternalTextLink
-              href="https://support.uniswap.org/hc/en-us/requests/new"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <ExternalTextLink href="mailto:hello@bloxroute.com" rel="noopener noreferrer">
               Contact Us
             </ExternalTextLink>
           </TraceEvent>
@@ -184,7 +190,7 @@ export const AboutFooter = () => {
             name={SharedEventName.ELEMENT_CLICKED}
             element={InterfaceElementName.SUPPORT_LINK}
           >
-            <ExternalTextLink href="https://support.uniswap.org/hc/en-us">Help Center</ExternalTextLink>
+            <ExternalTextLink href="mailto:support@bloxroute.com">Help Center</ExternalTextLink>
           </TraceEvent>
         </LinkGroup>
       </FooterLinks>

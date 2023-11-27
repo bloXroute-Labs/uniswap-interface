@@ -90,7 +90,7 @@ export type SupportedL1ChainId = (typeof L1_CHAIN_IDS)[number]
  * Bloxroute chain IDs.
  */
 export const BLOXROUTE_CHAIN_IDS = [1, 56, 137] as number[]
-
+export const BLOXROUTE_TESTNET_CHAIN_IDS = [11155111] as number[]
 /**
  * Controls some L2 specific behavior, e.g. slippage tolerance, special UI behavior.
  * The expectation is that all of these networks have immediate transaction confirmation.
