@@ -20,7 +20,6 @@ import { AutoColumn } from 'components/Column'
 import SwapCurrencyInputPanel from 'components/CurrencyInputPanel/SwapCurrencyInputPanel'
 import { NetworkAlert } from 'components/NetworkAlert/NetworkAlert'
 import { AutoRow } from 'components/Row'
-import { RPCAlert } from 'components/RPCAlert/RPCAlert'
 import { ReactComponent as BloxrouteDarkBG } from 'components/RPCAlert/RPCBackground.svg'
 import confirmPriceImpactWithoutFee from 'components/swap/confirmPriceImpactWithoutFee'
 import ConfirmSwapModal from 'components/swap/ConfirmSwapModal'
@@ -624,7 +623,6 @@ export function Swap({
 
   const swapElement = (
     <>
-      <RPCAlert />
       <SwapWrapper isDark={isDark} className={className} id="swap-page">
         <TokenSafetyModal
           isOpen={importTokensNotInDefault.length > 0 && !dismissTokenWarning}

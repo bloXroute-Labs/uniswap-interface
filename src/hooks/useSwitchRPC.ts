@@ -45,7 +45,7 @@ export function useSwitchRPC() {
         if (chainId) {
           updatedRPC[chainId] = true
         }
-        localStorage.setItem(DEFAULT_RPC_URL, JSON.stringify(updatedRPC))
+        // localStorage.setItem(DEFAULT_RPC_URL, JSON.stringify(updatedRPC))
       } catch (error) {
         console.error('Failed to change RPC URL', error)
       } finally {
