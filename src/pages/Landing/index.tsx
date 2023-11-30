@@ -1,6 +1,5 @@
 import { Trans } from '@lingui/macro'
 import { BrowserEvent, InterfaceElementName, InterfacePageName, SharedEventName } from '@uniswap/analytics-events'
-import { useWeb3React } from '@web3-react/core'
 import { Trace, TraceEvent } from 'analytics'
 import { AboutFooter } from 'components/About/AboutFooter'
 // import { MAIN_CARDS } from 'components/About/constants'
@@ -9,10 +8,9 @@ import { BaseButton } from 'components/Button'
 // import { AppleLogo } from 'components/Logo/AppleLogo'
 // import { useAndroidGALaunchFlagEnabled } from 'featureFlags/flags/androidGALaunch'
 import { useDisableNFTRoutes } from 'hooks/useDisableNFTRoutes'
-import { useSwitchRPC } from 'hooks/useSwitchRPC'
 import Swap from 'pages/Swap'
 import { parse } from 'qs'
-import { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 // import { AlertTriangle } from 'react-feather'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { Link as NativeLink } from 'react-router-dom'
@@ -198,26 +196,27 @@ const ActionsContainer = styled.span`
   pointer-events: auto;
 `
 
-// const LearnMoreContainer = styled.div`
-//   align-items: center;
-//   color: ${({ theme }) => theme.accentBloXroute1};
-//   cursor: pointer;
-//   font-size: 20px;
-//   font-weight: 535;
-//   margin: 18px 0 36px;
-//   display: flex;
-//   visibility: hidden;
-//   pointer-events: auto;
-//   @media screen and (min-width: ${BREAKPOINTS.sm}px) {
-//     visibility: visible;
-//   }
+const LearnMoreContainer = styled.a`
+  align-items: center;
+  color: ${({ theme }) => theme.accentBloXroute1};
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 535;
+  margin: 18px 0 36px;
+  display: flex;
+  visibility: hidden;
+  pointer-events: auto;
+  text-decoration: none;
+  @media screen and (min-width: ${BREAKPOINTS.sm}px) {
+    visibility: visible;
+  }
 
-//   transition: ${({ theme }) => `${theme.transition.duration.medium} ${theme.transition.timing.ease} opacity`};
+  transition: ${({ theme }) => `${theme.transition.duration.medium} ${theme.transition.timing.ease} opacity`};
 
-//   &:hover {
-//     opacity: 0.6;
-//   }
-// `
+  &:hover {
+    opacity: 0.6;
+  }
+`
 
 const AboutContentContainer = styled.div<{ isDarkMode: boolean }>`
   display: flex;
@@ -302,37 +301,10 @@ const LandingSwap = styled(Swap)`
 const Link = styled(NativeLink)`
   ${LinkCss}
 `
-
-const ButtonRPC = styled(LandingButton)<{ isDarkMode: boolean }>`
-  border: 2px solid transparent;
-  border-radius: 12px;
-  margin-top: 16px;
-  background: ${({ isDarkMode }) =>
-    isDarkMode
-      ? 'linear-gradient(to right, #080a18, #080a18), linear-gradient(to right, #4a91f7, #6d42f6)'
-      : 'linear-gradient(to right, #fff, #fff), linear-gradient(to right, #4a91f7, #6d42f6)'};
-  background-clip: padding-box, border-box;
-  background-origin: padding-box, border-box;
-  color: ${({ theme, isDarkMode }) => (isDarkMode ? theme.white : theme.black)};
-  transition: ${({ theme }) => `all ${theme.transition.duration.medium} ${theme.transition.timing.ease}`};
-  &:hover {
-    box-shadow: 0px 0px 16px 0px #009bff;
-  }
-`
-
-const WarningRPC = styled.div<{ isDarkMode: boolean }>`
-  margin-bottom: 20px;
-  color: ${({ theme, isDarkMode }) => (isDarkMode ? theme.white : theme.black)};
-  @media screen and (min-width: ${BREAKPOINTS.md}px) {
-    margin-bottom: 0;
-  }
-`
-
 // const StyledInfoIcon = styled(AlertTriangle)``
 
 export default function Landing() {
   const isDarkMode = useIsDarkMode()
-  const { chainId } = useWeb3React()
   // const cardsRef = useRef<HTMLDivElement>(null)
   const selectedWallet = useAppSelector((state) => state.user.selectedWallet)
 
@@ -341,11 +313,6 @@ export default function Landing() {
   //   () => MAIN_CARDS.filter((card) => !(shouldDisableNFTRoutes && card.to.startsWith('/nft'))),
   //   [shouldDisableNFTRoutes]
   // )
-  const selectChain = useSwitchRPC()
-  const onSelectChain = useCallback(() => {
-    selectChain(chainId)
-  }, [chainId, selectChain])
-
   const [accountDrawerOpen] = useAccountDrawer()
   const navigate = useNavigate()
   useEffect(() => {
@@ -386,7 +353,13 @@ export default function Landing() {
             {shouldDisableNFTRoutes ? (
               <Trans>Trade crypto with front-running protection from bloXroute</Trans>
             ) : (
-              <Trans>Trade Uniswap safe from Front-Running and pay x3 lower fees using bloXroute’s RPC.</Trans>
+              <Trans>
+                Trade Uniswap <br />
+                <b>safe from Front-Running</b>
+                <br /> &amp;
+                <br /> <b>pay x3 lower fees</b>
+                <br /> using bloXroute’s RPC
+              </Trans>
             )}
           </TitleText>
           <SubTextContainer>
@@ -404,37 +377,19 @@ export default function Landing() {
               name={SharedEventName.ELEMENT_CLICKED}
               element={InterfaceElementName.CONTINUE_BUTTON}
             >
-              <ButtonCTA onClick={onSelectChain}>
+              <ButtonCTA as={Link} to="/swap">
                 <ButtonCTAText>
-                  <Trans>Connect</Trans>
+                  <Trans>Get started</Trans>
                 </ButtonCTAText>
               </ButtonCTA>
             </TraceEvent>
           </ActionsContainer>
-          <ActionsContainer>
-            <TraceEvent
-              events={[BrowserEvent.onClick]}
-              name={SharedEventName.ELEMENT_CLICKED}
-              element={InterfaceElementName.CONTINUE_BUTTON}
-            >
-              <ButtonRPC onClick={() => navigate('/swap')} isDarkMode={isDarkMode}>
-                <ButtonCTAText>
-                  <Trans>Yeah, I’m connected to bloXroute RPC</Trans>
-                </ButtonCTAText>
-              </ButtonRPC>
-            </TraceEvent>
-          </ActionsContainer>
-          <WarningRPC isDarkMode={isDarkMode}>
-            <Trans>Features will fail if not properly connected</Trans>
-          </WarningRPC>
-
-          {/* <LearnMoreContainer
-            onClick={() => {
-              cardsRef?.current?.scrollIntoView({ behavior: 'smooth' })
-            }}
+          <LearnMoreContainer
+            href="https://docs.bloxroute.com/introduction/protect-rpcs/eth-protect-rpc"
+            target="_blank"
           >
             <Trans>Learn more</Trans>
-          </LearnMoreContainer> */}
+          </LearnMoreContainer>
           {/* Hide android banner
           <DownloadWalletLink
             {...getDownloadAppLinkProps({

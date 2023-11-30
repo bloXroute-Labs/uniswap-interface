@@ -4,6 +4,7 @@ import ErrorBoundary from 'components/ErrorBoundary'
 import Loader from 'components/Icons/LoadingSpinner'
 import NavBar, { PageTabs } from 'components/NavBar'
 import { UK_BANNER_HEIGHT, UK_BANNER_HEIGHT_MD, UK_BANNER_HEIGHT_SM, UkBanner } from 'components/NavBar/UkBanner'
+import { RPCAlert } from 'components/RPCAlert/RPCAlert'
 import { FeatureFlag, useFeatureFlagsIsLoaded } from 'featureFlags'
 import { useUniswapXDefaultEnabled } from 'featureFlags/flags/uniswapXDefault'
 import { useAtom } from 'jotai'
@@ -180,17 +181,20 @@ export default function App() {
           </Suspense>
           <Suspense fallback={<Loader />}>
             {isLoaded ? (
-              <Routes>
-                {routes.map((route: RouteDefinition) =>
-                  route.enabled(routerConfig) ? (
-                    <Route key={route.path} path={route.path} element={route.getElement(routerConfig)}>
-                      {route.nestedPaths.map((nestedPath) => (
-                        <Route path={nestedPath} key={`${route.path}/${nestedPath}`} />
-                      ))}
-                    </Route>
-                  ) : null
-                )}
-              </Routes>
+              <>
+                <RPCAlert />
+                <Routes>
+                  {routes.map((route: RouteDefinition) =>
+                    route.enabled(routerConfig) ? (
+                      <Route key={route.path} path={route.path} element={route.getElement(routerConfig)}>
+                        {route.nestedPaths.map((nestedPath) => (
+                          <Route path={nestedPath} key={`${route.path}/${nestedPath}`} />
+                        ))}
+                      </Route>
+                    ) : null
+                  )}
+                </Routes>
+              </>
             ) : (
               <Loader />
             )}

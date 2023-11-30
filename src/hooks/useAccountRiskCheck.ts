@@ -2,6 +2,11 @@ import ms from 'ms'
 import { useEffect } from 'react'
 import { ApplicationModal, setOpenModal } from 'state/application/reducer'
 import { useAppDispatch } from 'state/hooks'
+import { isProductionEnv } from 'utils/env'
+
+const API_ENDPOINT = isProductionEnv()
+  ? 'https://api.uni.live/v1/screen'
+  : 'https://0pzye3tb97.execute-api.us-east-1.amazonaws.com/dev/v1/screen'
 
 export default function useAccountRiskCheck(account: string | null | undefined) {
   const dispatch = useAppDispatch()
@@ -16,7 +21,7 @@ export default function useAccountRiskCheck(account: string | null | undefined) 
         const checkExpirationTime = storedTime ? parseInt(storedTime) : now - 1
         if (checkExpirationTime < Date.now()) {
           const headers = new Headers({ 'Content-Type': 'application/json' })
-          fetch('https://api.uni.live/v1/screen', {
+          fetch(API_ENDPOINT, {
             method: 'POST',
             headers,
             body: JSON.stringify({ address: account }),
