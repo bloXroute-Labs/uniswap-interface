@@ -21,6 +21,7 @@ import SwapCurrencyInputPanel from 'components/CurrencyInputPanel/SwapCurrencyIn
 import { NetworkAlert } from 'components/NetworkAlert/NetworkAlert'
 import { AutoRow } from 'components/Row'
 import { ReactComponent as BloxrouteDarkBG } from 'components/RPCAlert/RPCBackground.svg'
+import RPCModal from 'components/RPCModal/RPCModal'
 import confirmPriceImpactWithoutFee from 'components/swap/confirmPriceImpactWithoutFee'
 import ConfirmSwapModal from 'components/swap/ConfirmSwapModal'
 import PriceImpactModal from 'components/swap/PriceImpactModal'
@@ -153,13 +154,13 @@ export default function SwapPage({ className }: { className?: string }) {
   const { chainId: connectedChainId } = useWeb3React()
   const loadedUrlParams = useDefaultsFromURLSearch()
 
-  const location = useLocation()
+  const { pathname } = useLocation()
   const isDarkMode = useIsDarkMode()
   const supportedChainId = asSupportedChain(connectedChainId)
 
   return (
     <Trace page={InterfacePageName.SWAP_PAGE} shouldLogImpression>
-      {isDarkMode && location.pathname === '/swap' && (
+      {isDarkMode && pathname === '/swap' && (
         <ContainerDark>
           <BloxrouteDarkBG />
         </ContainerDark>
@@ -174,7 +175,7 @@ export default function SwapPage({ className }: { className?: string }) {
         />
         <NetworkAlert />
       </PageWrapper>
-      {location.pathname === '/swap' && <SwitchLocaleLink />}
+      {pathname === '/swap' && <SwitchLocaleLink />}
     </Trace>
   )
 }
@@ -219,6 +220,7 @@ export function Swap({
 
   const [dismissTokenWarning, setDismissTokenWarning] = useState<boolean>(false)
   const [showPriceImpactModal, setShowPriceImpactModal] = useState<boolean>(false)
+  const [switchRPC, setSwitchRPC] = useState<boolean>(true)
 
   const urlLoadedTokens: Token[] = useMemo(
     () => [loadedInputCurrency, loadedOutputCurrency]?.filter((c): c is Token => c?.isToken ?? false) ?? [],
@@ -228,6 +230,9 @@ export function Swap({
     setDismissTokenWarning(true)
   }, [])
 
+  const handleConfirmSwitchRPC = useCallback(() => {
+    setSwitchRPC(false)
+  }, [])
   // dismiss warning if all imported tokens are in active lists
   const defaultTokens = useDefaultActiveTokens(chainId)
   const importTokensNotInDefault = useMemo(
@@ -624,6 +629,7 @@ export function Swap({
   const swapElement = (
     <>
       <SwapWrapper isDark={isDark} className={className} id="swap-page">
+        <RPCModal isOpen={switchRPC} onCancel={handleConfirmSwitchRPC} />
         <TokenSafetyModal
           isOpen={importTokensNotInDefault.length > 0 && !dismissTokenWarning}
           tokenAddress={importTokensNotInDefault[0]?.address}

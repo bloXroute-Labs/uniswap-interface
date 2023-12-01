@@ -1,0 +1,166 @@
+import { Trans } from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
+import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXrouteTransparent.svg'
+import { MouseoverTooltip, TooltipSize } from 'components/Tooltip'
+import { useSwitchRPC } from 'hooks/useSwitchRPC'
+import { useCallback, useMemo } from 'react'
+import { Info } from 'react-feather'
+import { useLocation } from 'react-router-dom'
+import styled from 'styled-components'
+import { useIsDarkMode } from 'theme/components/ThemeToggle'
+
+import Column from '../Column'
+import Modal from '../Modal'
+import { DEFAULT_RPC_URL, RPC_ALERT_BUTTON_TEXT, RPC_ALERT_TRANSPARENT_BUTTON_TEXT } from '../RPCAlert/constants'
+
+interface RPCModalProps {
+  isOpen: boolean
+  onCancel: () => void
+}
+
+const Container = styled.div<{ isDarkMode: boolean }>`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 18px 12px;
+  background: linear-gradient(143deg, #499afb 12.79%, #6a4df9 89.26%), linear-gradient(0deg, #5f62f7, #5f62f7);
+  gap: 12px;
+  overflow: hidden;
+`
+
+const TitleText = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-wrap: break-word;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 20px;
+  text-align: center;
+  color: ${({ theme }) => theme.white};
+  padding: 0 24px;
+  margin-left: 25px;
+  div {
+    width: auto;
+  }
+  div:last-child {
+    height: 20px;
+    margin-left: 4px;
+  }
+`
+
+const WarningText = styled.div`
+  word-wrap: break-word;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+`
+
+const StyledButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 40px;
+  background: ${({ theme }) => theme.white};
+  color: ${({ theme }) => theme.black};
+  cursor: pointer;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  padding: 10px 16px;
+  margin: 4px 0;
+  outline: none;
+  svg {
+    margin-right: 5px;
+  }
+`
+
+const StyledTransparentButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 35%;
+  height: 20px;
+  background: none;
+  color: ${({ theme }) => theme.white};
+  cursor: pointer;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  margin: 4px 0;
+  svg {
+    margin-right: 5px;
+  }
+`
+
+export default function RPCModal({ isOpen, onCancel }: RPCModalProps) {
+  const isDarkMode = useIsDarkMode()
+  const { chainId } = useWeb3React()
+
+  const { pathname } = useLocation()
+  const selectChain = useSwitchRPC()
+  const cookieDefaultRPC = JSON.parse(localStorage.getItem(DEFAULT_RPC_URL) || '{}')
+
+  const ModalOpen = useMemo(
+    () => pathname === '/swap' && chainId && !cookieDefaultRPC[chainId],
+    [chainId, cookieDefaultRPC, pathname]
+  )
+
+  const onSelectChain = useCallback(
+    (targetChainId: number | undefined) => {
+      selectChain(targetChainId)
+    },
+    [selectChain]
+  )
+
+  return ModalOpen ? (
+    <Modal isOpen={isOpen} onDismiss={onCancel} hideBorder>
+      <Container isDarkMode={isDarkMode}>
+        <BloxrouteLogo />
+        <Column>
+          <TitleText>
+            <div>
+              <Trans>
+                Trade
+                <br /> <b>safe from front-running</b> <br /> & <b>pay x3 lower fees</b>
+              </Trans>
+            </div>
+            <MouseoverTooltip
+              size={TooltipSize.MaxSmall}
+              placement="top"
+              text={
+                <a
+                  style={{ color: '#916EF7', textDecoration: 'none' }}
+                  href="https://docs.bloxroute.com/introduction/protect-rpcs/eth-protect-rpc"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Click to learn more
+                </a>
+              }
+            >
+              <Info color="#fff" size={20} />
+            </MouseoverTooltip>
+          </TitleText>
+        </Column>
+        <StyledButton onClick={() => onSelectChain(chainId)}>
+          <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
+        </StyledButton>
+        <StyledTransparentButton onClick={() => onCancel()}>
+          <Trans>{RPC_ALERT_TRANSPARENT_BUTTON_TEXT}</Trans>
+        </StyledTransparentButton>
+        <WarningText>
+          <Trans>
+            * Uni.live RPC is needed for advanced features and <u>to avoid front-running</u>.
+          </Trans>
+        </WarningText>
+      </Container>
+    </Modal>
+  ) : null
+}
