@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXroute.svg'
-import { MouseoverTooltip } from 'components/Tooltip'
+import { MouseoverTooltip, TooltipSize } from 'components/Tooltip'
 import { BLOXROUTE_CHAIN_IDS, BLOXROUTE_TESTNET_CHAIN_IDS } from 'constants/chains'
 import { useSwitchRPC } from 'hooks/useSwitchRPC'
 import { useCallback, useMemo } from 'react'
@@ -11,7 +11,7 @@ import styled from 'styled-components'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
 
 import Column from '../Column'
-import { DEFAULT_RPC_URL, RPC_ALERT_BUTTON_TEXT, RPC_ALERT_ICON_COLOR } from './constants'
+import { RPC_ALERT_BUTTON_TEXT, RPC_ALERT_ICON_COLOR } from './constants'
 
 const Container = styled.div<{ isDarkMode: boolean }>`
   display: flex;
@@ -83,22 +83,17 @@ const WarningText = styled.div`
   text-align: center;
   color: #7d7d7d;
 `
-const MouseoverTooltipRPC = styled(MouseoverTooltip)`
-  width: auto;
-`
-
 const BLOXROUTE_NETWORK_SELECTOR_CHAINS = [...BLOXROUTE_CHAIN_IDS, ...BLOXROUTE_TESTNET_CHAIN_IDS]
 
 export function RPCAlert() {
   const { chainId } = useWeb3React()
   const { pathname } = useLocation()
   const isDarkMode = useIsDarkMode()
-  const cookieDefaultRPC = JSON.parse(localStorage.getItem(DEFAULT_RPC_URL) || '{}')
+  // const cookieDefaultRPC = JSON.parse(localStorage.getItem(DEFAULT_RPC_URL) || '{}')
 
   const SubMenuOpen = useMemo(
-    () =>
-      chainId && !(pathname == '/' || cookieDefaultRPC[chainId]) && BLOXROUTE_NETWORK_SELECTOR_CHAINS.includes(chainId),
-    [chainId, pathname, cookieDefaultRPC]
+    () => chainId && !(pathname === '/' || pathname === '/swap') && BLOXROUTE_NETWORK_SELECTOR_CHAINS.includes(chainId),
+    [chainId, pathname]
   )
 
   const selectChain = useSwitchRPC()
@@ -120,9 +115,22 @@ export function RPCAlert() {
               Trade <b>safe from front-running</b> & <b>pay x3 lower fees</b>
             </Trans>
           </div>
-          <MouseoverTooltipRPC placement="top" text="link to learn more">
+          <MouseoverTooltip
+            size={TooltipSize.MaxSmall}
+            placement="top"
+            text={
+              <a
+                style={{ color: '#916EF7', textDecoration: 'none' }}
+                href="https://docs.bloxroute.com/introduction/protect-rpcs/eth-protect-rpc"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Click to learn more
+              </a>
+            }
+          >
             <Info color={RPC_ALERT_ICON_COLOR} size={20} />
-          </MouseoverTooltipRPC>
+          </MouseoverTooltip>
         </TitleText>
         <WarningText>
           <Trans>
