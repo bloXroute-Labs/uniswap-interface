@@ -150,6 +150,9 @@ export const routingApi = createApi({
           }
 
           const response = await fetch({
+            headers: {
+              'Content-Type': 'application/json',
+            },
             method: 'POST',
             url: '/quote',
             body: JSON.stringify(requestBody),
