@@ -1,17 +1,25 @@
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXroute.svg'
+import Row from 'components/Row'
 import { MouseoverTooltip, TooltipSize } from 'components/Tooltip'
-import { BLOXROUTE_CHAIN_IDS, BLOXROUTE_TESTNET_CHAIN_IDS } from 'constants/chains'
+import { BLOXROUTE_CHAIN_IDS } from 'constants/chains'
 import { useSwitchRPC } from 'hooks/useSwitchRPC'
 import { useCallback, useMemo } from 'react'
 import { Info } from 'react-feather'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
+import { isMobile } from 'utils/userAgent'
 
 import Column from '../Column'
-import { RPC_ALERT_BUTTON_TEXT, RPC_ALERT_ICON_COLOR } from './constants'
+import {
+  DEFAULT_RPC_URL,
+  RPC_ALERT_BUTTON_TEXT,
+  RPC_ALERT_ICON_COLOR,
+  RPC_ALERT_TRANSPARENT_BUTTON_TEXT,
+  RPC_URL_ALLOW,
+} from './constants'
 
 const Container = styled.div<{ isDarkMode: boolean }>`
   display: flex;
@@ -35,15 +43,16 @@ const Container = styled.div<{ isDarkMode: boolean }>`
     width: 100%;
   }
 `
-const StyledButton = styled.button<{ isDarkMode: boolean }>`
+const StyledButton = styled.button<{ isDarkMode: boolean; transparent?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  width: max-content;
+  width: 48%;
   min-width: 110px;
   height: 40px;
-  background: ${({ theme }) => theme.backgroundBloXroute};
-  color: ${({ theme }) => theme.white};
+  border: ${({ transparent }) => (transparent ? '1px solid #6A47F6 !important' : 'none')};
+  background: ${({ theme, transparent }) => (transparent ? 'transparent' : theme.backgroundBloXroute)};
+  color: ${({ theme, transparent }) => (transparent ? '#6A47F6' : theme.white)};
   cursor: pointer;
   border-radius: 12px;
   border: none;
@@ -83,17 +92,28 @@ const WarningText = styled.div`
   text-align: center;
   color: #7d7d7d;
 `
-const BLOXROUTE_NETWORK_SELECTOR_CHAINS = [...BLOXROUTE_CHAIN_IDS, ...BLOXROUTE_TESTNET_CHAIN_IDS]
 
-export function RPCAlert() {
+const BLOXROUTE_NETWORK_SELECTOR_CHAINS = [...BLOXROUTE_CHAIN_IDS]
+
+export function RPCAlert({
+  warningRPCHandler,
+  collapseVisible,
+}: {
+  warningRPCHandler: () => void
+  collapseVisible: boolean
+}) {
   const { chainId } = useWeb3React()
   const { pathname } = useLocation()
   const isDarkMode = useIsDarkMode()
   // const cookieDefaultRPC = JSON.parse(localStorage.getItem(DEFAULT_RPC_URL) || '{}')
 
   const SubMenuOpen = useMemo(
-    () => chainId && !(pathname === '/' || pathname === '/swap') && BLOXROUTE_NETWORK_SELECTOR_CHAINS.includes(chainId),
-    [chainId, pathname]
+    () =>
+      chainId &&
+      !(pathname === '/' || pathname === '/swap') &&
+      BLOXROUTE_NETWORK_SELECTOR_CHAINS.includes(chainId) &&
+      !collapseVisible,
+    [chainId, collapseVisible, pathname]
   )
 
   const selectChain = useSwitchRPC()
@@ -104,6 +124,11 @@ export function RPCAlert() {
     },
     [selectChain]
   )
+
+  const onDismissChain = useCallback(() => {
+    sessionStorage.setItem(DEFAULT_RPC_URL, JSON.stringify(RPC_URL_ALLOW))
+    warningRPCHandler()
+  }, [warningRPCHandler])
 
   return SubMenuOpen ? (
     <Container isDarkMode={isDarkMode}>
@@ -125,7 +150,7 @@ export function RPCAlert() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Click to learn more
+                <Trans>Click to learn more</Trans>
               </a>
             }
           >
@@ -138,9 +163,25 @@ export function RPCAlert() {
           </Trans>
         </WarningText>
       </Column>
-      <StyledButton onClick={() => onSelectChain(chainId)} isDarkMode={isDarkMode}>
-        <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
-      </StyledButton>
+      {isMobile ? (
+        <a
+          style={{ color: '#916EF7', textDecoration: 'none' }}
+          href="https://docs.bloxroute.com/introduction/protect-rpcs/eth-protect-rpc"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Trans>Click to learn more</Trans>
+        </a>
+      ) : (
+        <Row justify="space-between">
+          <StyledButton onClick={onDismissChain} isDarkMode={isDarkMode} transparent>
+            <Trans>{RPC_ALERT_TRANSPARENT_BUTTON_TEXT}</Trans>
+          </StyledButton>
+          <StyledButton onClick={() => onSelectChain(chainId)} isDarkMode={isDarkMode}>
+            <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
+          </StyledButton>
+        </Row>
+      )}
     </Container>
   ) : null
 }

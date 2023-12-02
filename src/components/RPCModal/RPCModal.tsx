@@ -97,6 +97,9 @@ const StyledTransparentButton = styled.button`
   svg {
     margin-right: 5px;
   }
+  :hover {
+    color: #2e1b7b;
+  }
 `
 
 export default function RPCModal({ isOpen, onCancel }: RPCModalProps) {
