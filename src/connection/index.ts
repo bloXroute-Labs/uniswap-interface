@@ -185,13 +185,14 @@ const coinbaseWalletConnection: Connection = {
 }
 
 export const connections = [
-  gnosisSafeConnection,
-  uniwalletWCV2ConnectConnection,
   injectedConnection,
-  walletConnectV2Connection,
-  coinbaseWalletConnection,
-  networkConnection,
-  deprecatedNetworkConnection,
+  // Hide wallets
+  // gnosisSafeConnection,
+  // uniwalletWCV2ConnectConnection,
+  // walletConnectV2Connection,
+  // coinbaseWalletConnection,
+  // networkConnection,
+  // deprecatedNetworkConnection,
 ]
 
 export function getConnection(c: Connector | ConnectionType) {

@@ -1,5 +1,6 @@
 import { CustomUserProperties, getBrowser, SharedEventName } from '@uniswap/analytics-events'
 import { sendAnalyticsEvent, sendInitializationEvent, Trace, user } from 'analytics'
+import { ReactComponent as Collaps } from 'assets/svg/collaps.svg'
 import ErrorBoundary from 'components/ErrorBoundary'
 import Loader from 'components/Icons/LoadingSpinner'
 import NavBar, { PageTabs } from 'components/NavBar'
@@ -88,7 +89,13 @@ const HeaderWrapper = styled.div<{ transparent?: boolean; bannerIsVisible?: bool
     top: ${({ bannerIsVisible }) => (bannerIsVisible ? Math.max(UK_BANNER_HEIGHT_SM - scrollY, 0) : 0)}px;
   }
 `
-
+const CollapseWrapper = styled.div<{ isCollapseVisible: boolean }>`
+  display: ${({ isCollapseVisible }) => (isCollapseVisible ? 'block' : 'none')};
+  position: fixed;
+  top: 60px;
+  right: 50px;
+  z-index: ${Z_INDEX.fixed};
+`
 export default function App() {
   const isLoaded = useFeatureFlagsIsLoaded()
   const [, setShouldDisableNFTRoutes] = useAtom(shouldDisableNFTRoutesAtom)
@@ -96,7 +103,7 @@ export default function App() {
   const location = useLocation()
   const { pathname } = location
   const currentPage = getCurrentPageFromLocation(pathname)
-
+  const [collapseVisible, setCollapseVisible] = useState<boolean>(false)
   const [scrollY, setScrollY] = useState(0)
   const scrolledState = scrollY > 0
 
@@ -155,7 +162,9 @@ export default function App() {
   if (shouldBlockPath && pathname !== '/swap') {
     return <Navigate to="/swap" replace />
   }
-
+  const warningRPCHandler = () => {
+    setCollapseVisible(() => !collapseVisible)
+  }
   return (
     <ErrorBoundary>
       <DarkModeQueryParamReader />
@@ -182,7 +191,12 @@ export default function App() {
           <Suspense fallback={<Loader />}>
             {isLoaded ? (
               <>
-                <RPCAlert />
+                <CollapseWrapper isCollapseVisible={collapseVisible} onClick={warningRPCHandler}>
+                  <Collaps />
+                </CollapseWrapper>
+
+                <RPCAlert warningRPCHandler={warningRPCHandler} collapseVisible={collapseVisible} />
+
                 <Routes>
                   {routes.map((route: RouteDefinition) =>
                     route.enabled(routerConfig) ? (
