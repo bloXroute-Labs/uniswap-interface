@@ -5,7 +5,8 @@ import ErrorBoundary from 'components/ErrorBoundary'
 import Loader from 'components/Icons/LoadingSpinner'
 import NavBar, { PageTabs } from 'components/NavBar'
 import { UK_BANNER_HEIGHT, UK_BANNER_HEIGHT_MD, UK_BANNER_HEIGHT_SM, UkBanner } from 'components/NavBar/UkBanner'
-import { RPCAlert } from 'components/RPCAlert/RPCAlert'
+import { DEFAULT_RPC_URL } from 'components/RPCWarning/constants'
+import { RPCWarning } from 'components/RPCWarning/RPCWarning'
 import { FeatureFlag, useFeatureFlagsIsLoaded } from 'featureFlags'
 import { useUniswapXDefaultEnabled } from 'featureFlags/flags/uniswapXDefault'
 import { useAtom } from 'jotai'
@@ -92,7 +93,7 @@ const HeaderWrapper = styled.div<{ transparent?: boolean; bannerIsVisible?: bool
 const CollapseWrapper = styled.div<{ isCollapseVisible: boolean }>`
   display: ${({ isCollapseVisible }) => (isCollapseVisible ? 'block' : 'none')};
   position: fixed;
-  top: 60px;
+  top: 55px;
   right: 50px;
   z-index: ${Z_INDEX.fixed};
 `
@@ -133,6 +134,14 @@ export default function App() {
     window.addEventListener('scroll', scrollListener)
     return () => window.removeEventListener('scroll', scrollListener)
   }, [])
+  const warningRPCHandler = () => {
+    setCollapseVisible(() => !collapseVisible)
+  }
+
+  useEffect(() => {
+    const isDefaultRPC = sessionStorage.getItem(DEFAULT_RPC_URL)
+    if (isDefaultRPC) setCollapseVisible(true)
+  }, [])
 
   const isBagExpanded = useBag((state) => state.bagExpanded)
   const isHeaderTransparent = !scrolledState && !isBagExpanded
@@ -161,9 +170,6 @@ export default function App() {
   const shouldBlockPath = isPathBlocked(pathname)
   if (shouldBlockPath && pathname !== '/swap') {
     return <Navigate to="/swap" replace />
-  }
-  const warningRPCHandler = () => {
-    setCollapseVisible(() => !collapseVisible)
   }
   return (
     <ErrorBoundary>
@@ -195,7 +201,7 @@ export default function App() {
                   <Collaps />
                 </CollapseWrapper>
 
-                <RPCAlert warningRPCHandler={warningRPCHandler} collapseVisible={collapseVisible} />
+                <RPCWarning warningRPCHandler={warningRPCHandler} collapseVisible={collapseVisible} />
 
                 <Routes>
                   {routes.map((route: RouteDefinition) =>

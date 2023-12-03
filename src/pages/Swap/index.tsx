@@ -20,8 +20,7 @@ import { AutoColumn } from 'components/Column'
 import SwapCurrencyInputPanel from 'components/CurrencyInputPanel/SwapCurrencyInputPanel'
 import { NetworkAlert } from 'components/NetworkAlert/NetworkAlert'
 import { AutoRow } from 'components/Row'
-import { ReactComponent as BloxrouteDarkBG } from 'components/RPCAlert/RPCBackground.svg'
-import RPCModal from 'components/RPCModal/RPCModal'
+import { ReactComponent as BloxrouteDarkBG } from 'components/RPCWarning/RPCBackground.svg'
 import confirmPriceImpactWithoutFee from 'components/swap/confirmPriceImpactWithoutFee'
 import ConfirmSwapModal from 'components/swap/ConfirmSwapModal'
 import PriceImpactModal from 'components/swap/PriceImpactModal'
@@ -220,7 +219,6 @@ export function Swap({
 
   const [dismissTokenWarning, setDismissTokenWarning] = useState<boolean>(false)
   const [showPriceImpactModal, setShowPriceImpactModal] = useState<boolean>(false)
-  const [switchRPC, setSwitchRPC] = useState<boolean>(true)
 
   const urlLoadedTokens: Token[] = useMemo(
     () => [loadedInputCurrency, loadedOutputCurrency]?.filter((c): c is Token => c?.isToken ?? false) ?? [],
@@ -230,9 +228,6 @@ export function Swap({
     setDismissTokenWarning(true)
   }, [])
 
-  const handleConfirmSwitchRPC = useCallback(() => {
-    setSwitchRPC(false)
-  }, [])
   // dismiss warning if all imported tokens are in active lists
   const defaultTokens = useDefaultActiveTokens(chainId)
   const importTokensNotInDefault = useMemo(
@@ -629,7 +624,6 @@ export function Swap({
   const swapElement = (
     <>
       <SwapWrapper isDark={isDark} className={className} id="swap-page">
-        <RPCModal isOpen={switchRPC} onCancel={handleConfirmSwitchRPC} />
         <TokenSafetyModal
           isOpen={importTokensNotInDefault.length > 0 && !dismissTokenWarning}
           tokenAddress={importTokensNotInDefault[0]?.address}

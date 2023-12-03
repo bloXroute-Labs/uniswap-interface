@@ -3,23 +3,13 @@ import { useWeb3React } from '@web3-react/core'
 import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXroute.svg'
 import Row from 'components/Row'
 import { MouseoverTooltip, TooltipSize } from 'components/Tooltip'
-import { BLOXROUTE_CHAIN_IDS } from 'constants/chains'
-import { useSwitchRPC } from 'hooks/useSwitchRPC'
-import { useCallback, useMemo } from 'react'
 import { Info } from 'react-feather'
-import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
 import { isMobile } from 'utils/userAgent'
 
 import Column from '../Column'
-import {
-  DEFAULT_RPC_URL,
-  RPC_ALERT_BUTTON_TEXT,
-  RPC_ALERT_ICON_COLOR,
-  RPC_ALERT_TRANSPARENT_BUTTON_TEXT,
-  RPC_URL_ALLOW,
-} from './constants'
+import { RPC_ALERT_BUTTON_TEXT, RPC_ALERT_ICON_COLOR, RPC_ALERT_TRANSPARENT_BUTTON_TEXT } from './constants'
 
 const Container = styled.div<{ isDarkMode: boolean }>`
   display: flex;
@@ -93,44 +83,18 @@ const WarningText = styled.div`
   color: #7d7d7d;
 `
 
-const BLOXROUTE_NETWORK_SELECTOR_CHAINS = [...BLOXROUTE_CHAIN_IDS]
-
-export function RPCAlert({
-  warningRPCHandler,
-  collapseVisible,
+export default function RPCAlert({
+  onSelectChain,
+  onDismissChain,
 }: {
-  warningRPCHandler: () => void
-  collapseVisible: boolean
+  onSelectChain: ({ chainId }: any) => void
+  onDismissChain: () => void
 }) {
   const { chainId } = useWeb3React()
-  const { pathname } = useLocation()
   const isDarkMode = useIsDarkMode()
   // const cookieDefaultRPC = JSON.parse(localStorage.getItem(DEFAULT_RPC_URL) || '{}')
 
-  const SubMenuOpen = useMemo(
-    () =>
-      chainId &&
-      !(pathname === '/' || pathname === '/swap') &&
-      BLOXROUTE_NETWORK_SELECTOR_CHAINS.includes(chainId) &&
-      !collapseVisible,
-    [chainId, collapseVisible, pathname]
-  )
-
-  const selectChain = useSwitchRPC()
-
-  const onSelectChain = useCallback(
-    (targetChainId: number | undefined) => {
-      selectChain(targetChainId)
-    },
-    [selectChain]
-  )
-
-  const onDismissChain = useCallback(() => {
-    sessionStorage.setItem(DEFAULT_RPC_URL, JSON.stringify(RPC_URL_ALLOW))
-    warningRPCHandler()
-  }, [warningRPCHandler])
-
-  return SubMenuOpen ? (
+  return (
     <Container isDarkMode={isDarkMode}>
       <BloxrouteLogo />
       <Column>
@@ -183,5 +147,5 @@ export function RPCAlert({
         </Row>
       )}
     </Container>
-  ) : null
+  )
 }

@@ -1,4 +1,4 @@
-import { DEFAULT_RPC_URL, RPC_URL_ALLOW } from 'components/RPCAlert/constants'
+import { DEFAULT_RPC_URL } from 'components/RPCWarning/constants'
 import { BLOXROUTE_CHAIN_IDS } from 'constants/chains'
 import { useCallback } from 'react'
 import { useAppDispatch } from 'state/hooks'
@@ -37,15 +37,11 @@ export function useSwitchRPC() {
       try {
         const currentChainId = chainId && BLOXROUTE_CHAIN_IDS.includes(chainId) ? chainId : 1
         //@ts-ignore
-        await window.ethereum.request({
+        const aaa = await window.ethereum.request({
           method: 'wallet_addEthereumChain',
           params: [chainRPCInfo[currentChainId]],
         })
-        const updatedRPC = Object.assign(RPC_URL_ALLOW)
-        if (chainId) {
-          updatedRPC[chainId] = true
-        }
-        localStorage.setItem(DEFAULT_RPC_URL, JSON.stringify(updatedRPC))
+        localStorage.setItem(DEFAULT_RPC_URL, 'true')
       } catch (error) {
         console.error('Failed to change RPC URL', error)
       } finally {
