@@ -2,20 +2,18 @@ import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXrouteTransparent.svg'
 import { MouseoverTooltip, TooltipSize } from 'components/Tooltip'
-import { useSwitchRPC } from 'hooks/useSwitchRPC'
-import { useCallback, useMemo } from 'react'
 import { Info } from 'react-feather'
-import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
 
 import Column from '../Column'
 import Modal from '../Modal'
-import { DEFAULT_RPC_URL, RPC_ALERT_BUTTON_TEXT, RPC_ALERT_TRANSPARENT_BUTTON_TEXT } from '../RPCAlert/constants'
+import { RPC_ALERT_BUTTON_TEXT, RPC_ALERT_TRANSPARENT_BUTTON_TEXT } from './constants'
 
 interface RPCModalProps {
   isOpen: boolean
   onCancel: () => void
+  onSelectChain: ({ chainId }: any) => void
 }
 
 const Container = styled.div<{ isDarkMode: boolean }>`
@@ -102,27 +100,13 @@ const StyledTransparentButton = styled.button`
   }
 `
 
-export default function RPCModal({ isOpen, onCancel }: RPCModalProps) {
+export default function RPCModal({ isOpen, onCancel, onSelectChain }: RPCModalProps) {
   const isDarkMode = useIsDarkMode()
   const { chainId } = useWeb3React()
 
-  const { pathname } = useLocation()
-  const selectChain = useSwitchRPC()
-  const cookieDefaultRPC = JSON.parse(localStorage.getItem(DEFAULT_RPC_URL) || '{}')
+  // const cookieDefaultRPC = JSON.parse(localStorage.getItem(DEFAULT_RPC_URL) || '{}')
 
-  const ModalOpen = useMemo(
-    () => pathname === '/swap' && chainId && !cookieDefaultRPC[chainId],
-    [chainId, cookieDefaultRPC, pathname]
-  )
-
-  const onSelectChain = useCallback(
-    (targetChainId: number | undefined) => {
-      selectChain(targetChainId)
-    },
-    [selectChain]
-  )
-
-  return ModalOpen ? (
+  return (
     <Modal isOpen={isOpen} onDismiss={onCancel} hideBorder>
       <Container isDarkMode={isDarkMode}>
         <BloxrouteLogo />
@@ -165,5 +149,5 @@ export default function RPCModal({ isOpen, onCancel }: RPCModalProps) {
         </WarningText>
       </Container>
     </Modal>
-  ) : null
+  )
 }

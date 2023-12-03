@@ -1,6 +1,6 @@
 import { ChainId } from '@uniswap/sdk-core'
 import { Connector } from '@web3-react/types'
-import { DEFAULT_RPC_URL } from 'components/RPCAlert/constants'
+import { DEFAULT_RPC_URL } from 'components/RPCWarning/constants'
 import {
   deprecatedNetworkConnection,
   networkConnection,
