@@ -197,11 +197,15 @@ export default function App() {
           <Suspense fallback={<Loader />}>
             {isLoaded ? (
               <>
-                <CollapseWrapper isCollapseVisible={collapseVisible} onClick={warningRPCHandler}>
-                  <Collaps />
-                </CollapseWrapper>
+                {pathname !== '/' && (
+                  <>
+                    <CollapseWrapper isCollapseVisible={collapseVisible} onClick={warningRPCHandler}>
+                      <Collaps />
+                    </CollapseWrapper>
 
-                <RPCWarning warningRPCHandler={warningRPCHandler} collapseVisible={collapseVisible} />
+                    <RPCWarning warningRPCHandler={warningRPCHandler} collapseVisible={collapseVisible} />
+                  </>
+                )}
 
                 <Routes>
                   {routes.map((route: RouteDefinition) =>
