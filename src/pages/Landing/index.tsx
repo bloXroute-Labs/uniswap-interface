@@ -384,10 +384,7 @@ export default function Landing() {
               </ButtonCTA>
             </TraceEvent>
           </ActionsContainer>
-          <LearnMoreContainer
-            href="https://docs.bloxroute.com/introduction/protect-rpcs/eth-protect-rpc"
-            target="_blank"
-          >
+          <LearnMoreContainer href="https://docs.bloxroute.com/introduction/uni.live" target="_blank">
             <Trans>Learn more</Trans>
           </LearnMoreContainer>
           {/* Hide android banner

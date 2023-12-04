@@ -1,7 +1,6 @@
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXroute.svg'
-import Row from 'components/Row'
 import { MouseoverTooltip, TooltipSize } from 'components/Tooltip'
 import { Info } from 'react-feather'
 import styled from 'styled-components'
@@ -9,7 +8,7 @@ import { useIsDarkMode } from 'theme/components/ThemeToggle'
 import { isMobile } from 'utils/userAgent'
 
 import Column from '../Column'
-import { RPC_ALERT_BUTTON_TEXT, RPC_ALERT_ICON_COLOR, RPC_ALERT_TRANSPARENT_BUTTON_TEXT } from './constants'
+import { RPC_ALERT_BUTTON_TEXT, RPC_ALERT_ICON_COLOR } from './constants'
 
 const Container = styled.div<{ isDarkMode: boolean }>`
   display: flex;
@@ -33,25 +32,41 @@ const Container = styled.div<{ isDarkMode: boolean }>`
     width: 100%;
   }
 `
-const StyledButton = styled.button<{ isDarkMode: boolean; transparent?: boolean }>`
+const StyledButton = styled.button<{ isDarkMode: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  width: 48%;
+  width: max-content;
   min-width: 110px;
   height: 40px;
-  border: ${({ transparent }) => (transparent ? '1px solid #6A47F6 !important' : 'none')};
-  background: ${({ theme, transparent }) => (transparent ? 'transparent' : theme.backgroundBloXroute)};
-  color: ${({ theme, transparent }) => (transparent ? '#6A47F6' : theme.white)};
+  background: ${({ theme }) => theme.backgroundBloXroute};
+  color: ${({ theme }) => theme.white};
   cursor: pointer;
   border-radius: 12px;
   border: none;
   font-size: 16px;
+  line-height: 16px;
   padding: 10px 16px;
   margin: 4px 0;
-  svg {
-    margin-right: 5px;
-  }
+`
+
+const StyledLink = styled.a<{ isDarkMode: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: max-content;
+  min-width: 110px;
+  height: 40px;
+  background: ${({ theme }) => theme.backgroundBloXroute};
+  color: ${({ theme }) => theme.white};
+  cursor: pointer;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  line-height: 16px;
+  padding: 10px 16px;
+  margin: 4px 0;
+  text-decoration: none;
 `
 
 const TitleText = styled.div<{ isDarkMode: boolean }>`
@@ -84,17 +99,17 @@ const WarningText = styled.div`
 `
 
 export default function RPCAlert({
+  collapseVisible,
   onSelectChain,
-  onDismissChain,
 }: {
+  collapseVisible: boolean
   onSelectChain: ({ chainId }: any) => void
-  onDismissChain: () => void
 }) {
   const { chainId } = useWeb3React()
   const isDarkMode = useIsDarkMode()
   // const cookieDefaultRPC = JSON.parse(localStorage.getItem(DEFAULT_RPC_URL) || '{}')
 
-  return (
+  return !collapseVisible ? (
     <Container isDarkMode={isDarkMode}>
       <BloxrouteLogo />
       <Column>
@@ -110,7 +125,7 @@ export default function RPCAlert({
             text={
               <a
                 style={{ color: '#916EF7', textDecoration: 'none' }}
-                href="https://docs.bloxroute.com/introduction/protect-rpcs/eth-protect-rpc"
+                href="https://docs.bloxroute.com/introduction/uni.live"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -128,24 +143,19 @@ export default function RPCAlert({
         </WarningText>
       </Column>
       {isMobile ? (
-        <a
-          style={{ color: '#916EF7', textDecoration: 'none' }}
+        <StyledLink
+          isDarkMode={isDarkMode}
           href="https://docs.bloxroute.com/introduction/protect-rpcs/eth-protect-rpc"
           target="_blank"
           rel="noreferrer"
         >
           <Trans>Click to learn more</Trans>
-        </a>
+        </StyledLink>
       ) : (
-        <Row justify="space-between">
-          <StyledButton onClick={onDismissChain} isDarkMode={isDarkMode} transparent>
-            <Trans>{RPC_ALERT_TRANSPARENT_BUTTON_TEXT}</Trans>
-          </StyledButton>
-          <StyledButton onClick={() => onSelectChain(chainId)} isDarkMode={isDarkMode}>
-            <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
-          </StyledButton>
-        </Row>
+        <StyledButton onClick={() => onSelectChain(chainId)} isDarkMode={isDarkMode}>
+          <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
+        </StyledButton>
       )}
     </Container>
-  )
+  ) : null
 }

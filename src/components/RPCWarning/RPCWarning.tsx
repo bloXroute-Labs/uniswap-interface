@@ -35,7 +35,7 @@ export function RPCWarning({
   )
 
   return warningOption ? (
-    <RPCAlert onSelectChain={onSelectChain} onDismissChain={onDismissChain} />
+    <RPCAlert onSelectChain={onSelectChain} collapseVisible={collapseVisible} />
   ) : (
     <RPCModal isOpen={!collapseVisible} onSelectChain={onSelectChain} onCancel={onDismissChain} />
   )
