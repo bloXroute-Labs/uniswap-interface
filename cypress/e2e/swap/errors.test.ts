@@ -87,6 +87,7 @@ describe('Swap errors', () => {
       cy.get(getTestSelector('open-settings-dialog-button')).click()
       cy.get(getTestSelector('max-slippage-settings')).click()
       cy.get(getTestSelector('slippage-input')).clear().type('0.01')
+      cy.get(getTestSelector('toggle-uniswap-x-button')).click() // turn off uniswapx
       cy.get('body').click('topRight') // close modal
       cy.get(getTestSelector('slippage-input')).should('not.exist')
 

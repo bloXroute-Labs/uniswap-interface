@@ -174,35 +174,23 @@ export const MenuDropdown = () => {
                   onClick={() =>
                     openDownloadApp({
                       element: InterfaceElementName.UNISWAP_WALLET_NAVBAR_MENU_DOWNLOAD_BUTTON,
-                      isAndroidGALaunched,
                     })
                   }
                 >
                   <PrimaryMenuRow close={toggleOpen}>
-                    {isAndroidGALaunched ? (
-                      <>
-                        <Icon>
-                          <UniswapAppLogo width="24px" height="24px" />
-                        </Icon>
-                        <div>
-                          <ThemedText.BodyPrimary>
-                            <Trans>Download Uniswap</Trans>
-                          </ThemedText.BodyPrimary>
-                          <ThemedText.LabelSmall>
-                            <Trans>Available on iOS and Android</Trans>
-                          </ThemedText.LabelSmall>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <Icon>
-                          <AppleLogo width="24px" height="24px" fill={theme.neutral1} />
-                        </Icon>
-                        <PrimaryMenuRow.Text>
-                          <Trans>Download Uniswap app</Trans>
-                        </PrimaryMenuRow.Text>
-                      </>
-                    )}
+                    <>
+                      <Icon>
+                        <UniswapAppLogo width="24px" height="24px" />
+                      </Icon>
+                      <div>
+                        <ThemedText.BodyPrimary>
+                          <Trans>Download Uniswap</Trans>
+                        </ThemedText.BodyPrimary>
+                        <ThemedText.LabelSmall>
+                          <Trans>Available on iOS and Android</Trans>
+                        </ThemedText.LabelSmall>
+                      </div>
+                    </>
                   </PrimaryMenuRow>
                 </Box> */}
               </Column>

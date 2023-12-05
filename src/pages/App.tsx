@@ -7,8 +7,7 @@ import NavBar, { PageTabs } from 'components/NavBar'
 import { UK_BANNER_HEIGHT, UK_BANNER_HEIGHT_MD, UK_BANNER_HEIGHT_SM, UkBanner } from 'components/NavBar/UkBanner'
 import { DEFAULT_RPC_URL } from 'components/RPCWarning/constants'
 import { RPCWarning } from 'components/RPCWarning/RPCWarning'
-import { FeatureFlag, useFeatureFlagsIsLoaded } from 'featureFlags'
-import { useUniswapXDefaultEnabled } from 'featureFlags/flags/uniswapXDefault'
+import { useFeatureFlagsIsLoaded } from 'featureFlags'
 import { useAtom } from 'jotai'
 import { useBag } from 'nft/hooks/useBag'
 import { lazy, Suspense, useEffect, useLayoutEffect, useState } from 'react'
@@ -16,9 +15,7 @@ import { Navigate, Route, Routes, useLocation, useSearchParams } from 'react-rou
 import { shouldDisableNFTRoutesAtom } from 'state/application/atoms'
 import { useAppSelector } from 'state/hooks'
 import { AppState } from 'state/reducer'
-import { RouterPreference } from 'state/routing/types'
-import { useRouterPreference, useUserOptedOutOfUniswapX } from 'state/user/hooks'
-import { useGate } from 'statsig-react'
+import { useRouterPreference } from 'state/user/hooks'
 import styled from 'styled-components'
 import DarkModeQueryParamReader from 'theme/components/DarkModeQueryParamReader'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
@@ -99,6 +96,7 @@ const CollapseWrapper = styled.div<{ isCollapseVisible: boolean; isMobile: boole
   bottom: ${({ isMobile }) => (isMobile ? '35px' : 'unset')};
   right: ${({ isMobile }) => (isMobile ? '-15px' : '1vw')};
   z-index: ${Z_INDEX.fixed};
+  cursor: pointer;
 `
 export default function App() {
   const isLoaded = useFeatureFlagsIsLoaded()
@@ -244,9 +242,6 @@ function UserPropertyUpdater() {
   const isDarkMode = useIsDarkMode()
 
   const [routerPreference] = useRouterPreference()
-  const userOptedOutOfUniswapX = useUserOptedOutOfUniswapX()
-  const isUniswapXDefaultEnabled = useUniswapXDefaultEnabled()
-  const { isLoading: isUniswapXDefaultLoading } = useGate(FeatureFlag.uniswapXDefaultEnabled)
   const rehydrated = useAppSelector((state) => state._persist.rehydrated)
 
   useEffect(() => {
@@ -280,22 +275,8 @@ function UserPropertyUpdater() {
   }, [isDarkMode])
 
   useEffect(() => {
-    if (isUniswapXDefaultLoading || !rehydrated) return
-
-    // If we're not in the transition period to UniswapX opt-out, set the router preference to whatever is specified.
-    if (!isUniswapXDefaultEnabled) {
-      user.set(CustomUserProperties.ROUTER_PREFERENCE, routerPreference)
-      return
-    }
-
-    // In the transition period, override the stored API preference to UniswapX if the user hasn't opted out.
-    if (routerPreference === RouterPreference.API && !userOptedOutOfUniswapX) {
-      user.set(CustomUserProperties.ROUTER_PREFERENCE, RouterPreference.X)
-      return
-    }
-
-    // Otherwise, the user has opted out or their preference is UniswapX/client, so set the preference to whatever is specified.
+    if (!rehydrated) return
     user.set(CustomUserProperties.ROUTER_PREFERENCE, routerPreference)
-  }, [routerPreference, isUniswapXDefaultEnabled, userOptedOutOfUniswapX, isUniswapXDefaultLoading, rehydrated])
+  }, [routerPreference, rehydrated])
   return null
 }

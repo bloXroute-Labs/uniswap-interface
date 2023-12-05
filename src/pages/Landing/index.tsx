@@ -309,10 +309,12 @@ export default function Landing() {
   const selectedWallet = useAppSelector((state) => state.user.selectedWallet)
 
   const shouldDisableNFTRoutes = useDisableNFTRoutes()
+
   // const cards = useMemo(
   //   () => MAIN_CARDS.filter((card) => !(shouldDisableNFTRoutes && card.to.startsWith('/nft'))),
   //   [shouldDisableNFTRoutes]
   // )
+
   const [accountDrawerOpen] = useAccountDrawer()
   const navigate = useNavigate()
   useEffect(() => {
@@ -392,7 +394,6 @@ export default function Landing() {
           <DownloadWalletLink
             {...getDownloadAppLinkProps({
               element: InterfaceElementName.UNISWAP_WALLET_LANDING_PAGE_DOWNLOAD_BUTTON,
-              isAndroidGALaunched,
             })}
           >
             {isAndroidGALaunched ? (
