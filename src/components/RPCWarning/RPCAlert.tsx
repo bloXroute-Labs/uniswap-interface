@@ -116,7 +116,7 @@ export default function RPCAlert({
         <TitleText isDarkMode={isDarkMode}>
           <div>
             <Trans>
-              Trade <b>safe from front-running</b> & <b>pay x3 lower fees</b>
+              Trade <b>safe from front-running</b> & <b>x3 lower fees</b>
             </Trans>
           </div>
           <MouseoverTooltip

@@ -37,7 +37,7 @@ export function useSwitchRPC() {
       try {
         const currentChainId = chainId && BLOXROUTE_CHAIN_IDS.includes(chainId) ? chainId : 1
         //@ts-ignore
-        const aaa = await window.ethereum.request({
+        await window.ethereum.request({
           method: 'wallet_addEthereumChain',
           params: [chainRPCInfo[currentChainId]],
         })

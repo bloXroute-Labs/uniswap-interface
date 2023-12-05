@@ -357,8 +357,9 @@ export default function Landing() {
                 Trade Uniswap <br />
                 <b>safe from Front-Running</b>
                 <br /> &amp;
-                <br /> <b>pay x3 lower fees</b>
-                <br /> using bloXroute’s RPC
+                <br /> <b>x3 lower fees</b>
+                <br />
+                with UNI.live RPC
               </Trans>
             )}
           </TitleText>
