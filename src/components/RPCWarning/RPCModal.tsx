@@ -115,7 +115,7 @@ export default function RPCModal({ isOpen, onCancel, onSelectChain }: RPCModalPr
             <div>
               <Trans>
                 Trade
-                <br /> <b>safe from front-running</b> <br /> & <b>pay x3 lower fees</b>
+                <br /> <b>safe from front-running</b> <br /> & <b>x3 lower fees</b>
               </Trans>
             </div>
             <MouseoverTooltip

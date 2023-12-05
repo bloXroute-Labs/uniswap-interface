@@ -49,7 +49,7 @@ fs.readFile('./public/tokens-sitemap.xml', 'utf8', async (err, data) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Origin: 'https://app.uniswap.org',
+          Origin: 'https://uni.live',
         },
         body: JSON.stringify({ query: getTopTokensQuery(chainName) }),
       })

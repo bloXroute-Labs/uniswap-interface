@@ -27,6 +27,7 @@ import { Z_INDEX } from 'theme/zIndex'
 import { isPathBlocked } from 'utils/blockedPaths'
 import { MICROSITE_LINK } from 'utils/openDownloadApp'
 import { getCurrentPageFromLocation } from 'utils/urlRoutes'
+import { isMobile } from 'utils/userAgent'
 import { getCLS, getFCP, getFID, getLCP, Metric } from 'web-vitals'
 
 import { RouteDefinition, routes, useRouterConfig } from './RouteDefinitions'
@@ -90,11 +91,13 @@ const HeaderWrapper = styled.div<{ transparent?: boolean; bannerIsVisible?: bool
     top: ${({ bannerIsVisible }) => (bannerIsVisible ? Math.max(UK_BANNER_HEIGHT_SM - scrollY, 0) : 0)}px;
   }
 `
-const CollapseWrapper = styled.div<{ isCollapseVisible: boolean }>`
+
+const CollapseWrapper = styled.div<{ isCollapseVisible: boolean; isMobile: boolean }>`
   display: ${({ isCollapseVisible }) => (isCollapseVisible ? 'block' : 'none')};
   position: fixed;
-  top: 55px;
-  right: 50px;
+  top: ${({ isMobile }) => (isMobile ? 'unset' : '55px')};
+  bottom: ${({ isMobile }) => (isMobile ? '35px' : 'unset')};
+  right: ${({ isMobile }) => (isMobile ? '-15px' : '1vw')};
   z-index: ${Z_INDEX.fixed};
 `
 export default function App() {
@@ -197,11 +200,19 @@ export default function App() {
           <Suspense fallback={<Loader />}>
             {isLoaded ? (
               <>
-                <CollapseWrapper isCollapseVisible={collapseVisible} onClick={warningRPCHandler}>
-                  <Collaps />
-                </CollapseWrapper>
+                {pathname !== '/' && (
+                  <>
+                    <CollapseWrapper
+                      isCollapseVisible={collapseVisible}
+                      isMobile={isMobile}
+                      onClick={warningRPCHandler}
+                    >
+                      <Collaps />
+                    </CollapseWrapper>
 
-                <RPCWarning warningRPCHandler={warningRPCHandler} collapseVisible={collapseVisible} />
+                    <RPCWarning warningRPCHandler={warningRPCHandler} collapseVisible={collapseVisible} />
+                  </>
+                )}
 
                 <Routes>
                   {routes.map((route: RouteDefinition) =>

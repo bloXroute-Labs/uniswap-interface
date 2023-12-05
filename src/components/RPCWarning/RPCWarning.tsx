@@ -18,10 +18,8 @@ export function RPCWarning({
 
   // const cookieDefaultRPC = JSON.parse(localStorage.getItem(DEFAULT_RPC_URL) || '{}')
 
-  const warningOption = useMemo(
-    () => !(pathname === '/' || pathname === '/swap') && !collapseVisible,
-    [collapseVisible, pathname]
-  )
+  const warningOption = useMemo(() => !(pathname === '/swap'), [pathname])
+
   const selectChain = useSwitchRPC()
 
   const onDismissChain = useCallback(() => {
@@ -38,7 +36,7 @@ export function RPCWarning({
   )
 
   return warningOption ? (
-    <RPCAlert onSelectChain={onSelectChain} onDismissChain={onDismissChain} />
+    <RPCAlert onSelectChain={onSelectChain} collapseVisible={collapseVisible} />
   ) : (
     <RPCModal isOpen={!collapseVisible} onSelectChain={onSelectChain} onCancel={onDismissChain} />
   )

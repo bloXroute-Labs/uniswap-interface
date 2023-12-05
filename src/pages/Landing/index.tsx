@@ -357,8 +357,9 @@ export default function Landing() {
                 Trade Uniswap <br />
                 <b>safe from Front-Running</b>
                 <br /> &amp;
-                <br /> <b>pay x3 lower fees</b>
-                <br /> using bloXroute’s RPC
+                <br /> <b>x3 lower fees</b>
+                <br />
+                with UNI.live RPC
               </Trans>
             )}
           </TitleText>
@@ -384,10 +385,7 @@ export default function Landing() {
               </ButtonCTA>
             </TraceEvent>
           </ActionsContainer>
-          <LearnMoreContainer
-            href="https://docs.bloxroute.com/introduction/protect-rpcs/eth-protect-rpc"
-            target="_blank"
-          >
+          <LearnMoreContainer href="https://docs.bloxroute.com/introduction/uni.live" target="_blank">
             <Trans>Learn more</Trans>
           </LearnMoreContainer>
           {/* Hide android banner
