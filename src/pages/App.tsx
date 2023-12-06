@@ -6,7 +6,6 @@ import ErrorBoundary from 'components/ErrorBoundary'
 import Loader from 'components/Icons/LoadingSpinner'
 import NavBar, { PageTabs } from 'components/NavBar'
 import { UK_BANNER_HEIGHT, UK_BANNER_HEIGHT_MD, UK_BANNER_HEIGHT_SM, UkBanner } from 'components/NavBar/UkBanner'
-import { DEFAULT_RPC_URL } from 'components/RPCWarning/constants'
 import { RPCWarning } from 'components/RPCWarning/RPCWarning'
 import { useFeatureFlagsIsLoaded } from 'featureFlags'
 import { useAtom } from 'jotai'
@@ -90,8 +89,8 @@ const HeaderWrapper = styled.div<{ transparent?: boolean; bannerIsVisible?: bool
   }
 `
 
-const CollapseWrapper = styled.div<{ isCollapseVisible: boolean; isMobile: boolean }>`
-  display: ${({ isCollapseVisible }) => (isCollapseVisible ? 'block' : 'none')};
+const CollapseWrapper = styled.div<{ isCollapseVisible: boolean; isMobile: boolean; defaultRPC: boolean }>`
+  display: ${({ isCollapseVisible, defaultRPC }) => (isCollapseVisible && defaultRPC ? 'block' : 'none')};
   position: fixed;
   top: ${({ isMobile }) => (isMobile ? 'unset' : '55px')};
   bottom: ${({ isMobile }) => (isMobile ? '35px' : 'unset')};
@@ -138,14 +137,13 @@ export default function App() {
     window.addEventListener('scroll', scrollListener)
     return () => window.removeEventListener('scroll', scrollListener)
   }, [])
-  const warningRPCHandler = () => {
-    setCollapseVisible(() => !collapseVisible)
+  const warningRPCHandler = (option: boolean) => {
+    setCollapseVisible(() => option)
   }
 
   useEffect(() => {
-    const isDefaultRPC = sessionStorage.getItem(DEFAULT_RPC_URL)
-    if (isDefaultRPC) setCollapseVisible(true)
-  }, [])
+    if (!defaultRPC) setCollapseVisible(false)
+  }, [defaultRPC])
 
   useEffect(() => {
     const address = '0x9B7a71b41544eefd7Cad9716Bf5B0fD7023d0755' as string
@@ -224,8 +222,9 @@ export default function App() {
                   <>
                     <CollapseWrapper
                       isCollapseVisible={collapseVisible}
+                      defaultRPC={defaultRPC}
                       isMobile={isMobile}
-                      onClick={warningRPCHandler}
+                      onClick={() => warningRPCHandler(!collapseVisible)}
                     >
                       <Collaps />
                     </CollapseWrapper>

@@ -175,7 +175,7 @@ export default function RPCModal({ isOpen, defaultRPC, onCancel, onSelectChain }
             <StyledButton onClick={() => onSelectChain(chainId)}>
               <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
             </StyledButton>
-            <StyledTransparentButton onClick={() => onCancel()}>
+            <StyledTransparentButton onClick={onCancel}>
               <Trans>{RPC_ALERT_TRANSPARENT_BUTTON_TEXT}</Trans>
             </StyledTransparentButton>
           </>

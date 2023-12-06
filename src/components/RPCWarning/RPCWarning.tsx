@@ -1,9 +1,8 @@
 /* eslint-disable import/no-unused-modules */
 import { useSwitchRPC } from 'hooks/useSwitchRPC'
-import { useCallback, useMemo } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useCallback, useEffect, useState } from 'react'
+import { useAppSelector } from 'state/hooks'
 
-import { DEFAULT_RPC_URL } from './constants'
 import RPCAlert from './RPCAlert'
 import RPCModal from './RPCModal'
 
@@ -12,42 +11,44 @@ export function RPCWarning({
   collapseVisible,
   defaultRPC,
 }: {
-  warningRPCHandler: () => void
+  warningRPCHandler: (option: boolean) => void
   collapseVisible: boolean
   defaultRPC: boolean
 }) {
-  const { pathname } = useLocation()
-
-  const warningOption = useMemo(() => !(pathname === '/swap'), [pathname])
+  const [open, setOpen] = useState<boolean>(true)
+  const selectedWallet = useAppSelector((state) => state.user.selectedWallet)
 
   const selectChain = useSwitchRPC()
 
+  useEffect(() => {
+    if (selectedWallet) setOpen(false)
+  }, [])
+
   const onDismissChain = useCallback(() => {
-    sessionStorage.setItem(DEFAULT_RPC_URL, 'true')
-    warningRPCHandler()
+    warningRPCHandler(true)
+  }, [warningRPCHandler])
+
+  const onCancelModal = useCallback(() => {
+    setOpen(false)
+    if (defaultRPC) warningRPCHandler(true)
   }, [warningRPCHandler])
 
   const onSelectChain = useCallback(
     (targetChainId: number | undefined) => {
       selectChain(targetChainId)
-      onDismissChain()
+      if (defaultRPC) onDismissChain()
     },
-    [onDismissChain, selectChain]
+    [defaultRPC, onDismissChain, selectChain]
   )
 
-  return warningOption ? (
+  return !open ? (
     <RPCAlert
       defaultRPC={defaultRPC}
       onSelectChain={onSelectChain}
       collapseVisible={collapseVisible}
-      onCancel={onDismissChain}
+      onCancel={warningRPCHandler}
     />
   ) : (
-    <RPCModal
-      defaultRPC={defaultRPC}
-      isOpen={!collapseVisible}
-      onSelectChain={onSelectChain}
-      onCancel={onDismissChain}
-    />
+    <RPCModal defaultRPC={defaultRPC} isOpen={open} onSelectChain={onSelectChain} onCancel={onCancelModal} />
   )
 }

@@ -1,4 +1,3 @@
-import { DEFAULT_RPC_URL } from 'components/RPCWarning/constants'
 import { BLOXROUTE_CHAIN_IDS } from 'constants/chains'
 import { useCallback } from 'react'
 import { useAppDispatch } from 'state/hooks'

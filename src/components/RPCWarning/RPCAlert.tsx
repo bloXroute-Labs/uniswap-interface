@@ -129,7 +129,7 @@ export default function RPCAlert({
   collapseVisible: boolean
   onSelectChain: ({ chainId }: any) => void
   defaultRPC: boolean
-  onCancel: () => void
+  onCancel: (option: boolean) => void
 }) {
   const { chainId } = useWeb3React()
   const isDarkMode = useIsDarkMode()
@@ -138,7 +138,7 @@ export default function RPCAlert({
     <Container isDarkMode={isDarkMode}>
       <BloxrouteLogo />
       {defaultRPC && (
-        <SuccessIcon onClick={onCancel}>
+        <SuccessIcon onClick={() => onCancel(true)}>
           <X width={24} height={24} color={RPC_ALERT_ICON_COLOR} />
         </SuccessIcon>
       )}
