@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXroute.svg'
 import { MouseoverTooltip, TooltipSize } from 'components/Tooltip'
-import { Info } from 'react-feather'
+import { CheckCircle, Info, X } from 'react-feather'
 import styled from 'styled-components'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
 import { isMobile } from 'utils/userAgent'
@@ -28,6 +28,7 @@ const Container = styled.div<{ isDarkMode: boolean }>`
   gap: 12px;
   overflow: hidden;
   margin: 16px 0 0 0;
+  position: relative;
   div {
     width: 100%;
   }
@@ -98,20 +99,50 @@ const WarningText = styled.div`
   color: #7d7d7d;
 `
 
+const SuccessText = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+
+  word-wrap: break-word;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  color: #06e92b;
+`
+
+const SuccessIcon = styled.span`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
+`
+
 export default function RPCAlert({
   collapseVisible,
   onSelectChain,
+  defaultRPC,
+  onCancel,
 }: {
   collapseVisible: boolean
   onSelectChain: ({ chainId }: any) => void
+  defaultRPC: boolean
+  onCancel: () => void
 }) {
   const { chainId } = useWeb3React()
   const isDarkMode = useIsDarkMode()
-  // const cookieDefaultRPC = JSON.parse(localStorage.getItem(DEFAULT_RPC_URL) || '{}')
 
   return !collapseVisible ? (
     <Container isDarkMode={isDarkMode}>
       <BloxrouteLogo />
+      {defaultRPC && (
+        <SuccessIcon onClick={onCancel}>
+          <X width={24} height={24} color={RPC_ALERT_ICON_COLOR} />
+        </SuccessIcon>
+      )}
+
       <Column>
         <TitleText isDarkMode={isDarkMode}>
           <div>
@@ -151,6 +182,11 @@ export default function RPCAlert({
         >
           <Trans>Click to learn more</Trans>
         </StyledLink>
+      ) : defaultRPC ? (
+        <SuccessText>
+          <CheckCircle width={20} height={20} color="#06e92b" />
+          <Trans>You successfully switched to Uni.live RPC</Trans>
+        </SuccessText>
       ) : (
         <StyledButton onClick={() => onSelectChain(chainId)} isDarkMode={isDarkMode}>
           <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>

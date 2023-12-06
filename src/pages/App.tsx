@@ -1,4 +1,5 @@
 import { CustomUserProperties, getBrowser, SharedEventName } from '@uniswap/analytics-events'
+import { useWeb3React } from '@web3-react/core'
 import { sendAnalyticsEvent, sendInitializationEvent, Trace, user } from 'analytics'
 import { ReactComponent as Collaps } from 'assets/svg/collaps.svg'
 import ErrorBoundary from 'components/ErrorBoundary'
@@ -106,10 +107,12 @@ export default function App() {
   const { pathname } = location
   const currentPage = getCurrentPageFromLocation(pathname)
   const [collapseVisible, setCollapseVisible] = useState<boolean>(false)
+  const [defaultRPC, setDefaultRPC] = useState<boolean>(false)
   const [scrollY, setScrollY] = useState(0)
   const scrolledState = scrollY > 0
 
   const routerConfig = useRouterConfig()
+  const { chainId } = useWeb3React()
 
   const originCountry = useAppSelector((state: AppState) => state.user.originCountry)
   const renderUkBannner = Boolean(originCountry) && originCountry === 'GB'
@@ -143,6 +146,25 @@ export default function App() {
     const isDefaultRPC = sessionStorage.getItem(DEFAULT_RPC_URL)
     if (isDefaultRPC) setCollapseVisible(true)
   }, [])
+
+  useEffect(() => {
+    const address = '0x9B7a71b41544eefd7Cad9716Bf5B0fD7023d0755' as string
+    const blockParameter = 'latest' as string
+    const bloxrouteTransactionCount = '0xb10c707e' as string
+
+    const fetchData = async () => {
+      //@ts-ignore
+      const response = (await window.ethereum.request({
+        method: 'eth_getTransactionCount',
+        params: [address, blockParameter],
+      })) as string
+      setDefaultRPC(response === bloxrouteTransactionCount)
+    }
+
+    setInterval(() => {
+      fetchData().catch(console.error)
+    }, 1000)
+  }, [chainId, defaultRPC])
 
   const isBagExpanded = useBag((state) => state.bagExpanded)
   const isHeaderTransparent = !scrolledState && !isBagExpanded
@@ -208,7 +230,11 @@ export default function App() {
                       <Collaps />
                     </CollapseWrapper>
 
-                    <RPCWarning warningRPCHandler={warningRPCHandler} collapseVisible={collapseVisible} />
+                    <RPCWarning
+                      warningRPCHandler={warningRPCHandler}
+                      collapseVisible={collapseVisible}
+                      defaultRPC={defaultRPC}
+                    />
                   </>
                 )}
 
