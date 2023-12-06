@@ -173,20 +173,20 @@ export default function RPCAlert({
           </Trans>
         </WarningText>
       </Column>
-      {isMobile ? (
+      {defaultRPC ? (
+        <SuccessText>
+          <CheckCircle width={20} height={20} color="#06e92b" />
+          <Trans>You successfully switched to Uni.live RPC</Trans>
+        </SuccessText>
+      ) : isMobile ? (
         <StyledLink
           isDarkMode={isDarkMode}
           href="https://docs.bloxroute.com/introduction/protect-rpcs/eth-protect-rpc"
           target="_blank"
           rel="noreferrer"
         >
-          <Trans>Click to learn more</Trans>
+          <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
         </StyledLink>
-      ) : defaultRPC ? (
-        <SuccessText>
-          <CheckCircle width={20} height={20} color="#06e92b" />
-          <Trans>You successfully switched to Uni.live RPC</Trans>
-        </SuccessText>
       ) : (
         <StyledButton onClick={() => onSelectChain(chainId)} isDarkMode={isDarkMode}>
           <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
