@@ -1,14 +1,13 @@
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXrouteTransparent.svg'
-import { MouseoverTooltip, TooltipSize } from 'components/Tooltip'
 import { CheckCircle, Info, X } from 'react-feather'
 import styled from 'styled-components'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
 
 import Column from '../Column'
 import Modal from '../Modal'
-import { RPC_ALERT_BUTTON_TEXT, RPC_ALERT_TRANSPARENT_BUTTON_TEXT } from './constants'
+import { RPC_ALERT_BUTTON_TEXT, RPC_ALERT_TRANSPARENT_BUTTON_TEXT, UNI_LIVE_DOC_LINK } from './constants'
 
 interface RPCModalProps {
   isOpen: boolean
@@ -140,22 +139,11 @@ export default function RPCModal({ isOpen, defaultRPC, onCancel, onSelectChain }
                 <br /> <b>safe from front-running</b> <br /> & <b>x3 lower fees</b>
               </Trans>
             </div>
-            <MouseoverTooltip
-              size={TooltipSize.MaxSmall}
-              placement="top"
-              text={
-                <a
-                  style={{ color: '#916EF7', textDecoration: 'none' }}
-                  href="https://docs.bloxroute.com/introduction/protect-rpcs/eth-protect-rpc"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Click to learn more
-                </a>
-              }
-            >
-              <Info color="#fff" size={20} />
-            </MouseoverTooltip>
+            <div>
+              <a style={{ outline: 'none' }} href={UNI_LIVE_DOC_LINK} target="_blank" rel="noreferrer">
+                <Info color="#fff" size={20} />
+              </a>
+            </div>
           </TitleText>
         </Column>
         {defaultRPC ? (

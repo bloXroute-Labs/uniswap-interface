@@ -1,14 +1,13 @@
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXroute.svg'
-import { MouseoverTooltip, TooltipSize } from 'components/Tooltip'
 import { CheckCircle, Info, X } from 'react-feather'
 import styled from 'styled-components'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
 import { isMobile } from 'utils/userAgent'
 
 import Column from '../Column'
-import { RPC_ALERT_BUTTON_TEXT, RPC_ALERT_ICON_COLOR } from './constants'
+import { RPC_ALERT_BUTTON_TEXT, RPC_ALERT_ICON_COLOR, UNI_LIVE_DOC_LINK } from './constants'
 
 const Container = styled.div<{ isDarkMode: boolean }>`
   display: flex;
@@ -150,22 +149,11 @@ export default function RPCAlert({
               Trade <b>safe from front-running</b> & <b>x3 lower fees</b>
             </Trans>
           </div>
-          <MouseoverTooltip
-            size={TooltipSize.MaxSmall}
-            placement="top"
-            text={
-              <a
-                style={{ color: '#916EF7', textDecoration: 'none' }}
-                href="https://docs.bloxroute.com/introduction/uni.live"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Trans>Click to learn more</Trans>
-              </a>
-            }
-          >
-            <Info color={RPC_ALERT_ICON_COLOR} size={20} />
-          </MouseoverTooltip>
+          <div>
+            <a style={{ outline: 'none' }} href={UNI_LIVE_DOC_LINK} target="_blank" rel="noreferrer">
+              <Info color={RPC_ALERT_ICON_COLOR} size={20} />
+            </a>
+          </div>
         </TitleText>
         <WarningText>
           <Trans>
