@@ -18,7 +18,6 @@ import { useMaxAmountIn } from 'hooks/useMaxAmountIn'
 import { Allowance, AllowanceState } from 'hooks/usePermit2Allowance'
 import usePrevious from 'hooks/usePrevious'
 import { SwapResult } from 'hooks/useSwapCallback'
-import { useSwitchRPC } from 'hooks/useSwitchRPC'
 import useWrapCallback from 'hooks/useWrapCallback'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
 import { getPriceUpdateBasisPoints } from 'lib/utils/analytics'
@@ -183,14 +182,12 @@ function useConfirmModalState({
       trade,
     ]
   )
-  const selectChain = useSwitchRPC()
 
   const startSwapFlow = useCallback(async () => {
-    await selectChain(chainId)
     const steps = generateRequiredSteps()
     setPendingModalSteps(steps)
     performStep(steps[0])
-  }, [chainId, generateRequiredSteps, performStep, selectChain])
+  }, [chainId, generateRequiredSteps, performStep])
 
   const previousSetupApprovalNeeded = usePrevious(
     allowance.state === AllowanceState.REQUIRED ? allowance.needsSetupApproval : undefined
