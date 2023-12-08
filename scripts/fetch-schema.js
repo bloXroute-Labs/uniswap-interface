@@ -9,6 +9,8 @@ const thegraphConfig = require('../graphql.thegraph.config')
 
 const exec = promisify(child_process.exec)
 
+const BX_FETCH_SCHEMA_URL = 'https://api.uni.live/v1/graphql'
+
 function fetchSchema(url, outputFile) {
   exec(`yarn --silent get-graphql-schema --h Origin=https://uni.live ${url}`)
     .then(({ stderr, stdout }) => {
@@ -25,4 +27,4 @@ function fetchSchema(url, outputFile) {
 }
 
 fetchSchema(process.env.THE_GRAPH_SCHEMA_ENDPOINT, thegraphConfig.schema)
-fetchSchema(process.env.REACT_APP_AWS_API_ENDPOINT, dataConfig.schema)
+fetchSchema(BX_FETCH_SCHEMA_URL, dataConfig.schema)
