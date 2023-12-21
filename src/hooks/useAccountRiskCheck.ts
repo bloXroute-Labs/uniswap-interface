@@ -4,7 +4,7 @@ import { useAppDispatch } from 'state/hooks'
 import { isProductionEnv } from 'utils/env'
 
 const API_ENDPOINT = isProductionEnv()
-  ? 'https://api.uni.live/v1/screen'
+  ? 'https://api.swap.live/v1/screen'
   : 'https://0pzye3tb97.execute-api.us-east-1.amazonaws.com/dev/v1/screen'
 
 export default function useAccountRiskCheck(account: string | null | undefined) {

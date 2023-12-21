@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXroute.svg'
-import { CheckCircle, Info, X } from 'react-feather'
+import { AlertTriangle, CheckCircle, Info, X } from 'react-feather'
 import styled from 'styled-components'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
 import { isMobile } from 'utils/userAgent'
@@ -112,6 +112,20 @@ const SuccessText = styled.div`
   color: #06e92b;
 `
 
+const ErrorText = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+
+  word-wrap: break-word;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  color: #ff3d3d;
+`
+
 const SuccessIcon = styled.span`
   position: absolute;
   top: 16px;
@@ -157,28 +171,40 @@ export default function RPCAlert({
         </TitleText>
         <WarningText>
           <Trans>
-            * Uni.live RPC is needed for advanced features and <u>to avoid front-running</u>.
+            * Swap.live RPC is needed for advanced features and <u>to avoid front-running</u>.
           </Trans>
         </WarningText>
       </Column>
       {defaultRPC ? (
         <SuccessText>
           <CheckCircle width={20} height={20} color="#06e92b" />
-          <Trans>You successfully switched to Uni.live RPC</Trans>
+          <Trans>You successfully switched to Swap.live RPC</Trans>
         </SuccessText>
       ) : isMobile ? (
-        <StyledLink
-          isDarkMode={isDarkMode}
-          href="https://docs.bloxroute.com/introduction/protect-rpcs/eth-protect-rpc"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
-        </StyledLink>
+        <>
+          <ErrorText>
+            <AlertTriangle width={20} height={20} color="#ff3d3d" />
+            <Trans>You did not switched to Swap.live RPC</Trans>
+          </ErrorText>
+          <StyledLink
+            isDarkMode={isDarkMode}
+            href="https://docs.bloxroute.com/introduction/protect-rpcs/eth-protect-rpc"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
+          </StyledLink>
+        </>
       ) : (
-        <StyledButton onClick={() => onSelectChain(chainId)} isDarkMode={isDarkMode}>
-          <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
-        </StyledButton>
+        <>
+          <ErrorText>
+            <AlertTriangle width={20} height={20} color="#ff3d3d" />
+            <Trans>You did not switched to Swap.live RPC</Trans>
+          </ErrorText>
+          <StyledButton onClick={() => onSelectChain(chainId)} isDarkMode={isDarkMode}>
+            <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
+          </StyledButton>
+        </>
       )}
     </Container>
   ) : null

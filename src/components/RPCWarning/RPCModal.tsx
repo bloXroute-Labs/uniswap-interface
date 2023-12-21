@@ -154,7 +154,7 @@ export default function RPCModal({ isOpen, defaultRPC, onCancel, onSelectChain }
             <div>
               <Trans>
                 You successfully switched to
-                <br /> Uni.live RPC
+                <br /> Swap.live RPC
               </Trans>
             </div>
           </StyledColumn>
@@ -171,7 +171,7 @@ export default function RPCModal({ isOpen, defaultRPC, onCancel, onSelectChain }
 
         <WarningText>
           <Trans>
-            * Uni.live RPC is needed for advanced features and <u>to avoid front-running</u>.
+            * Swap.live RPC is needed for advanced features and <u>to avoid front-running</u>.
           </Trans>
         </WarningText>
       </Container>
