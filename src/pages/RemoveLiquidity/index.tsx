@@ -473,8 +473,9 @@ function RemoveLiquidity() {
               <AutoColumn gap="10px">
                 <ThemedText.DeprecatedLink fontWeight={485} color="accent1">
                   <Trans>
-                    <b>Tip:</b> Removing pool tokens converts your position back into underlying tokens at the current
-                    rate, proportional to your share of the pool. Accrued fees are included in the amounts you receive.
+                    <strong>Tip:</strong> Removing pool tokens converts your position back into underlying tokens at the
+                    current rate, proportional to your share of the pool. Accrued fees are included in the amounts you
+                    receive.
                   </Trans>
                 </ThemedText.DeprecatedLink>
               </AutoColumn>

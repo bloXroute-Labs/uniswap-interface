@@ -376,9 +376,9 @@ export default function AddLiquidity() {
                   <BlueCard>
                     <AutoColumn gap="10px">
                       <ThemedText.DeprecatedLink fontWeight={485} color="accent1">
-                        <b>
+                        <strong>
                           <Trans>Tip:</Trans>
-                        </b>{' '}
+                        </strong>{' '}
                         <Trans>
                           When you add liquidity, you will receive pool tokens representing your position. These tokens
                           automatically earn fees proportional to your share of the pool, and can be redeemed at any

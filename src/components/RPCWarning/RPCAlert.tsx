@@ -160,7 +160,7 @@ export default function RPCAlert({
         <TitleText isDarkMode={isDarkMode}>
           <div>
             <Trans>
-              Trade <b>safe from front-running</b> & <b>x3 lower fees</b>
+              Trade <strong>safe from front-running</strong> & <strong>x3 lower fees</strong>
             </Trans>
           </div>
           <div>
@@ -171,7 +171,7 @@ export default function RPCAlert({
         </TitleText>
         <WarningText>
           <Trans>
-            * Swap.live RPC is needed for advanced features and <u>to avoid front-running</u>.
+            * Swap.live RPC is needed for advanced features and <strong>to avoid front-running</strong>.
           </Trans>
         </WarningText>
       </Column>

@@ -123,7 +123,7 @@ export default function RPCModal({ isOpen, defaultRPC, onCancel, onSelectChain }
   const { chainId } = useWeb3React()
 
   return (
-    <Modal isOpen={isOpen} onDismiss={onCancel} hideBorder>
+    <Modal isOpen={isOpen} onDismiss={onCancel} hideBorder maxWidth={430}>
       <Container isDarkMode={isDarkMode}>
         <BloxrouteLogo />
         {defaultRPC && (
@@ -136,7 +136,7 @@ export default function RPCModal({ isOpen, defaultRPC, onCancel, onSelectChain }
             <div>
               <Trans>
                 Trade
-                <br /> <b>safe from front-running</b> <br /> & <b>x3 lower fees</b>
+                <br /> <strong>safe from front-running</strong> <br /> & <strong>x3 lower fees</strong>
               </Trans>
             </div>
             <div>
@@ -171,7 +171,7 @@ export default function RPCModal({ isOpen, defaultRPC, onCancel, onSelectChain }
 
         <WarningText>
           <Trans>
-            * Swap.live RPC is needed for advanced features and <u>to avoid front-running</u>.
+            * Swap.live RPC is needed for advanced features and <strong>to avoid front-running</strong>.
           </Trans>
         </WarningText>
       </Container>

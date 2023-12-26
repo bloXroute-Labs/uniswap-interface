@@ -49,9 +49,9 @@ export default function SwapModalHeader({
               <ThemedText.Caption>
                 <Trans>
                   Output is estimated. You will receive at least{' '}
-                  <b>
+                  <strong>
                     {trade.minimumAmountOut(allowedSlippage).toSignificant(6)} {trade.outputAmount.currency.symbol}
-                  </b>{' '}
+                  </strong>{' '}
                   or the transaction will revert.
                 </Trans>
               </ThemedText.Caption>
@@ -59,9 +59,9 @@ export default function SwapModalHeader({
               <ThemedText.Caption>
                 <Trans>
                   Input is estimated. You will sell at most{' '}
-                  <b>
+                  <strong>
                     {trade.maximumAmountIn(allowedSlippage).toSignificant(6)} {trade.inputAmount.currency.symbol}
-                  </b>{' '}
+                  </strong>{' '}
                   or the transaction will revert.
                 </Trans>
               </ThemedText.Caption>

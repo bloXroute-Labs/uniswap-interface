@@ -357,11 +357,11 @@ export default function Landing() {
             ) : (
               <Trans>
                 Trade Uniswap <br />
-                <b>safe from Front-Running</b>
+                <strong>safe from Front-Running</strong>
                 <br /> &amp;
-                <br /> <b>x3 lower fees</b>
+                <br /> <strong>x3 lower fees</strong>
                 <br />
-                with SWAP.live RPC
+                with swap.live RPC
               </Trans>
             )}
           </TitleText>
