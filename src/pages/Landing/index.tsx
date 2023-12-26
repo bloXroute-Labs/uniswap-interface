@@ -387,7 +387,7 @@ export default function Landing() {
               </ButtonCTA>
             </TraceEvent>
           </ActionsContainer>
-          <LearnMoreContainer href="https://docs.bloxroute.com/introduction/swap.live" target="_blank">
+          <LearnMoreContainer href="https://docs.bloxroute.com/introduction/swap-live" target="_blank">
             <Trans>Learn more</Trans>
           </LearnMoreContainer>
           {/* Hide android banner
