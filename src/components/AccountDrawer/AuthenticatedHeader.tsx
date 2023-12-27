@@ -32,7 +32,7 @@ import StatusIcon from '../Identicon/StatusIcon'
 import { useCachedPortfolioBalancesQuery } from '../PrefetchBalancesWrapper/PrefetchBalancesWrapper'
 // import { useToggleAccountDrawer } from '.'
 import IconButton, { IconHoverText, IconWithConfirmTextButton } from './IconButton'
-import MiniPortfolio from './MiniPortfolio'
+// import MiniPortfolio from './MiniPortfolio'
 import { portfolioFadeInAnimation } from './MiniPortfolio/PortfolioRow'
 
 const AuthenticatedHeaderWrapper = styled.div`
@@ -347,7 +347,7 @@ export default function AuthenticatedHeader({ account, openSettings }: { account
             </Tooltip>
           </FiatOnrampNotAvailableText>
         )} */}
-        <MiniPortfolio account={account} />
+        {/* <MiniPortfolio account={account} /> */}
         {isUnclaimed && (
           <UNIButton onClick={openClaimModal} size={ButtonSize.medium} emphasis={ButtonEmphasis.medium}>
             <Trans>Claim</Trans> {unclaimedAmount?.toFixed(0, { groupSeparator: ',' } ?? '-')} <Trans>reward</Trans>
