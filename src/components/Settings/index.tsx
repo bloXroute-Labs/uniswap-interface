@@ -22,7 +22,7 @@ import { Z_INDEX } from 'theme/zIndex'
 
 import MaxSlippageSettings from './MaxSlippageSettings'
 import MenuButton from './MenuButton'
-import RouterPreferenceSettings from './RouterPreferenceSettings'
+// import RouterPreferenceSettings from './RouterPreferenceSettings'
 import TransactionDeadlineSettings from './TransactionDeadlineSettings'
 
 const CloseButton = styled.button`
@@ -61,7 +61,6 @@ const MenuFlyout = styled(AutoColumn)`
 
 const ExpandColumn = styled(AutoColumn)<{ $padTop: boolean }>`
   gap: 16px;
-  padding-top: ${({ $padTop }) => ($padTop ? '16px' : '0')};
 `
 
 const MobileMenuContainer = styled(Row)`
@@ -131,14 +130,16 @@ export default function SettingsTab({
   const Settings = useMemo(
     () => (
       <>
+        {/*      Hide UniswapX setting
         {showRoutingSettings && (
           <AutoColumn gap="16px">
             <RouterPreferenceSettings />
           </AutoColumn>
-        )}
+        )} */}
         <AnimatedDropdown open={!isUniswapXTrade(trade)}>
           <ExpandColumn $padTop={showRoutingSettings}>
-            {showRoutingSettings && <Divider />}
+            {/*             Hide UniswapX setting
+            {showRoutingSettings && <Divider />} */}
             <MaxSlippageSettings autoSlippage={autoSlippage} />
             {showDeadlineSettings && (
               <>

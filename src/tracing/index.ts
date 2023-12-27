@@ -1,5 +1,5 @@
 // Dump some metadata into the window to allow client verification.
-window.GIT_COMMIT_HASH = process.env.REACT_APP_GIT_COMMIT_HASH
+// window.GIT_COMMIT_HASH = process.env.REACT_APP_GIT_COMMIT_HASH
 
 // This is used to identify the user in Sentry.
 // const SENTRY_USER_ID_KEY = 'sentry-user-id'
@@ -37,3 +37,4 @@ window.GIT_COMMIT_HASH = process.env.REACT_APP_GIT_COMMIT_HASH
 //   debug: isDevelopmentEnv(),
 //   reportOriginCountry: (country: string) => store.dispatch(setOriginCountry(country)),
 // })
+export {}

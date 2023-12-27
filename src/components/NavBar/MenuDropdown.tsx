@@ -12,8 +12,8 @@ import {
   DiscordIconMenu,
   EllipsisIcon,
   GithubIconMenu,
-  GovernanceIcon,
-  PoolIcon,
+  // GovernanceIcon,
+  // PoolIcon,
   TwitterIconMenu,
 } from 'nft/components/icons'
 import { body, bodySmall } from 'nft/css/common.css'
@@ -141,6 +141,7 @@ export const MenuDropdown = () => {
         {isOpen && (
           <NavDropdown top={{ sm: 'unset', lg: '56' }} bottom={{ sm: '50', lg: 'unset' }} right="0">
             <Column gap="8">
+              {/*   Hide header tabs          
               <Column paddingX="8" gap="4">
                 <Box display={{ sm: 'none', lg: 'flex', xxl: 'none' }}>
                   <PrimaryMenuRow to="/pool" close={toggleOpen}>
@@ -160,7 +161,7 @@ export const MenuDropdown = () => {
                     <Trans>Vote in governance</Trans>
                   </PrimaryMenuRow.Text>
                 </PrimaryMenuRow>
-                {/* Hide Uniswap analytics
+
                 <PrimaryMenuRow href="https://info.uniswap.org/#/">
                   <Icon>
                     <BarChartIcon width={24} height={24} color={theme.neutral1} />
@@ -168,8 +169,8 @@ export const MenuDropdown = () => {
                   <PrimaryMenuRow.Text>
                     <Trans>View more analytics</Trans>
                   </PrimaryMenuRow.Text>
-                </PrimaryMenuRow> */}
-                {/* Hide android banner
+                </PrimaryMenuRow> 
+      
                 <Box
                   onClick={() =>
                     openDownloadApp({
@@ -192,9 +193,9 @@ export const MenuDropdown = () => {
                       </div>
                     </>
                   </PrimaryMenuRow>
-                </Box> */}
-              </Column>
-              <Separator />
+                </Box> 
+              </Column> */}
+              {/* <Separator /> */}
               <Box
                 display="flex"
                 flexDirection={{ sm: 'row', md: 'column' }}

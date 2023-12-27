@@ -19,7 +19,7 @@ export const NavDropdown = style([
     position: 'absolute',
     borderRadius: '12',
   }),
-  { boxShadow: '0px 4px 12px 0px #00000026' },
+  { boxShadow: '0px 4px 12px 0px #00000026', minWidth: 'max-content' },
 ])
 
 export const mobileNavDropdown = style([

@@ -123,8 +123,8 @@ const ContentContainer = styled.div<{ isDarkMode: boolean }>`
 
 const TitleText = styled.h1`
   color: transparent;
-  font-size: 36px;
-  line-height: 44px;
+  font-size: 28px;
+  line-height: 38px;
   font-weight: 535;
   text-align: center;
   margin: 0 0 24px;
