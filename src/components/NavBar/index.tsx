@@ -1,13 +1,13 @@
 import { Trans } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
+// import { useWeb3React } from '@web3-react/core'
 import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXroute.svg'
 import { useAccountDrawer } from 'components/AccountDrawer'
 import Web3Status from 'components/Web3Status'
-import { useInfoExplorePageEnabled } from 'featureFlags/flags/infoExplore'
-import { chainIdToBackendName } from 'graphql/data/util'
-import { useDisableNFTRoutes } from 'hooks/useDisableNFTRoutes'
+// import { useInfoExplorePageEnabled } from 'featureFlags/flags/infoExplore'
+// import { chainIdToBackendName } from 'graphql/data/util'
+// import { useDisableNFTRoutes } from 'hooks/useDisableNFTRoutes'
 import { useIsNftPage } from 'hooks/useIsNftPage'
-import { useIsPoolsPage } from 'hooks/useIsPoolsPage'
+// import { useIsPoolsPage } from 'hooks/useIsPoolsPage'
 import { Box } from 'nft/components/Box'
 import { Row } from 'nft/components/Flex'
 import { useProfilePageState } from 'nft/hooks'
@@ -17,12 +17,12 @@ import { NavLink, NavLinkProps, useLocation, useNavigate } from 'react-router-do
 import styled from 'styled-components'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
 
-import { useIsNavSearchInputVisible } from '../../nft/hooks/useIsNavSearchInputVisible'
+// import { useIsNavSearchInputVisible } from '../../nft/hooks/useIsNavSearchInputVisible'
 import { Bag } from './Bag'
 import Blur from './Blur'
 import { ChainSelector } from './ChainSelector'
 import { MenuDropdown } from './MenuDropdown'
-import { SearchBar } from './SearchBar'
+// import { SearchBar } from './SearchBar'
 import * as styles from './style.css'
 
 const Nav = styled.nav`
@@ -64,20 +64,21 @@ const MenuItem = ({ href, dataTestId, id, isActive, children }: MenuItemProps) =
 
 export const PageTabs = () => {
   const { pathname } = useLocation()
-  const { chainId: connectedChainId } = useWeb3React()
-  const chainName = chainIdToBackendName(connectedChainId)
+  // const { chainId: connectedChainId } = useWeb3React()
+  // const chainName = chainIdToBackendName(connectedChainId)
 
-  const isPoolActive = useIsPoolsPage()
-  const isNftPage = useIsNftPage()
+  // const isPoolActive = useIsPoolsPage()
+  // const isNftPage = useIsNftPage()
 
-  const shouldDisableNFTRoutes = useDisableNFTRoutes()
-  const infoExplorePageEnabled = useInfoExplorePageEnabled()
+  // const shouldDisableNFTRoutes = useDisableNFTRoutes()
+  // const infoExplorePageEnabled = useInfoExplorePageEnabled()
 
   return (
     <>
       <MenuItem href="/swap" isActive={pathname.startsWith('/swap')}>
         <Trans>Swap</Trans>
       </MenuItem>
+      {/*    Hide tabs   
       {infoExplorePageEnabled ? (
         <MenuItem href={`/explore/tokens/${chainName.toLowerCase()}`} isActive={pathname.startsWith('/explore')}>
           <Trans>Explore</Trans>
@@ -96,7 +97,7 @@ export const PageTabs = () => {
         <MenuItem href="/pools" dataTestId="pool-nav-link" isActive={isPoolActive}>
           <Trans>Pools</Trans>
         </MenuItem>
-      </Box>
+      </Box> */}
       <Box marginY="4">
         <MenuDropdown />
       </Box>
@@ -108,7 +109,7 @@ const Navbar = ({ blur }: { blur: boolean }) => {
   const isNftPage = useIsNftPage()
   const sellPageState = useProfilePageState((state) => state.state)
   const navigate = useNavigate()
-  const isNavSearchInputVisible = useIsNavSearchInputVisible()
+  // const isNavSearchInputVisible = useIsNavSearchInputVisible()
   const isDarkMode = useIsDarkMode()
 
   const [accountDrawerOpen, toggleAccountDrawer] = useAccountDrawer()
@@ -141,6 +142,7 @@ const Navbar = ({ blur }: { blur: boolean }) => {
               <PageTabs />
             </Row>
           </Box>
+          {/* Hide SearchBar  
           <Box
             className={styles.searchContainer}
             {...(isNavSearchInputVisible && {
@@ -148,12 +150,13 @@ const Navbar = ({ blur }: { blur: boolean }) => {
             })}
           >
             <SearchBar />
-          </Box>
+          </Box> */}
           <Box className={styles.rightSideContainer}>
             <Row gap="12">
+              {/* Hide SearchBar  
               <Box position="relative" display={isNavSearchInputVisible ? 'none' : { sm: 'flex' }}>
                 <SearchBar />
-              </Box>
+              </Box> */}
               {isNftPage && sellPageState !== ProfilePageStateType.LISTING && <Bag />}
               {!isNftPage && (
                 <Box display={{ sm: 'none', lg: 'flex' }}>
