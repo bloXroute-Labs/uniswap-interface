@@ -137,7 +137,7 @@ export default function TokenDetails({
           map[current.chain] = {}
         }
         map[current.chain].address = current.address
-        map[current.chain].balance = tokenBalances?.find((tokenBalance) => tokenBalance.token?.id === current.id)
+        map[current.chain].balance = tokenBalances?.find((tokenBalance: any) => tokenBalance.token?.id === current.id)
       }
       return map
     }, {} as MultiChainMap)
