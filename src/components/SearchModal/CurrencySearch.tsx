@@ -82,7 +82,7 @@ export function CurrencySearch({
   const { data, loading: balancesAreLoading } = useCachedPortfolioBalancesQuery({ account })
   const balances: TokenBalances = useMemo(() => {
     return (
-      data?.portfolios?.[0].tokenBalances?.reduce((balanceMap, tokenBalance) => {
+      data?.portfolios?.[0].tokenBalances?.reduce((balanceMap: any, tokenBalance: any) => {
         if (
           tokenBalance.token?.chain &&
           supportedChainIdFromGQLChain(tokenBalance.token?.chain) === chainId &&

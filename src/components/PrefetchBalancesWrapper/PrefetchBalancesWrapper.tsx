@@ -1,6 +1,6 @@
 import { useWeb3React } from '@web3-react/core'
-import { usePortfolioBalancesLazyQuery, usePortfolioBalancesQuery } from 'graphql/data/__generated__/types-and-hooks'
-import { GQL_MAINNET_CHAINS } from 'graphql/data/util'
+// import { usePortfolioBalancesLazyQuery } from 'graphql/data/__generated__/types-and-hooks'
+// import { GQL_MAINNET_CHAINS } from 'graphql/data/util'
 import usePrevious from 'hooks/usePrevious'
 import { atom, useAtom } from 'jotai'
 import ms from 'ms'
@@ -18,12 +18,14 @@ function useHasUpdatedTx() {
 
 // TODO(WEB-3004) - Add useCachedPortfolioBalanceUsd to simplify usage of useCachedPortfolioBalancesQuery
 export function useCachedPortfolioBalancesQuery({ account }: { account?: string }) {
-  return usePortfolioBalancesQuery({
-    skip: !account,
-    variables: { ownerAddress: account ?? '', chains: GQL_MAINNET_CHAINS },
-    fetchPolicy: 'cache-only', // PrefetchBalancesWrapper handles balance fetching/staleness; this component only reads from cache
-    errorPolicy: 'all',
-  })
+  // return usePortfolioBalancesQuery({
+  //   skip: !account,
+  //   variables: { ownerAddress: account ?? '', chains: GQL_MAINNET_CHAINS },
+  //   fetchPolicy: 'cache-only', // PrefetchBalancesWrapper handles balance fetching/staleness; this component only reads from cache
+  //   errorPolicy: 'all',
+  // })
+  const data = { portfolios: undefined } as any
+  return data
 }
 
 const hasUnfetchedBalancesAtom = atom<boolean>(true)
@@ -36,7 +38,8 @@ export default function PrefetchBalancesWrapper({
   className,
 }: PropsWithChildren<{ shouldFetchOnAccountUpdate: boolean; shouldFetchOnHover?: boolean; className?: string }>) {
   const { account } = useWeb3React()
-  const [prefetchPortfolioBalances] = usePortfolioBalancesLazyQuery()
+  // Hide PortfolioBalances query
+  // const [prefetchPortfolioBalances] = usePortfolioBalancesLazyQuery()
 
   // Use an atom to track unfetched state to avoid duplicating fetches if this component appears multiple times on the page.
   const [hasUnfetchedBalances, setHasUnfetchedBalances] = useAtom(hasUnfetchedBalancesAtom)
@@ -46,11 +49,11 @@ export default function PrefetchBalancesWrapper({
       // This timeout is an interim solution while we're working on a websocket that'll ping the client when connected account gets changes
       // TODO(WEB-3131): remove this timeout after websocket is implemented
       setTimeout(() => {
-        prefetchPortfolioBalances({ variables: { ownerAddress: account, chains: GQL_MAINNET_CHAINS } })
+        // prefetchPortfolioBalances({ variables: { ownerAddress: account, chains: GQL_MAINNET_CHAINS } })
         setHasUnfetchedBalances(false)
       }, ms('3.5s'))
     }
-  }, [account, prefetchPortfolioBalances, setHasUnfetchedBalances])
+  }, [account, setHasUnfetchedBalances])
 
   const prevAccount = usePrevious(account)
 
