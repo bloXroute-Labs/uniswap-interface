@@ -8,7 +8,7 @@ import Column from 'components/Column'
 import { Power } from 'components/Icons/Power'
 import { Settings } from 'components/Icons/Settings'
 import { AutoRow } from 'components/Row'
-import { LoadingBubble } from 'components/Tokens/loading'
+// import { LoadingBubble } from 'components/Tokens/loading'
 import { DeltaArrow } from 'components/Tokens/TokenDetails/Delta'
 import { getConnection } from 'connection'
 // import { useDisableNFTRoutes } from 'hooks/useDisableNFTRoutes'
@@ -267,34 +267,37 @@ export default function AuthenticatedHeader({ account, openSettings }: { account
         </IconContainer>
       </HeaderWrapper>
       <PortfolioDrawerContainer>
-        {totalBalance !== undefined ? (
-          <FadeInColumn gap="xs">
-            <ThemedText.HeadlineLarge fontWeight={535} data-testid="portfolio-total-balance">
-              {formatNumber({
-                input: totalBalance,
-                type: NumberType.PortfolioBalance,
-              })}
-            </ThemedText.HeadlineLarge>
-            <AutoRow marginBottom="20px">
-              {absoluteChange !== 0 && percentChange && (
-                <>
-                  <DeltaArrow delta={absoluteChange} />
-                  <ThemedText.BodySecondary>
-                    {`${formatNumber({
-                      input: Math.abs(absoluteChange as number),
-                      type: NumberType.PortfolioBalance,
-                    })} (${formatDelta(percentChange)})`}
-                  </ThemedText.BodySecondary>
-                </>
-              )}
-            </AutoRow>
-          </FadeInColumn>
-        ) : (
-          <Column gap="xs">
-            <LoadingBubble height="44px" width="170px" />
-            <LoadingBubble height="16px" width="100px" margin="4px 0 20px 0" />
-          </Column>
-        )}
+        {
+          totalBalance !== undefined ? (
+            <FadeInColumn gap="xs">
+              <ThemedText.HeadlineLarge fontWeight={535} data-testid="portfolio-total-balance">
+                {formatNumber({
+                  input: totalBalance,
+                  type: NumberType.PortfolioBalance,
+                })}
+              </ThemedText.HeadlineLarge>
+              <AutoRow marginBottom="20px">
+                {absoluteChange !== 0 && percentChange && (
+                  <>
+                    <DeltaArrow delta={absoluteChange} />
+                    <ThemedText.BodySecondary>
+                      {`${formatNumber({
+                        input: Math.abs(absoluteChange as number),
+                        type: NumberType.PortfolioBalance,
+                      })} (${formatDelta(percentChange)})`}
+                    </ThemedText.BodySecondary>
+                  </>
+                )}
+              </AutoRow>
+            </FadeInColumn>
+          ) : null
+          // (
+          //   <Column gap="xs">
+          //     <LoadingBubble height="44px" width="170px" />
+          //     <LoadingBubble height="16px" width="100px" margin="4px 0 20px 0" />
+          //   </Column>
+          // )
+        }
         {/*    Hide tabs
         {!shouldDisableNFTRoutes && (
           <HeaderButton
