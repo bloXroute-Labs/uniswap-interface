@@ -5673,6 +5673,11 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-gtm-module@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@types/react-gtm-module/-/react-gtm-module-2.0.3.tgz#bc4b68abc7112a658100266948e24e88330d2600"
+  integrity sha512-fL2zKdDFN5LckSsVBXEhhm9M4tFTM9oHJfGcfZJzktQkzpOTGtDM8oXIP9d9UBDxO4xLNZhS22dlgRVv6wgK9w==
+
 "@types/react-helmet@^6.1.7":
   version "6.1.7"
   resolved "https://registry.yarnpkg.com/@types/react-helmet/-/react-helmet-6.1.7.tgz#4cecc03165084727408d29d92d8fdd4a7e267403"
@@ -17385,6 +17390,11 @@ react-focus-lock@^2.3.1:
     react-clientside-effect "^1.2.2"
     use-callback-ref "^1.2.1"
     use-sidecar "^1.0.1"
+
+react-gtm-module@^2.0.11:
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/react-gtm-module/-/react-gtm-module-2.0.11.tgz#14484dac8257acd93614e347c32da9c5ac524206"
+  integrity sha512-8gyj4TTxeP7eEyc2QKawEuQoAZdjKvMY4pgWfycGmqGByhs17fR+zEBs0JUDq4US/l+vbTl+6zvUIx27iDo/Vw==
 
 react-helmet@^6.1.0:
   version "6.1.0"
