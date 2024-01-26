@@ -92,10 +92,10 @@ export function useUniversalRouterSwapCallback(
           // TODO(https://github.com/Uniswap/universal-router-sdk/issues/113): universal-router-sdk returns a non-hexlified value.
           ...(value && !isZero(value) ? { value: toHex(value) } : {}),
         }
-        const refferalCode = getCookie('refferalCode')
+        const referralCode = getCookie('referralCode')
         let ref_trx_id
 
-        if (refferalCode) {
+        if (referralCode) {
           const refferalTransactionString = `${tx.from + tx.to + tx.data + value}`
           const refferalTransactionHash = utils.keccak256(utils.toUtf8Bytes(refferalTransactionString))
 
@@ -103,11 +103,11 @@ export function useUniversalRouterSwapCallback(
           console.log(refferalTransactionHash, 'refferalTransactionHash<---')
 
           const variables = {
-            referral_code: refferalCode,
+            referral_code: referralCode,
             swap_hash: refferalTransactionHash,
           }
 
-          const refferalCodeResponse = await fetch(`${UNISWAP_API_URL + '/ref-transactions/store'}`, {
+          const referralCodeResponse = await fetch(`${UNISWAP_API_URL + '/ref-transactions/store'}`, {
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -115,7 +115,7 @@ export function useUniversalRouterSwapCallback(
             },
             body: JSON.stringify(variables),
           })
-          const { trx_id } = await refferalCodeResponse.json()
+          const { trx_id } = await referralCodeResponse.json()
           ref_trx_id = trx_id
         }
 
@@ -169,14 +169,14 @@ export function useUniversalRouterSwapCallback(
             }
             return response
           })
-        if (refferalCode) {
+        if (referralCode) {
           const variables = {
             ref_id: ref_trx_id,
             network_id: chainId,
             transaction_id: response.hash,
           }
 
-          const refferalCodeRecordResponse = await fetch(`${UNISWAP_API_URL + '/ref-transactions/store-hash'}`, {
+          const referralCodeRecordResponse = await fetch(`${UNISWAP_API_URL + '/ref-transactions/store-hash'}`, {
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -184,7 +184,7 @@ export function useUniversalRouterSwapCallback(
             },
             body: JSON.stringify(variables),
           })
-          console.log(refferalCodeRecordResponse.json(), 'refferalCodeRecordResponse<---')
+          console.log(referralCodeRecordResponse.json(), 'referralCodeRecordResponse<---')
         }
 
         return {

@@ -327,9 +327,9 @@ export default function Landing() {
 
   const location = useLocation()
   const queryParams = parse(location.search, { ignoreQueryPrefix: true })
-  const refferalCode = location.search.split('=')[0] === '?referralCode' ? location.search.split('=')[1] : ''
-  if (refferalCode) {
-    document.cookie = `refferalCode=${refferalCode}`
+  const referralCode = location.search.split('=')[0] === '?referralCode' ? location.search.split('=')[1] : ''
+  if (referralCode) {
+    document.cookie = `referralCode=${referralCode}`
   }
 
   if (selectedWallet && !queryParams.intro) {
