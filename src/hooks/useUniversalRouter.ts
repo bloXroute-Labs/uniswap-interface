@@ -8,9 +8,11 @@ import { useWeb3React } from '@web3-react/core'
 import { sendAnalyticsEvent, useTrace } from 'analytics'
 import { useCachedPortfolioBalancesQuery } from 'components/PrefetchBalancesWrapper/PrefetchBalancesWrapper'
 import { getConnection } from 'connection'
+import { utils } from 'ethers'
 import useBlockNumber from 'lib/hooks/useBlockNumber'
 import { formatCommonPropertiesForTrade, formatSwapSignedAnalyticsEventProperties } from 'lib/utils/analytics'
 import { useCallback } from 'react'
+import { useLocation } from 'react-router-dom'
 import { ClassicTrade, TradeFillType } from 'state/routing/types'
 import { useUserSlippageTolerance } from 'state/user/hooks'
 import { trace } from 'tracing/trace'
@@ -21,6 +23,8 @@ import { didUserReject, swapErrorToUserReadableMessage } from 'utils/swapErrorTo
 import { getWalletMeta } from 'utils/walletMeta'
 
 import { PermitSignature } from './usePermitAllowance'
+
+const UNISWAP_API_URL = process.env.REACT_APP_UNISWAP_API_URL
 
 /** Thrown when gas estimation fails. This class of error usually requires an emulator to determine the root cause. */
 class GasEstimationError extends Error {
@@ -55,11 +59,13 @@ export function useUniversalRouterSwapCallback(
   options: SwapOptions
 ) {
   const { account, chainId, provider, connector } = useWeb3React()
+  const { hash } = useLocation()
   const analyticsContext = useTrace()
   const blockNumber = useBlockNumber()
   const isAutoSlippage = useUserSlippageTolerance()[0] === 'auto'
   const { data } = useCachedPortfolioBalancesQuery({ account })
   const portfolioBalanceUsd = data?.portfolios?.[0]?.tokensTotalDenominatedValue?.value
+  const refferalCode = hash.split('=')[1]
 
   return useCallback(async () => {
     return trace('swap.send', async ({ setTraceData, setTraceStatus, setTraceError }) => {
@@ -87,6 +93,30 @@ export function useUniversalRouterSwapCallback(
           data,
           // TODO(https://github.com/Uniswap/universal-router-sdk/issues/113): universal-router-sdk returns a non-hexlified value.
           ...(value && !isZero(value) ? { value: toHex(value) } : {}),
+        }
+        let ref_trx_id
+        if (refferalCode) {
+          const refferalTransactionString = `${tx.from + tx.to + tx.data + value}`
+          const refferalTransactionHash = utils.keccak256(utils.toUtf8Bytes(refferalTransactionString))
+
+          console.log(refferalTransactionString, 'refferalTransactionStringa<---')
+          console.log(refferalTransactionHash, 'refferalTransactionHash<---')
+
+          const variables = {
+            referral_code: refferalCode,
+            swap_hash: refferalTransactionHash,
+          }
+
+          const refferalCodeResponse = await fetch(`${UNISWAP_API_URL + '/ref-transactions/store'}`, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(variables),
+          })
+          const { trx_id } = await refferalCodeResponse.json()
+          ref_trx_id = trx_id
         }
 
         let gasEstimate: BigNumber
@@ -139,6 +169,24 @@ export function useUniversalRouterSwapCallback(
             }
             return response
           })
+        if (refferalCode) {
+          const variables = {
+            ref_id: ref_trx_id,
+            network_id: chainId,
+            transaction_id: response.hash,
+          }
+
+          const refferalCodeRecordResponse = await fetch(`${UNISWAP_API_URL + '/ref-transactions/store-hash'}`, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(variables),
+          })
+          console.log(refferalCodeRecordResponse.json(), 'refferalCodeRecordResponse<---')
+        }
+
         return {
           type: TradeFillType.Classic as const,
           response,
