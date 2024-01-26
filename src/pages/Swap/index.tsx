@@ -150,10 +150,13 @@ export default function SwapPage({ className }: { className?: string }) {
   const { chainId: connectedChainId } = useWeb3React()
   const loadedUrlParams = useDefaultsFromURLSearch()
 
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
   const isDarkMode = useIsDarkMode()
   const supportedChainId = asSupportedChain(connectedChainId)
-
+  const refferalCode = search.split('=')[0] === '?referralCode' ? search.split('=')[1] : ''
+  if (refferalCode) {
+    document.cookie = `refferalCode=${refferalCode}`
+  }
   return (
     <Trace page={InterfacePageName.SWAP_PAGE} shouldLogImpression>
       {isDarkMode && pathname === '/swap' && (

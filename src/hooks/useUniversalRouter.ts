@@ -12,11 +12,11 @@ import { utils } from 'ethers'
 import useBlockNumber from 'lib/hooks/useBlockNumber'
 import { formatCommonPropertiesForTrade, formatSwapSignedAnalyticsEventProperties } from 'lib/utils/analytics'
 import { useCallback } from 'react'
-import { useLocation } from 'react-router-dom'
 import { ClassicTrade, TradeFillType } from 'state/routing/types'
 import { useUserSlippageTolerance } from 'state/user/hooks'
 import { trace } from 'tracing/trace'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
+import { getCookie } from 'utils/cookie'
 import { UserRejectedRequestError, WrongChainError } from 'utils/errors'
 import isZero from 'utils/isZero'
 import { didUserReject, swapErrorToUserReadableMessage } from 'utils/swapErrorToUserReadableMessage'
@@ -59,13 +59,11 @@ export function useUniversalRouterSwapCallback(
   options: SwapOptions
 ) {
   const { account, chainId, provider, connector } = useWeb3React()
-  const { hash } = useLocation()
   const analyticsContext = useTrace()
   const blockNumber = useBlockNumber()
   const isAutoSlippage = useUserSlippageTolerance()[0] === 'auto'
   const { data } = useCachedPortfolioBalancesQuery({ account })
   const portfolioBalanceUsd = data?.portfolios?.[0]?.tokensTotalDenominatedValue?.value
-  const refferalCode = hash.split('=')[1]
 
   return useCallback(async () => {
     return trace('swap.send', async ({ setTraceData, setTraceStatus, setTraceError }) => {
@@ -94,7 +92,9 @@ export function useUniversalRouterSwapCallback(
           // TODO(https://github.com/Uniswap/universal-router-sdk/issues/113): universal-router-sdk returns a non-hexlified value.
           ...(value && !isZero(value) ? { value: toHex(value) } : {}),
         }
+        const refferalCode = getCookie('refferalCode')
         let ref_trx_id
+
         if (refferalCode) {
           const refferalTransactionString = `${tx.from + tx.to + tx.data + value}`
           const refferalTransactionHash = utils.keccak256(utils.toUtf8Bytes(refferalTransactionString))
