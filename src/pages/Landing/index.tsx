@@ -327,6 +327,10 @@ export default function Landing() {
 
   const location = useLocation()
   const queryParams = parse(location.search, { ignoreQueryPrefix: true })
+  const refferalCode = location.search.split('=')[0] === '?referralCode' ? location.search.split('=')[1] : ''
+  if (refferalCode) {
+    document.cookie = `refferalCode=${refferalCode}`
+  }
 
   if (selectedWallet && !queryParams.intro) {
     return <Navigate to={{ ...location, pathname: '/swap' }} replace />
