@@ -153,7 +153,6 @@ export default function SwapPage({ className }: { className?: string }) {
   const { pathname } = useLocation()
   const isDarkMode = useIsDarkMode()
   const supportedChainId = asSupportedChain(connectedChainId)
-
   return (
     <Trace page={InterfacePageName.SWAP_PAGE} shouldLogImpression>
       {isDarkMode && pathname === '/swap' && (
