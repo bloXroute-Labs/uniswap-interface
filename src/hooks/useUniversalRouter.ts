@@ -12,6 +12,7 @@ import { utils } from 'ethers'
 import useBlockNumber from 'lib/hooks/useBlockNumber'
 import { formatCommonPropertiesForTrade, formatSwapSignedAnalyticsEventProperties } from 'lib/utils/analytics'
 import { useCallback } from 'react'
+import { useLocation } from 'react-router-dom'
 import { ClassicTrade, TradeFillType } from 'state/routing/types'
 import { useUserSlippageTolerance } from 'state/user/hooks'
 import { trace } from 'tracing/trace'
@@ -59,11 +60,13 @@ export function useUniversalRouterSwapCallback(
   options: SwapOptions
 ) {
   const { account, chainId, provider, connector } = useWeb3React()
+  const { hash } = useLocation()
   const analyticsContext = useTrace()
   const blockNumber = useBlockNumber()
   const isAutoSlippage = useUserSlippageTolerance()[0] === 'auto'
   const { data } = useCachedPortfolioBalancesQuery({ account })
   const portfolioBalanceUsd = data?.portfolios?.[0]?.tokensTotalDenominatedValue?.value
+  const refferalCode = hash.split('=')[1]
 
   return useCallback(async () => {
     return trace('swap.send', async ({ setTraceData, setTraceStatus, setTraceError }) => {
@@ -94,7 +97,6 @@ export function useUniversalRouterSwapCallback(
         }
         const refferalCode = getCookie('refferalCode')
         let ref_trx_id
-
         if (refferalCode) {
           const refferalTransactionString = `${tx.from + tx.to + tx.data + value}`
           const refferalTransactionHash = utils.keccak256(utils.toUtf8Bytes(refferalTransactionString))
