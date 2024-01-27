@@ -317,6 +317,16 @@ export default function Landing() {
 
   const [accountDrawerOpen] = useAccountDrawer()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const queryString = window.location.search
+  const referralQueryParams = new URLSearchParams(queryString)
+  const referralCodeParam = referralQueryParams.get('referralCode')
+  const referralCode = referralCodeParam
+  if (referralCode) {
+    document.cookie = `referralCode=${referralCode}`
+  }
+
   useEffect(() => {
     if (accountDrawerOpen) {
       setTimeout(() => {
@@ -325,12 +335,7 @@ export default function Landing() {
     }
   }, [accountDrawerOpen, navigate])
 
-  const location = useLocation()
   const queryParams = parse(location.search, { ignoreQueryPrefix: true })
-  const referralCode = location.search.split('=')[0] === '?referralCode' ? location.search.split('=')[1] : ''
-  if (referralCode) {
-    document.cookie = `referralCode=${referralCode}`
-  }
 
   if (selectedWallet && !queryParams.intro) {
     return <Navigate to={{ ...location, pathname: '/swap' }} replace />
