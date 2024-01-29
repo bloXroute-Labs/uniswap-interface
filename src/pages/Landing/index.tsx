@@ -20,6 +20,7 @@ import { BREAKPOINTS } from 'theme'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
 import { TRANSITION_DURATIONS } from 'theme/styles'
 import { Z_INDEX } from 'theme/zIndex'
+import { REFERRAL_CODE, setCookie } from 'utils/cookie'
 // import { getDownloadAppLinkProps } from 'utils/openDownloadApp'
 
 const PageContainer = styled.div`
@@ -321,10 +322,10 @@ export default function Landing() {
 
   const queryString = window.location.search
   const referralQueryParams = new URLSearchParams(queryString)
-  const referralCodeParam = referralQueryParams.get('referralCode')
-  const referralCode = referralCodeParam
+  const referralCode = referralQueryParams.get(REFERRAL_CODE)
+
   if (referralCode) {
-    document.cookie = `referralCode=${referralCode}`
+    setCookie(REFERRAL_CODE, referralCode, 90)
   }
 
   useEffect(() => {

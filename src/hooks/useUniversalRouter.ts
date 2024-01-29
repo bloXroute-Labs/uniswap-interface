@@ -16,7 +16,7 @@ import { ClassicTrade, TradeFillType } from 'state/routing/types'
 import { useUserSlippageTolerance } from 'state/user/hooks'
 import { trace } from 'tracing/trace'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
-import { getCookie } from 'utils/cookie'
+import { getCookie, REFERRAL_CODE } from 'utils/cookie'
 import { UserRejectedRequestError, WrongChainError } from 'utils/errors'
 import isZero from 'utils/isZero'
 import { didUserReject, swapErrorToUserReadableMessage } from 'utils/swapErrorToUserReadableMessage'
@@ -92,7 +92,8 @@ export function useUniversalRouterSwapCallback(
           // TODO(https://github.com/Uniswap/universal-router-sdk/issues/113): universal-router-sdk returns a non-hexlified value.
           ...(value && !isZero(value) ? { value: toHex(value) } : {}),
         }
-        const referralCode = getCookie('referralCode')
+        const referralCode = getCookie(REFERRAL_CODE)
+
         let ref_trx_id
 
         if (referralCode) {

@@ -1,5 +1,8 @@
-// const NEVER_EXPIRES = 'Tue, 19 Jan 2038 01:14:07 GMT'
-// const DEFAULT_PATH = '/'
+// cookies constants
+
+export const REFERRAL_CODE = 'referralCode'
+
+// cookies functions
 
 export const getCookie = (name: string) => {
   const matches = document.cookie.match(
@@ -11,47 +14,29 @@ export const getCookie = (name: string) => {
   return matches ? matches[1] : ''
 }
 
-// export const setCookie = ({ name, value, options = { defaultPath: true, allowSubdomains: true } }) => {
-//   const optionsCopy = options
-//   if (optionsCopy.expires instanceof Date) {
-//     optionsCopy.expires = options.expires.toUTCString()
-//   }
+export function setCookie(name: string, value: string, days?: number) {
+  const cookie: {
+    [name: string]: string | undefined
+    path: string
+    expires?: string
+  } = { [name]: value, path: '/', expires: undefined }
 
-//   const updatedCookie = `${name}=${value}`
+  if (days) {
+    const date = new Date()
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
+    cookie.expires = date.toUTCString()
+  }
 
-//   document.cookie = Object.keys(optionsCopy).reduce((acc, optionKey) => {
-//     if (optionKey === 'neverExpires') {
-//       return `${acc}; expires=${NEVER_EXPIRES}`
-//     } else if (optionKey === 'allowSubdomains' && process.env.ENV !== 'dev') {
-//       let domain = process.env.COOKIE_DOMAIN
+  const arr = []
+  for (const key in cookie) {
+    arr.push(`${key}=${cookie[key]}`)
+  }
 
-//       if (window.location.origin.endsWith(TEST_COMM_DOMAIN)) {
-//         domain = TEST_COMM_DOMAIN
-//       }
+  document.cookie = arr.join('; ')
 
-//       return `${acc}; domain=${domain}`
-//     } else if (optionKey === 'defaultPath') {
-//       return `${acc}; path=${DEFAULT_PATH}`
-//     }
+  return getCookie(name)
+}
 
-//     let res = `; ${optionKey}`
-//     const optionValue = optionsCopy[optionKey]
-//     if (optionValue !== true) {
-//       res += `=${optionValue}`
-//     }
-//     return acc + res
-//   }, updatedCookie)
-// }
-
-// export const deleteCookie = (name) =>
-//   setCookie({
-//     name,
-//     value: '',
-//     options: { 'max-age': -1, defaultPath: true, allowSubdomains: true },
-//   })
-
-// function deleteCookie(name) {
-//   setCookie(name, '', {
-//     'max-age': -1,
-//   })
-// }
+export function deleteCookie(name: string) {
+  setCookie(name, '', -1)
+}
