@@ -8,7 +8,6 @@ import { useWeb3React } from '@web3-react/core'
 import { sendAnalyticsEvent, useTrace } from 'analytics'
 import { useCachedPortfolioBalancesQuery } from 'components/PrefetchBalancesWrapper/PrefetchBalancesWrapper'
 import { getConnection } from 'connection'
-import { utils } from 'ethers'
 import useBlockNumber from 'lib/hooks/useBlockNumber'
 import { formatCommonPropertiesForTrade, formatSwapSignedAnalyticsEventProperties } from 'lib/utils/analytics'
 import { useCallback } from 'react'
@@ -16,7 +15,6 @@ import { ClassicTrade, TradeFillType } from 'state/routing/types'
 import { useUserSlippageTolerance } from 'state/user/hooks'
 import { trace } from 'tracing/trace'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
-import { getCookie } from 'utils/cookie'
 import { UserRejectedRequestError, WrongChainError } from 'utils/errors'
 import isZero from 'utils/isZero'
 import { didUserReject, swapErrorToUserReadableMessage } from 'utils/swapErrorToUserReadableMessage'
@@ -56,7 +54,8 @@ interface SwapOptions {
 export function useUniversalRouterSwapCallback(
   trade: ClassicTrade | undefined,
   fiatValues: { amountIn?: number; amountOut?: number; feeUsd?: number },
-  options: SwapOptions
+  options: SwapOptions,
+  trxId: string | undefined
 ) {
   const { account, chainId, provider, connector } = useWeb3React()
   const analyticsContext = useTrace()
@@ -91,32 +90,6 @@ export function useUniversalRouterSwapCallback(
           data,
           // TODO(https://github.com/Uniswap/universal-router-sdk/issues/113): universal-router-sdk returns a non-hexlified value.
           ...(value && !isZero(value) ? { value: toHex(value) } : {}),
-        }
-        const referralCode = getCookie('referralCode')
-        let ref_trx_id
-
-        if (referralCode) {
-          const refferalTransactionString = `${tx.from + tx.to + tx.data + value}`
-          const refferalTransactionHash = utils.keccak256(utils.toUtf8Bytes(refferalTransactionString))
-
-          console.log(refferalTransactionString, 'refferalTransactionStringa<---')
-          console.log(refferalTransactionHash, 'refferalTransactionHash<---')
-
-          const variables = {
-            referral_code: referralCode,
-            swap_hash: refferalTransactionHash,
-          }
-
-          const referralCodeResponse = await fetch(`${UNISWAP_API_URL + '/ref-transactions/store'}`, {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(variables),
-          })
-          const { trx_id } = await referralCodeResponse.json()
-          ref_trx_id = trx_id
         }
 
         let gasEstimate: BigNumber
@@ -169,9 +142,9 @@ export function useUniversalRouterSwapCallback(
             }
             return response
           })
-        if (referralCode) {
+        if (trxId) {
           const variables = {
-            ref_id: ref_trx_id,
+            ref_id: trxId,
             network_id: chainId,
             transaction_id: response.hash,
           }
@@ -217,6 +190,7 @@ export function useUniversalRouterSwapCallback(
     options.permit,
     options.feeOptions,
     options.flatFeeOptions,
+    trxId,
     analyticsContext,
     blockNumber,
     isAutoSlippage,

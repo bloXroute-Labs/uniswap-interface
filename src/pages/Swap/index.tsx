@@ -40,6 +40,7 @@ import { useMaxAmountIn } from 'hooks/useMaxAmountIn'
 import usePermit2Allowance, { AllowanceState } from 'hooks/usePermit2Allowance'
 import usePrevious from 'hooks/usePrevious'
 import { SwapResult, useSwapCallback } from 'hooks/useSwapCallback'
+import { useSwapReferralCode } from 'hooks/useSwapReferralCode'
 import { useSwitchChain } from 'hooks/useSwitchChain'
 import { useUSDPrice } from 'hooks/useUSDPrice'
 import useWrapCallback, { WrapErrorText, WrapType } from 'hooks/useWrapCallback'
@@ -207,6 +208,7 @@ export function Swap({
 
   const [loadedInputCurrency, setLoadedInputCurrency] = useState(prefilledInputCurrency)
   const [loadedOutputCurrency, setLoadedOutputCurrency] = useState(prefilledOutputCurrency)
+  const [trxId, setTrxId] = useState<string | undefined>('')
 
   useEffect(() => {
     setLoadedInputCurrency(prefilledInputCurrency)
@@ -459,17 +461,27 @@ export function Swap({
     trade,
     swapFiatValues,
     allowedSlippage,
+    allowance.state === AllowanceState.ALLOWED ? allowance.permitSignature : undefined,
+    trxId
+  )
+
+  const referralCodeCallback = useSwapReferralCode(
+    trade,
+    allowedSlippage,
     allowance.state === AllowanceState.ALLOWED ? allowance.permitSignature : undefined
   )
 
-  const handleContinueToReview = useCallback(() => {
+  const handleContinueToReview = useCallback(async () => {
     setSwapState({
       tradeToConfirm: trade,
       swapError: undefined,
       showConfirm: true,
       swapResult: undefined,
     })
-  }, [trade])
+
+    const resultTrxId = await referralCodeCallback()
+    setTrxId(resultTrxId)
+  }, [referralCodeCallback, trade])
 
   const clearSwapState = useCallback(() => {
     setSwapState((currentState) => ({

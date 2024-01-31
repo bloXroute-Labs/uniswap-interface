@@ -42,7 +42,8 @@ export function useSwapCallback(
   trade: InterfaceTrade | undefined, // trade to execute, required
   fiatValues: { amountIn?: number; amountOut?: number; feeUsd?: number }, // usd values for amount in and out, and the fee value, logged for analytics
   allowedSlippage: Percent, // in bips
-  permitSignature: PermitSignature | undefined
+  permitSignature: PermitSignature | undefined,
+  trxId: string | undefined
 ) {
   const deadline = useTransactionDeadline()
 
@@ -64,7 +65,8 @@ export function useSwapCallback(
       deadline,
       permit: permitSignature,
       ...getUniversalRouterFeeFields(trade),
-    }
+    },
+    trxId
   )
 
   const swapCallback = isUniswapXTrade(trade) ? uniswapXSwapCallback : universalRouterSwapCallback
