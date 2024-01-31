@@ -71,7 +71,7 @@ export function useSwapReferralCode(
       }
 
       const referralCode = getCookie('referralCode')
-      let ref_trx_id = ''
+      let ref_trx_id
 
       if (referralCode) {
         const refferalTransactionString = `${tx.from + tx.to + tx.data + value}`
