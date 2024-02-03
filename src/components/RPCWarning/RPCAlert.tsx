@@ -184,7 +184,7 @@ export default function RPCAlert({
         <>
           <ErrorText>
             <AlertTriangle width={20} height={20} color="#ff3d3d" />
-            <Trans>You did not switched to Swap.live RPC</Trans>
+            <Trans>You did not switch to Swap.live RPC</Trans>
           </ErrorText>
           <StyledLink
             isDarkMode={isDarkMode}
@@ -199,7 +199,7 @@ export default function RPCAlert({
         <>
           <ErrorText>
             <AlertTriangle width={20} height={20} color="#ff3d3d" />
-            <Trans>You did not switched to Swap.live RPC</Trans>
+            <Trans>You did not switch to Swap.live RPC</Trans>
           </ErrorText>
           <StyledButton onClick={() => onSelectChain(chainId)} isDarkMode={isDarkMode}>
             <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
