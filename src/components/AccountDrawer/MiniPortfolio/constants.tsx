@@ -230,6 +230,7 @@ export const MOONPAY_SENDER_ADDRESSES = [
 ]
 
 // Converts GQL backend orderStatus enum to the enum used by the frontend and UniswapX backend
+// @ts-ignore
 export const OrderStatusTable: { [key in SwapOrderStatus]: UniswapXOrderStatus } = {
   [SwapOrderStatus.Open]: UniswapXOrderStatus.OPEN,
   [SwapOrderStatus.Expired]: UniswapXOrderStatus.EXPIRED,

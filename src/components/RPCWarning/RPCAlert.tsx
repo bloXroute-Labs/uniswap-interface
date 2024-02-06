@@ -2,6 +2,7 @@ import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXroute.svg'
 import { AlertTriangle, CheckCircle, Info, X } from 'react-feather'
+import ReactGA from 'react-ga4'
 import styled from 'styled-components'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
 import { isMobile } from 'utils/userAgent'
@@ -191,6 +192,12 @@ export default function RPCAlert({
             href="https://docs.bloxroute.com/introduction/protect-rpcs/eth-protect-rpc"
             target="_blank"
             rel="noreferrer"
+            onClick={() =>
+              ReactGA.event({
+                category: 'Users',
+                action: 'Switch_to_swaplive_mobile_link_pushed',
+              })
+            }
           >
             <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
           </StyledLink>
@@ -201,7 +208,16 @@ export default function RPCAlert({
             <AlertTriangle width={20} height={20} color="#ff3d3d" />
             <Trans>You did not switched to Swap.live RPC</Trans>
           </ErrorText>
-          <StyledButton onClick={() => onSelectChain(chainId)} isDarkMode={isDarkMode}>
+          <StyledButton
+            onClick={() => {
+              ReactGA.event({
+                category: 'Users',
+                action: 'Switch_to_swaplive_alert_button_pushed',
+              })
+              onSelectChain(chainId)
+            }}
+            isDarkMode={isDarkMode}
+          >
             <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
           </StyledButton>
         </>

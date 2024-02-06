@@ -2,6 +2,7 @@ import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { ReactComponent as BloxrouteLogo } from 'assets/svg/logoBloXrouteTransparent.svg'
 import { CheckCircle, Info, X } from 'react-feather'
+import ReactGA from 'react-ga4'
 import styled from 'styled-components'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
 
@@ -160,7 +161,15 @@ export default function RPCModal({ isOpen, defaultRPC, onCancel, onSelectChain }
           </StyledColumn>
         ) : (
           <>
-            <StyledButton onClick={() => onSelectChain(chainId)}>
+            <StyledButton
+              onClick={() => {
+                ReactGA.event({
+                  category: 'Users',
+                  action: 'Switch_to_swaplive_modal_button_pushed',
+                })
+                onSelectChain(chainId)
+              }}
+            >
               <Trans>{RPC_ALERT_BUTTON_TEXT}</Trans>
             </StyledButton>
             <StyledTransparentButton onClick={onCancel}>
