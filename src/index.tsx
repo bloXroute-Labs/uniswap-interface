@@ -11,6 +11,7 @@ import { BlockNumberProvider } from 'lib/hooks/useBlockNumber'
 import { MulticallUpdater } from 'lib/state/multicall'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import ReactGA from 'react-ga4'
 import { Helmet } from 'react-helmet'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider } from 'react-redux'
@@ -33,6 +34,11 @@ import RadialGradientByChainUpdater from './theme/components/RadialGradientByCha
 
 if (window.ethereum) {
   window.ethereum.autoRefreshOnNetworkChange = false
+}
+
+if (process.env.REACT_APP_GOOGLE_ANALYTICS_ID) {
+  const googleAnalyticsId = process.env.REACT_APP_GOOGLE_ANALYTICS_ID
+  ReactGA.initialize(googleAnalyticsId)
 }
 
 function Updaters() {

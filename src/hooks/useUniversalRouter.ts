@@ -1,17 +1,18 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { t } from '@lingui/macro'
-import { CustomUserProperties, SwapEventName } from '@uniswap/analytics-events'
+// import { CustomUserProperties, SwapEventName } from '@uniswap/analytics-events'
 import { Percent } from '@uniswap/sdk-core'
 import { FlatFeeOptions, SwapRouter, UNIVERSAL_ROUTER_ADDRESS } from '@uniswap/universal-router-sdk'
 import { FeeOptions, toHex } from '@uniswap/v3-sdk'
 import { useWeb3React } from '@web3-react/core'
-import { sendAnalyticsEvent, useTrace } from 'analytics'
+// import { sendAnalyticsEvent, useTrace } from 'analytics'
 import { useCachedPortfolioBalancesQuery } from 'components/PrefetchBalancesWrapper/PrefetchBalancesWrapper'
-import { getConnection } from 'connection'
+// import { getConnection } from 'connection'
 import { utils } from 'ethers'
 import useBlockNumber from 'lib/hooks/useBlockNumber'
-import { formatCommonPropertiesForTrade, formatSwapSignedAnalyticsEventProperties } from 'lib/utils/analytics'
+// import { formatCommonPropertiesForTrade, formatSwapSignedAnalyticsEventProperties } from 'lib/utils/analytics'
 import { useCallback } from 'react'
+import ReactGA from 'react-ga4'
 import { ClassicTrade, TradeFillType } from 'state/routing/types'
 import { useUserSlippageTolerance } from 'state/user/hooks'
 import { trace } from 'tracing/trace'
@@ -20,8 +21,8 @@ import { getCookie } from 'utils/cookie'
 import { UserRejectedRequestError, WrongChainError } from 'utils/errors'
 import isZero from 'utils/isZero'
 import { didUserReject, swapErrorToUserReadableMessage } from 'utils/swapErrorToUserReadableMessage'
-import { getWalletMeta } from 'utils/walletMeta'
 
+// import { getWalletMeta } from 'utils/walletMeta'
 import { PermitSignature } from './usePermitAllowance'
 
 const UNISWAP_API_URL = process.env.REACT_APP_UNISWAP_API_URL
@@ -59,7 +60,7 @@ export function useUniversalRouterSwapCallback(
   options: SwapOptions
 ) {
   const { account, chainId, provider, connector } = useWeb3React()
-  const analyticsContext = useTrace()
+  // const analyticsContext = useTrace()
   const blockNumber = useBlockNumber()
   const isAutoSlippage = useUserSlippageTolerance()[0] === 'auto'
   const { data } = useCachedPortfolioBalancesQuery({ account })
@@ -125,42 +126,54 @@ export function useUniversalRouterSwapCallback(
         } catch (gasError) {
           setTraceStatus('failed_precondition')
           setTraceError(gasError)
-          sendAnalyticsEvent(SwapEventName.SWAP_ESTIMATE_GAS_CALL_FAILED, {
-            ...formatCommonPropertiesForTrade(trade, options.slippageTolerance),
-            ...analyticsContext,
-            client_block_number: blockNumber,
-            tx,
-            isAutoSlippage,
+          // sendAnalyticsEvent(SwapEventName.SWAP_ESTIMATE_GAS_CALL_FAILED, {
+          //   ...formatCommonPropertiesForTrade(trade, options.slippageTolerance),
+          //   ...analyticsContext,
+          //   client_block_number: blockNumber,
+          //   tx,
+          //   isAutoSlippage,
+          // })
+          ReactGA.event({
+            category: 'Transaction',
+            action: 'Swap_estimate_gas_call_failed',
           })
           console.warn(gasError)
           throw new GasEstimationError()
         }
         const gasLimit = calculateGasMargin(gasEstimate)
         setTraceData('gasLimit', gasLimit.toNumber())
-        const beforeSign = Date.now()
+        // const beforeSign = Date.now()
         const response = await provider
           .getSigner()
           .sendTransaction({ ...tx, gasLimit })
           .then((response) => {
-            sendAnalyticsEvent(SwapEventName.SWAP_SIGNED, {
-              ...formatSwapSignedAnalyticsEventProperties({
-                trade,
-                timeToSignSinceRequestMs: Date.now() - beforeSign,
-                allowedSlippage: options.slippageTolerance,
-                fiatValues,
-                txHash: response.hash,
-                portfolioBalanceUsd,
-              }),
-              ...analyticsContext,
-              // TODO (WEB-2993): remove these after debugging missing user properties.
-              [CustomUserProperties.WALLET_ADDRESS]: account,
-              [CustomUserProperties.WALLET_TYPE]: getConnection(connector).getName(),
-              [CustomUserProperties.PEER_WALLET_AGENT]: provider ? getWalletMeta(provider)?.agent : undefined,
+            // sendAnalyticsEvent(SwapEventName.SWAP_SIGNED, {
+            //   ...formatSwapSignedAnalyticsEventProperties({
+            //     trade,
+            //     timeToSignSinceRequestMs: Date.now() - beforeSign,
+            //     allowedSlippage: options.slippageTolerance,
+            //     fiatValues,
+            //     txHash: response.hash,
+            //     portfolioBalanceUsd,
+            //   }),
+            //   ...analyticsContext,
+            //   // TODO (WEB-2993): remove these after debugging missing user properties.
+            //   [CustomUserProperties.WALLET_ADDRESS]: account,
+            //   [CustomUserProperties.WALLET_TYPE]: getConnection(connector).getName(),
+            //   [CustomUserProperties.PEER_WALLET_AGENT]: provider ? getWalletMeta(provider)?.agent : undefined,
+            // })
+            ReactGA.event({
+              category: 'Transaction',
+              action: 'Swap_transaction_completed',
             })
             if (tx.data !== response.data) {
-              sendAnalyticsEvent(SwapEventName.SWAP_MODIFIED_IN_WALLET, {
-                txHash: response.hash,
-                ...analyticsContext,
+              // sendAnalyticsEvent(SwapEventName.SWAP_MODIFIED_IN_WALLET, {
+              //   txHash: response.hash,
+              //   ...analyticsContext,
+              // })
+              ReactGA.event({
+                category: 'Transaction',
+                action: 'Swap_modified_in_wallet',
               })
 
               if (!response.data || response.data.length === 0 || response.data === '0x') {
@@ -217,7 +230,7 @@ export function useUniversalRouterSwapCallback(
     options.permit,
     options.feeOptions,
     options.flatFeeOptions,
-    analyticsContext,
+    // analyticsContext,
     blockNumber,
     isAutoSlippage,
     fiatValues,

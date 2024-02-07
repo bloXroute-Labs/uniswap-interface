@@ -1,10 +1,11 @@
-import { BrowserEvent, InterfaceElementName, InterfaceEventName } from '@uniswap/analytics-events'
+// import { BrowserEvent, InterfaceElementName, InterfaceEventName } from '@uniswap/analytics-events'
 import { useWeb3React } from '@web3-react/core'
-import { TraceEvent } from 'analytics'
+// import { TraceEvent } from 'analytics'
 import { useToggleAccountDrawer } from 'components/AccountDrawer'
 import Loader from 'components/Icons/LoadingSpinner'
 import { ActivationStatus, useActivationState } from 'connection/activate'
 import { Connection } from 'connection/types'
+import ReactGA from 'react-ga4'
 import styled from 'styled-components'
 import { useIsDarkMode } from 'theme/components/ThemeToggle'
 import { flexColumnNoWrap, flexRowNoWrap } from 'theme/styles'
@@ -82,7 +83,14 @@ export default function Option({ connection }: OptionProps) {
   const { activationState, tryActivation } = useActivationState()
   const toggleAccountDrawer = useToggleAccountDrawer()
   const { chainId } = useWeb3React()
-  const activate = () => tryActivation(connection, toggleAccountDrawer, chainId)
+  const activate = () => {
+    ReactGA.event({
+      category: 'Users',
+      action: 'Wallet_button_pushed',
+      label: connection.getName(),
+    })
+    tryActivation(connection, toggleAccountDrawer, chainId)
+  }
 
   const isSomeOptionPending = activationState.status === ActivationStatus.PENDING
   const isCurrentOptionPending = isSomeOptionPending && activationState.connection.type === connection.type
@@ -90,27 +98,27 @@ export default function Option({ connection }: OptionProps) {
 
   return (
     <Wrapper disabled={isSomeOptionPending}>
-      <TraceEvent
+      {/* <TraceEvent
         events={[BrowserEvent.onClick]}
         name={InterfaceEventName.WALLET_SELECTED}
         properties={{ wallet_type: connection.getName() }}
         element={InterfaceElementName.WALLET_TYPE_OPTION}
+      > */}
+      <OptionCardClickable
+        disabled={isSomeOptionPending}
+        onClick={activate}
+        selected={isCurrentOptionPending}
+        data-testid={`wallet-option-${connection.type}`}
       >
-        <OptionCardClickable
-          disabled={isSomeOptionPending}
-          onClick={activate}
-          selected={isCurrentOptionPending}
-          data-testid={`wallet-option-${connection.type}`}
-        >
-          <OptionCardLeft>
-            <IconWrapper>
-              <img src={connection.getIcon?.(isDarkMode)} alt={connection.getName()} />
-            </IconWrapper>
-            <HeaderText>{connection.getName()}</HeaderText>
-          </OptionCardLeft>
-          {isCurrentOptionPending && <Loader />}
-        </OptionCardClickable>
-      </TraceEvent>
+        <OptionCardLeft>
+          <IconWrapper>
+            <img src={connection.getIcon?.(isDarkMode)} alt={connection.getName()} />
+          </IconWrapper>
+          <HeaderText>{connection.getName()}</HeaderText>
+        </OptionCardLeft>
+        {isCurrentOptionPending && <Loader />}
+      </OptionCardClickable>
+      {/* </TraceEvent> */}
     </Wrapper>
   )
 }

@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro'
-import { BrowserEvent, InterfaceElementName, InterfacePageName, SharedEventName } from '@uniswap/analytics-events'
-import { Trace, TraceEvent } from 'analytics'
+// import { BrowserEvent, InterfaceElementName, InterfacePageName, SharedEventName } from '@uniswap/analytics-events'
+// import { Trace, TraceEvent } from 'analytics'
 import { AboutFooter } from 'components/About/AboutFooter'
 // import { MAIN_CARDS } from 'components/About/constants'
 import { useAccountDrawer } from 'components/AccountDrawer'
@@ -11,6 +11,7 @@ import { useDisableNFTRoutes } from 'hooks/useDisableNFTRoutes'
 import Swap from 'pages/Swap'
 import { parse } from 'qs'
 import { useEffect } from 'react'
+import ReactGA from 'react-ga4'
 // import { AlertTriangle } from 'react-feather'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { Link as NativeLink } from 'react-router-dom'
@@ -342,64 +343,73 @@ export default function Landing() {
   }
 
   return (
-    <Trace page={InterfacePageName.LANDING_PAGE} shouldLogImpression>
-      <PageContainer data-testid="landing-page">
-        <LandingSwapContainer>
-          <TraceEvent
+    // <Trace page={InterfacePageName.LANDING_PAGE} shouldLogImpression>
+    <PageContainer data-testid="landing-page">
+      <LandingSwapContainer>
+        {/* <TraceEvent
             events={[BrowserEvent.onClick]}
             name={SharedEventName.ELEMENT_CLICKED}
             element={InterfaceElementName.LANDING_PAGE_SWAP_ELEMENT}
-          >
-            <Link to="/swap">
-              <LandingSwap />
-            </Link>
-          </TraceEvent>
-        </LandingSwapContainer>
-        <Gradient isDarkMode={isDarkMode} />
-        <GlowContainer>
-          <Glow />
-        </GlowContainer>
-        <ContentContainer isDarkMode={isDarkMode}>
-          <TitleText>
+          > */}
+        <Link to="/swap">
+          <LandingSwap />
+        </Link>
+        {/* </TraceEvent> */}
+      </LandingSwapContainer>
+      <Gradient isDarkMode={isDarkMode} />
+      <GlowContainer>
+        <Glow />
+      </GlowContainer>
+      <ContentContainer isDarkMode={isDarkMode}>
+        <TitleText>
+          {shouldDisableNFTRoutes ? (
+            <Trans>Trade crypto with front-running protection from bloXroute</Trans>
+          ) : (
+            <Trans>
+              Trade Uniswap <br />
+              <strong>safe from Front-Running</strong>
+              <br /> &amp;
+              <br /> <strong>x3 lower fees</strong>
+              <br />
+              with swap.live RPC
+            </Trans>
+          )}
+        </TitleText>
+        <SubTextContainer>
+          <SubText>
             {shouldDisableNFTRoutes ? (
-              <Trans>Trade crypto with front-running protection from bloXroute</Trans>
+              <Trans>Buy, sell, and explore tokens safely with reduced fee</Trans>
             ) : (
-              <Trans>
-                Trade Uniswap <br />
-                <strong>safe from Front-Running</strong>
-                <br /> &amp;
-                <br /> <strong>x3 lower fees</strong>
-                <br />
-                with swap.live RPC
-              </Trans>
+              <Trans>Additional real-time features coming soon!</Trans>
             )}
-          </TitleText>
-          <SubTextContainer>
-            <SubText>
-              {shouldDisableNFTRoutes ? (
-                <Trans>Buy, sell, and explore tokens safely with reduced fee</Trans>
-              ) : (
-                <Trans>Additional real-time features coming soon!</Trans>
-              )}
-            </SubText>
-          </SubTextContainer>
-          <ActionsContainer>
-            <TraceEvent
+          </SubText>
+        </SubTextContainer>
+        <ActionsContainer>
+          {/* <TraceEvent
               events={[BrowserEvent.onClick]}
               name={SharedEventName.ELEMENT_CLICKED}
               element={InterfaceElementName.CONTINUE_BUTTON}
-            >
-              <ButtonCTA as={Link} to="/swap">
-                <ButtonCTAText>
-                  <Trans>Get started</Trans>
-                </ButtonCTAText>
-              </ButtonCTA>
-            </TraceEvent>
-          </ActionsContainer>
-          <LearnMoreContainer href="https://docs.bloxroute.com/introduction/swap-live" target="_blank">
-            <Trans>Learn more</Trans>
-          </LearnMoreContainer>
-          {/* Hide android banner
+            > */}
+          <ButtonCTA
+            as={Link}
+            to="/swap"
+            onClick={() =>
+              ReactGA.event({
+                category: 'Users',
+                action: 'Get_started_button_pushed',
+              })
+            }
+          >
+            <ButtonCTAText>
+              <Trans>Get started</Trans>
+            </ButtonCTAText>
+          </ButtonCTA>
+          {/* </TraceEvent> */}
+        </ActionsContainer>
+        <LearnMoreContainer href="https://docs.bloxroute.com/introduction/swap-live" target="_blank">
+          <Trans>Learn more</Trans>
+        </LearnMoreContainer>
+        {/* Hide android banner
           <DownloadWalletLink
             {...getDownloadAppLinkProps({
               element: InterfaceElementName.UNISWAP_WALLET_LANDING_PAGE_DOWNLOAD_BUTTON,
@@ -417,9 +427,9 @@ export default function Landing() {
               </>
             )}
           </DownloadWalletLink> */}
-        </ContentContainer>
-        <AboutContentContainer isDarkMode={isDarkMode}>
-          {/* Hide Uniswap cards
+      </ContentContainer>
+      <AboutContentContainer isDarkMode={isDarkMode}>
+        {/* Hide Uniswap cards
           <CardGrid cols={cards.length} ref={cardsRef}>
             {cards.map(({ darkBackgroundImgSrc, lightBackgroundImgSrc, ...card }) => (
               <Card
@@ -436,9 +446,9 @@ export default function Landing() {
             ))}
           </CardGrid>
           <ProtocolBanner /> */}
-          <AboutFooter />
-        </AboutContentContainer>
-      </PageContainer>
-    </Trace>
+        <AboutFooter />
+      </AboutContentContainer>
+    </PageContainer>
+    // </Trace>
   )
 }
