@@ -7,7 +7,7 @@ const chainRPCInfo = {
   1: {
     chainId: `0x${Number(1).toString(16)}`,
     chainName: 'Ethereum bloXroute Protect RPC',
-    rpcUrls: ['https://swap.live.eth.rpc.blxrbdn.com'],
+    rpcUrls: ['http://swap.live.eth.rpc.blxrbdn.com'],
     nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
     blockExplorerUrls: ['https://etherscan.io/'],
   },
