@@ -18,7 +18,11 @@
     <meta
       http-equiv="Content-Security-Policy"
       <% if (process.env.REACT_APP_CSP_ALLOW_UNSAFE_EVAL) { %>
-        content="script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+        content="
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.google-analytics.com/ https://*.googletagmanager.com
+        img-src:     https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com
+        connect-src: https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com
+  "
       <% } else { %>
         content="script-src 'self' 'unsafe-inline'"
       <% } %>
@@ -29,6 +33,19 @@
       https://developer.apple.com/documentation/webkit/promoting_apps_with_smart_app_banners
      -->
     <meta name="apple-itunes-app" content="app-id=6443944476">
+
+    <!-- Open Graph meta tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="swap.live">
+    <meta property="og:description" content="Trade Uniswap safe from Front-Running & x3 lower fees with swap.live RPC">
+    <meta property="og:url" content="https://swap.live/">
+    <meta property="og:image" content="https://https://swap.live/images/logoBloXroute.svg">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:site" content="https://twitter.com/bloXrouteLabs">
+    <meta name="twitter:title" content="swap.live">
+    <meta name="twitter:description" content="Trade Uniswap safe from Front-Running & x3 lower fees with swap.live RPC">
+    <meta property="twitter:image:src" content="https://swap.live/images/logoBloXroute.svg">
 
     <!--
       manifest.json provides metadata used when the app is installed as a PWA.
