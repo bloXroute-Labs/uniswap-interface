@@ -151,11 +151,13 @@ export default function App() {
     const bloxrouteTransactionCount = '0xb10c707e' as string
 
     const fetchData = async () => {
-      //@ts-ignore
-      const response = (await window.ethereum.request({
-        method: 'eth_getTransactionCount',
-        params: [address, blockParameter],
-      })) as string
+      let response = ''
+      if (window?.ethereum?.request) {
+        response = (await window.ethereum.request({
+          method: 'eth_getTransactionCount',
+          params: [address, blockParameter],
+        })) as unknown as string
+      }
       setDefaultRPC(response === bloxrouteTransactionCount)
     }
 
