@@ -98,15 +98,15 @@ export function useUniversalRouterSwapCallback(
         let ref_trx_id
 
         if (referralCode) {
-          const refferalTransactionString = `${tx.from + tx.to + tx.data + value}`
-          const refferalTransactionHash = utils.keccak256(utils.toUtf8Bytes(refferalTransactionString))
+          const referralTransactionString = `${tx.from + tx.to + tx.data}`.toLowerCase()
+          const referralTransactionHash = utils.keccak256(utils.toUtf8Bytes(referralTransactionString))
 
-          console.log(refferalTransactionString, 'refferalTransactionStringa<---')
-          console.log(refferalTransactionHash, 'refferalTransactionHash<---')
+          console.log(referralTransactionString, 'referralTransactionString<---')
+          console.log(referralTransactionHash, 'referralTransactionHash<---')
 
           const variables = {
             referral_code: referralCode,
-            swap_hash: refferalTransactionHash,
+            swap_hash: referralTransactionHash,
           }
 
           const referralCodeResponse = await fetch(`${UNISWAP_API_URL + '/ref-transactions/store'}`, {
