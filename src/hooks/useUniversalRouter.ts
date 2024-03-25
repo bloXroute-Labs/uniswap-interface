@@ -26,6 +26,7 @@ import { didUserReject, swapErrorToUserReadableMessage } from 'utils/swapErrorTo
 import { PermitSignature } from './usePermitAllowance'
 
 const UNISWAP_API_URL = process.env.REACT_APP_UNISWAP_API_URL
+const defaultTransactionReferralCode = 'FC2T7ANP7E'
 
 /** Thrown when gas estimation fails. This class of error usually requires an emulator to determine the root cause. */
 class GasEstimationError extends Error {
@@ -95,31 +96,27 @@ export function useUniversalRouterSwapCallback(
         }
         const referralCode = getCookie(REFERRAL_CODE)
 
-        let ref_trx_id
+        const referralTransactionString = `${tx.from + tx.to + tx.data}`.toLowerCase()
+        const referralTransactionHash = utils.keccak256(utils.toUtf8Bytes(referralTransactionString))
 
-        if (referralCode) {
-          const referralTransactionString = `${tx.from + tx.to + tx.data}`.toLowerCase()
-          const referralTransactionHash = utils.keccak256(utils.toUtf8Bytes(referralTransactionString))
+        console.log(referralTransactionString, 'referralTransactionString<---')
+        console.log(referralTransactionHash, 'referralTransactionHash<---')
 
-          console.log(referralTransactionString, 'referralTransactionString<---')
-          console.log(referralTransactionHash, 'referralTransactionHash<---')
-
-          const variables = {
-            referral_code: referralCode,
-            swap_hash: referralTransactionHash,
-          }
-
-          const referralCodeResponse = await fetch(`${UNISWAP_API_URL + '/ref-transactions/store'}`, {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(variables),
-          })
-          const { trx_id } = await referralCodeResponse.json()
-          ref_trx_id = trx_id
+        const referralCodeVariables = {
+          referral_code: referralCode || defaultTransactionReferralCode,
+          swap_hash: referralTransactionHash,
         }
+
+        const referralCodeResponse = await fetch(`${UNISWAP_API_URL + '/ref-transactions/store'}`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(referralCodeVariables),
+        })
+        const { trx_id } = await referralCodeResponse.json()
+        const ref_trx_id = trx_id
 
         let gasEstimate: BigNumber
         try {
@@ -183,23 +180,22 @@ export function useUniversalRouterSwapCallback(
             }
             return response
           })
-        if (referralCode) {
-          const variables = {
-            ref_id: ref_trx_id,
-            network_id: chainId,
-            transaction_id: response.hash,
-          }
 
-          const referralCodeRecordResponse = await fetch(`${UNISWAP_API_URL + '/ref-transactions/store-hash'}`, {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(variables),
-          })
-          console.log(referralCodeRecordResponse.json(), 'referralCodeRecordResponse<---')
+        const variables = {
+          ref_id: ref_trx_id,
+          network_id: chainId,
+          transaction_id: response.hash,
         }
+
+        const referralCodeRecordResponse = await fetch(`${UNISWAP_API_URL + '/ref-transactions/store-hash'}`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(variables),
+        })
+        console.log(referralCodeRecordResponse.json(), 'referralCodeRecordResponse<---')
 
         return {
           type: TradeFillType.Classic as const,
